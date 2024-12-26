@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <h1 th:text="${msg}"></h1>
 </body>
 </html>
+<script src="/static/javascript/axiosUtil.js">
+    // API 인스턴스 생성
+    const api = createApi("http://localhost:8080");
+
+    // GET 요청
+    api.get('/api/v1/test', {}).then((response) => {
+        console.log("GET 응답:", response);
+    }).catch((error) => {
+        console.error("GET 요청 실패:", error);
+    });
+</script>
