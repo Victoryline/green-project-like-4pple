@@ -13,12 +13,17 @@ public class TestController {
 
     private final TestService testService;
 
+//    @GetMapping
+//    public Mono<String> test(Model model) {
+//        return testService.getTestMessage()
+//                .map(message -> {
+//                    model.addAttribute("msg", message.toString());
+//                    return "test";
+//                });
+//    }
+
     @GetMapping
-    public Mono<String> test(Model model) {
-        return testService.getTestMessage()
-                .map(message -> {
-                    model.addAttribute("msg", message.toString());
-                    return "test";
-                });
+    public String main(Model model) {
+        return "main";
     }
 }
