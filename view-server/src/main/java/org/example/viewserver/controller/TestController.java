@@ -24,6 +24,6 @@ public class TestController {
 
     @GetMapping
     public String main(Model model) {
-        return "main";
+        return "/company/regist-form";
     }
 }
