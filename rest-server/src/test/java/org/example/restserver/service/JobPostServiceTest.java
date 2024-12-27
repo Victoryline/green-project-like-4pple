@@ -29,8 +29,8 @@ public class JobPostServiceTest {
 
     @Test
     void testFindBySkillCode(){
-        String workCode = "CSS";
-        List<JobPost> jobPosts = jobPostRepository.findByWorkCode(workCode);
+        String skillCode = "CSS";
+        List<JobPost> jobPosts = jobPostRepository.findBySkillCode(skillCode);
         System.out.println(jobPosts);
     }
 

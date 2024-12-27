@@ -22,12 +22,15 @@ import lombok.*;
 public class JobSkill {
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_post_no")
-    private JobPost jobPost;
+    @Column(name = "job_post_no")
+    private int jobPostNo;
 
     @Column(name = "skill_code")
     private String skillCode;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "job_post_no")
+    private JobPost jobPost;
 
 }
 

@@ -1,22 +1,24 @@
 package org.example.restserver.repository;
 
+import org.apache.ibatis.annotations.Param;
 import org.example.restserver.entity.JobPost;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 /**
  * packageName    : org.example.restserver.repository
- * fileName       : JobpostRepository
- * author         : 박미정
- * date           : 24. 12. 26.
+ * fileName       : JobSillRepository
+ * author         : 이동하
+ * date           : 2024-12-26
  * description    :
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 24. 12. 26.        박미정      최초 생성
+ * 2024-12-26        이동하       최초 생성
  */
-@Repository
-public interface JobpostRepository extends JpaRepository<JobPost, Integer> {
 
-
+public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
+    @Query("SELECT jp FROM JobPost jp JOIN jp.jobSkill js WHERE js.skillCode = :skillCode")
+    List<JobPost> findBySkillCode(@Param("skillCode") String skillCode);
 }

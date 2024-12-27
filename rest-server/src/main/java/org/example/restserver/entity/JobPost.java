@@ -68,6 +68,6 @@ public class JobPost {
     @Column(name = "end_yn")
     private String endYn;
 
-    @OneToMany(mappedBy = "jobPost")
-    private List<JobSkill> skill;
+    @OneToMany(mappedBy = "jobPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<JobSkill> jobSkill;
 }

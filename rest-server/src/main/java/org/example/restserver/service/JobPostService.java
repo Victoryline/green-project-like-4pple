@@ -2,8 +2,8 @@ package org.example.restserver.service;
 
 import org.example.restserver.entity.JobPost;
 import org.example.restserver.repository.JobPostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -20,11 +20,13 @@ import java.util.List;
 @Service
 public class JobPostService {
 
-    @Autowired
-    private JobPostRepository jobPostRepository;
+    private final JobPostRepository jobPostRepository;
+    public JobPostService(JobPostRepository jobPostRepository) {
+        this.jobPostRepository = jobPostRepository;
+    }
 
-    public List<JobPost> findByWorkCode(String workCode) {
-        return jobPostRepository.findByWorkCode(workCode);
+    public List<JobPost> findBySkillCode(String skillCode) {
+        return jobPostRepository.findBySkillCode(skillCode);
     }
 
 }
