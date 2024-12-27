@@ -24,11 +24,8 @@ public class JobPost {
     @Column(name = "job_post_no")
     private int jobPostNo;
 
-    @Column(name = "username", nullable = false, length = 20)
+    @Column(name = "username")
     private String username;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "username", nullable = false)
-    private User username;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
