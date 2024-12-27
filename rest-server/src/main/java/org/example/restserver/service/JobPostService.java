@@ -1,7 +1,6 @@
 package org.example.restserver.service;
 
 import org.example.restserver.entity.JobPost;
-import org.example.restserver.repository.JobPostRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
