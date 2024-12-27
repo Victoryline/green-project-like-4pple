@@ -1,0 +1,36 @@
+/* 사이드바의 기본 스타일 */
+.menu {
+    list-style: none;
+    padding: 0;
+    background-color: #f4f4f4; /* 배경색 추가 */
+    width: 250px;  /* 사이드바 너비 */
+    position: fixed;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* 사이드바 항목 스타일 */
+.menu li {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* 활성화된 항목 */
+.menu li.active {
+    background-color: green;
+    color: white;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* 모바일 화면에서 사이드바 숨기기 */
+@media (max-width: 768px) {
+    .menu {
+        display: none;  /* 화면 크기가 작을 때 사이드바 숨기기 */
+    }
+}
