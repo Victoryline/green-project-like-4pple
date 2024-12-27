@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../static/layout/css/side-bar.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../../../static/layout/js/side-bar.js"></script>
+</head>
+<body>
+    <div>
+        <p th:text="${user.name} + '님'">사용자 이름</p>
+        <ul class="menu" th:if="${user.role == 'JOB_SEEKER'}">
+            <!-- 구직자용 사이드바 -->
+            <li th:classappend="${page == 'resume-status'} ? 'active'">
+                <a href="/resume-status" th:href="@{/resume-status}">나의 이력서 현황</a>
+            </li>
+            <li th:classappend="${page == 'my-resume'} ? 'active'">
+                <a href="/my-resume" th:href="@{/my-resume}">나의 이력서</a>
+            </li>
+            <li th:classappend="${page == 'my-scrap'} ? 'active'">
+                <a href="/my-scrap" th:href="@{/my-scrap}">나의 스크랩</a>
+            </li>
+        </ul>
+
+        <ul class="menu" th:if="${user.role == 'COMPANY'}">
+            <!-- 기업용 사이드바 -->
+            <li th:classappend="${page == 'job-posting'} ? 'active'">
+                <a href="/job-posting" th:href="@{/job-posting}">공고 관리</a>
+            </li>
+            <li th:classappend="${page == 'applicant-list'} ? 'active'">
+                <a href="/applicant-list" th:href="@{/applicant-list}">지원자 목록</a>
+            </li>
+            <li th:classappend="${page == 'company-profile'} ? 'active'">
+                <a href="/company-profile" th:href="@{/company-profile}">기업 프로필</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>
