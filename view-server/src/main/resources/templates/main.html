@@ -6,13 +6,176 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="../static/common/css/common.css">
+    <style>
+        .content {
+            width: 60%;
+            margin: 0 auto;
+        }
+
+        /* 슬라이더 섹션 */
+        .slider {
+            width: 100%;
+            height: 400px;
+            background: url('../static/images/logo.png') no-repeat center center/cover;
+            display: flex;
+            align-items: end;
+            justify-content: start;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        /* 광고 배너 */
+        .banner {
+            width: 100%;
+            background-color: #b8f28c;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #026602;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .card-company-name {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .card-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .card-footer span {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .d-day {
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <header th:replace="/layout/header :: headerFragment"></header>
     <nav th:replace="/layout/navbar :: navbarFragment"></nav>
     <div class="content">
+        <!-- 슬라이더 -->
+        <div class="slider">
+            전기 전자 에너지 솔루션<br>일류기업 한솔테크닉스
+        </div>
 
+        <!-- 광고 배너 -->
+        <div class="banner">
+            점핏에서 첫 입사지원하고 네이버페이 받자!
+        </div>
+
+        <h2 class="section-title">이번주 인기 포지션</h2>
+        <div class="card-grid">
+            <!-- 카드 예시 -->
+            <div class="card">
+                <img src="../static/images/logo.png" alt="포지션 이미지">
+                <div class="card-content">
+                    <div class="card-footer">
+                        <span class="d-day">D-1</span>
+                        <span>801 views</span>
+                    </div>
+                    <h3 class="card-title">Java 백엔드 주니어 개발자</h3>
+                    <p class="card-meta">Java · Spring Boot · Hibernate<br>서울 강남구 · 경력 3~5년</p>
+                </div>
+            </div>
+            <!-- 추가 카드 -->
+            <div class="card">
+                <img src="../static/images/logo.png" alt="포지션 이미지">
+                <div class="card-content">
+                    <div class="card-footer">
+                        <span class="d-day">D-5</span>
+                        <span>540 views</span>
+                    </div>
+                    <h3 class="card-title">Payment 개발 담당자(JAVA 기반)</h3>
+                    <p class="card-meta">Java · REST API · Spring Boot · AWS<br>서울 강남구 · 경력 3~7년</p>
+                </div>
+            </div>
+            <!-- 다른 카드 반복 -->
+            <div class="card">
+                <img src="../static/images/logo.png" alt="포지션 이미지">
+                <div class="card-content">
+                    <div class="card-footer">
+                        <span class="d-day">D-5</span>
+                        <span>540 views</span>
+                    </div>
+                    <h3 class="card-title">Payment 개발 담당자(JAVA 기반)</h3>
+                    <p class="card-meta">Java · REST API · Spring Boot · AWS<br>서울 강남구 · 경력 3~7년</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="../static/images/logo.png" alt="포지션 이미지">
+                <div class="card-content">
+                    <div class="card-footer">
+                        <span class="d-day">D-5</span>
+                        <span>540 views</span>
+                    </div>
+                    <h3 class="card-company-name light">카카오톡</h3>
+                    <h3 class="card-title">Payment 개발 담당자(JAVA 기반)</h3>
+                    <p class="card-meta">Java · REST API · Spring Boot · AWS<br>서울 강남구 · 경력 3~7년</p>
+                </div>
+            </div>
+        </div>
     </div>
     <footer th:replace="/layout/footer :: footerFragment"></footer>
 </div>
