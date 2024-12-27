@@ -1,7 +1,8 @@
 package org.example.viewserver.service;
 
 import org.apache.coyote.Response;
-import org.example.restserver.entity.JobPost;
+
+import org.example.viewserver.dto.JobPostDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ import org.springframework.web.reactive.function.client.WebClient;
     private WebClient webClient;
 
     @Override
-    public ResponseEntity<?> regist(JobPost jobpost) {
+    public ResponseEntity<?> regist(JobPostDto jobpost) {
         webClient.post()
                  .uri("api-jobpost/regist")
                 .bodyValue(jobpost)

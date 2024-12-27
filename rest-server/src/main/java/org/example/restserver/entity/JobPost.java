@@ -19,7 +19,7 @@ public class JobPost {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "username", nullable = false)
-    private TblUser username;
+    private User username;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;

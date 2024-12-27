@@ -1,5 +1,6 @@
 package org.example.viewserver.controller;
 
+import org.example.viewserver.dto.JobPostDto;
 import org.example.viewserver.service.JobpostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
