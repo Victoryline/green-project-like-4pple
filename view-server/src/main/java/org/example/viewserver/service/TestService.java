@@ -1,5 +1,7 @@
 package org.example.viewserver.service;
 
+import reactor.core.publisher.Mono;
+
 public interface TestService {
-    String getTestMessage();
+    Mono<Object> getTestMessage();
 }
