@@ -1,24 +1,30 @@
 package org.example.viewserver.service;
 
+import lombok.RequiredArgsConstructor;
+import org.example.viewserver.utils.WebClientUtil;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
+@RequiredArgsConstructor
 public class TestServiceImpl implements TestService {
 
-    private final WebClient webClient;
-
-    public TestServiceImpl(WebClient webClient) {
-        this.webClient = webClient;
-    }
+    private final WebClientUtil webClientUtil;
 
     @Override
-    public String getTestMessage() {
-        return webClient.get()
-                .uri("/api/v1/test")
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
+    public Mono<Object> getTestMessage() {
+        return webClientUtil.get("/api/v1/test")
+                .map(response -> {
+                    if (response.getBody() != null) {
+                        return response.getBody();
+                    } else {
+                        return "데이터 없음";
+                    }
+                });
+//                .onErrorResume(e -> {
+//                    System.err.println("에러 메세지 " + e.getMessage());
+//                    return Mono.just("Error: " + e.Message());
+//                });
     }
 
 }
