@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'IBM Plex Sans KR', sans-serif; /* 기본 폰트 */
+    line-height: 1.6; /* 줄 간격 */
+    color: #181717; /* 기본 텍스트 색상 */
+    height: 100%; /* 화면 전체 높이 */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 화면 높이를 채움 */
+}
+
+.content {
+    flex: 1; /* 남는 공간을 채워서 푸터를 하단으로 밀어냄 */
+}
+
+.header {
+    width: 60%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 1270px;
+    height: 100px;
+}
+
+.logo {
+    width: 20%;
+    min-width: 300px;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: row;
+    width: 20%;
+    min-width: 300px;
+    justify-content: space-around;
+    align-items: end;
+    height: 40px;
+}
+
+.header-middle {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    min-width: 400px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 0 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-middle input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    padding: 0 10px;
+    border-radius: 20px;
+}
+
+.header-middle button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.header-middle button img {
+    width: 20px;
+    height: 20px;
+}
+
+.navbar {
+    /*width: 60%;*/
+    padding: 10px 0;
+    /*margin: 0 auto;*/
+    /*min-width: 1270px;*/
+    display: flex;
+    justify-content: center;
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.footer {
+    background-color: #355239; /* 어두운 초록색 배경 */
+    color: #fff; /* 텍스트 색상 흰색 */
+    padding: 20px 0;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+}
+
+.footer-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-left {
+    margin-bottom: 20px;
+}
+
+.footer-left h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.footer-left p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer-social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.footer-social-icons img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.footer-social-icons img:hover {
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* 얇은 흰색 선 */
+    padding-top: 10px;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+a {
+    color: #181717; /* 기본 텍스트 색상 */
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
