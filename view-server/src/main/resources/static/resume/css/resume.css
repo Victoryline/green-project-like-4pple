@@ -1,0 +1,155 @@
+.sidebar {
+    position: fixed;
+    top: 20%;
+    right: 10%;
+    width: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.sidebar h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 10px 0;
+}
+
+.content-regist {
+    flex: 1;
+    /*margin-right: 300px;*/
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-regist h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+.section input, .section select, .section textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.section-body{
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.add-button {
+    color: #28a745;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.add-button::before {
+    content: '+';
+    margin-right: 5px;
+    font-size: 18px;
+}
+.checkbox-item{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
+.toggle{
+    margin-right: 5px;
+}
+
+.info{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas: 'a a a a'
+                        'b b b b'
+                        'c c d d';
+}
+.name{
+    grid-area: a;
+}
+.email{
+    grid-area: b;
+}
+.birth{
+    grid-area: c;
+}
+.phone{
+    grid-area: d;
+}
+
+.del-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.del-button:hover {
+    background-color: #c0392b;
+}
+
+.del-button i {
+    font-size: 16px;
+}
