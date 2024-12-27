@@ -15,11 +15,11 @@ public class WebClientUtil {
     }
 
     // GET 요청
-    public Mono<ApiResponse> get(String endpoint) {
+    public ApiResponse get(String endpoint) {
         return webClient.get()
                 .uri(endpoint)
                 .retrieve()
                 .bodyToMono(ApiResponse.class)
-                .doOnError(e -> System.err.println("Error in WebClientUtil GET: " + e.getMessage()));
+                .doOnError(e -> System.err.println("Error in WebClientUtil GET: " + e.getMessage())).block();
     }
 }

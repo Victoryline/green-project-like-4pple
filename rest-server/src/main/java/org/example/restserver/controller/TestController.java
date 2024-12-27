@@ -13,7 +13,7 @@ import java.sql.SQLException;
 @RestController
 public class TestController {
     @GetMapping("/api/v1/test")
-    public String test() throws Exception {
+    public String test() {
         return "메세지~~~";
     }
 }
