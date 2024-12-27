@@ -19,10 +19,10 @@ public class JobPostController {
     public String jobPost() {
         return "job-post/jobpostRegistForm";
     }
-
+/*
     @PostMapping("/regist")
     public String regist(JobPostDto jobpostdto) {
-
+            jobpostService.save(jobpostdto);
         return "job-post/regist";
-    }
+    }*/
 }
