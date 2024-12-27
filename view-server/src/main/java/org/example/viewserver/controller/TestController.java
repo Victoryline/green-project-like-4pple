@@ -24,6 +24,7 @@ public class TestController {
 
     @GetMapping
     public String main(Model model) {
-        return "main";
+
+        return "/layout/mypage-layout";
     }
 }

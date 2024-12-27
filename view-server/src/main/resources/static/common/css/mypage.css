@@ -19,10 +19,6 @@ html, body {
     min-height: 100vh; /* 화면 높이를 채움 */
 }
 
-.content {
-    flex: 1; /* 남는 공간을 채워서 푸터를 하단으로 밀어냄 */
-}
-
 .header {
     width: 60%;
     margin: 10px auto;
@@ -181,3 +177,56 @@ a:visited {
     flex-direction: column;
 }
 
+
+
+
+
+
+
+
+/*sidebar */
+
+.sidebar {
+    width: 220px; /* 화면 전체 높이 */
+    background-color: #ffffff;
+    box-sizing: border-box;
+    /*position: fixed; !* 사이드바를 고정 *!*/
+    top: 0;
+    left: 20%;
+    padding: 20px;
+    /*min-width: 300px;*/
+    justify-content: start;
+}
+.main {
+    flex: 1; /* 남는 공간을 채워서 푸터를 하단으로 밀어냄 */
+    width: 70%;
+    margin: 0 auto;
+    min-width: 1270px;  /* 최소 크기 지정 */
+}
+.content{
+    /*width: 68%;*/
+    margin: 0 auto;
+}
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin: 15px 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.menu a:hover,
+.menu .active > a {
+    background-color: #e6e6e6;
+    color: #4CAF50;
+}
