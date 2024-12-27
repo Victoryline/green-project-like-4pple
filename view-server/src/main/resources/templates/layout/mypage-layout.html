@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/static/sidebar/js/side-bar.js"></script>
+  <!--  css 경로 확인하고 사용해주세용 -->
+  <link rel="stylesheet" href="/static/common/css/mypage.css">
+</head>
+<body>
+<div class="container">
+  <header th:replace="/layout/header :: headerFragment"></header>
+  <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+  <div class="main">
+    <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
+    <div class="content">
+    </div>
+  </div>
+  <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

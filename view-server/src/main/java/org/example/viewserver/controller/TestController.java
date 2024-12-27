@@ -1,7 +1,6 @@
 package org.example.viewserver.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.viewserver.common.ApiResponse;
 import org.example.viewserver.utils.WebClientUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
