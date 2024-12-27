@@ -23,4 +23,9 @@ public class TestController {
 //    public String main(Model model) {
 //        return "/company/regist-form";
 //    }
+
+    @GetMapping("/regist")
+    public String regist() {
+        return "/resume/resume-regist";
+    }
 }

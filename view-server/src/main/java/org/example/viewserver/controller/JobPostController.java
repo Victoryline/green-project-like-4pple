@@ -15,14 +15,14 @@ public class JobPostController {
     @Autowired
     JobpostServiceImpl jobpostService;
 
-    @GetMapping("/jobpostRegistForm")
+    @GetMapping("/regist")
     public String jobPost() {
         return "job-post/jobpostRegistForm";
     }
-
+/*
     @PostMapping("/regist")
     public String regist(JobPostDto jobpostdto) {
-
+            jobpostService.save(jobpostdto);
         return "job-post/regist";
-    }
+    }*/
 }

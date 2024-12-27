@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/resume/css/_resume.css">
+</head>
+<body>
+<div class="container">
+    <!-- 사이드바 시작 -->
+    <div class="sidebar">
+        <ul id="sidebar-list">
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="basic_info" onclick="toggleSection('basic_info')" checked> 기본정보</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="photo" onclick="toggleSection('photo')"> 사진</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="brief_intro" onclick="toggleSection('brief_intro')"> 간단소개</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="dev_job" onclick="toggleSection('dev_job')" checked> 개발직무</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="tech_stack" onclick="toggleSection('tech_stack')" checked> 기술스택</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="link" onclick="toggleSection('link')"> 링크</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="education" onclick="toggleSection('education')" checked> 학력</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="experience" onclick="toggleSection('experience')" checked> 경력</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="project" onclick="toggleSection('project')" checked> 프로젝트</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="edu_history" onclick="toggleSection('edu_history')"> 교육이력</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="other_info" onclick="toggleSection('other_info')"> 기타사항</label>
+            </li>
+            <li class="sidebar-item">
+                <label><input type="checkbox" name="self_intro" onclick="toggleSection('self_intro')"> 자기소개서</label>
+            </li>
+        </ul>
+    </div>
+    <!-- 사이드바 끝 -->
+
+    <!-- 콘텐츠 영역 시작 -->
+    <div class="content">
+        <h1>Resume Page</h1>
+        <div id="sections">
+            <div id="basic_info" class="section">
+                <h2>기본정보</h2>
+                <input type="text" placeholder="이름">
+                <input type="text" placeholder="생년월일">
+                <button class="add-btn" onclick="addInputField('basic_info')">항목 추가</button>
+            </div>
+            <div id="photo" class="section" style="display:none;">
+                <h2>사진</h2>
+                <input type="file" accept="image/*">
+                <button class="add-btn" onclick="addInputField('photo')">항목 추가</button>
+            </div>
+            <div id="brief_intro" class="section" style="display:none;">
+                <h2>간단소개</h2>
+                <textarea placeholder="간단소개를 입력하세요"></textarea>
+                <button class="add-btn" onclick="addInputField('brief_intro')">항목 추가</button>
+            </div>
+            <div id="dev_job" class="section" style="display:none;">
+                <h2>개발직무</h2>
+                <input type="text" placeholder="직무명">
+                <button class="add-btn" onclick="addInputField('dev_job')">항목 추가</button>
+            </div>
+            <div id="tech_stack" class="section" style="display:none;">
+                <h2>기술스택</h2>
+                <input type="text" placeholder="기술스택">
+                <button class="add-btn" onclick="addInputField('tech_stack')">항목 추가</button>
+            </div>
+            <div id="link" class="section" style="display:none;">
+                <h2>링크</h2>
+                <input type="url" placeholder="링크 URL">
+                <button class="add-btn" onclick="addInputField('link')">항목 추가</button>
+            </div>
+            <div id="education" class="section" style="display:none;">
+                <h2>학력</h2>
+                <input type="text" placeholder="학교명">
+                <button class="add-btn" onclick="addInputField('education')">항목 추가</button>
+            </div>
+            <div id="experience" class="section" style="display:none;">
+                <h2>경력</h2>
+                <input type="text" placeholder="회사명">
+                <button class="add-btn" onclick="addInputField('experience')">항목 추가</button>
+            </div>
+            <div id="project" class="section" style="display:none;">
+                <h2>프로젝트</h2>
+                <input type="text" placeholder="프로젝트명">
+                <button class="add-btn" onclick="addInputField('project')">항목 추가</button>
+            </div>
+            <div id="edu_history" class="section" style="display:none;">
+                <h2>교육이력</h2>
+                <input type="text" placeholder="교육기관명">
+                <button class="add-btn" onclick="addInputField('edu_history')">항목 추가</button>
+            </div>
+            <div id="other_info" class="section" style="display:none;">
+                <h2>기타사항</h2>
+                <textarea placeholder="기타사항을 입력하세요"></textarea>
+                <button class="add-btn" onclick="addInputField('other_info')">항목 추가</button>
+            </div>
+            <div id="self_intro" class="section" style="display:none;">
+                <h2>자기소개서</h2>
+                <textarea placeholder="자기소개서를 입력하세요"></textarea>
+                <button class="add-btn" onclick="addInputField('self_intro')">항목 추가</button>
+            </div>
+        </div>
+    </div>
+    <!-- 콘텐츠 영역 끝 -->
+</div>
+
+<!-- JavaScript를 사용하여 섹션 토글 및 입력 필드 추가 기능 추가 -->
+<script>
+    function toggleSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        if (section.style.display === "none") {
+            section.style.display = "block";
+        } else {
+            section.style.display = "none";
+        }
+    }
+
+    function addInputField(sectionId) {
+        var section = document.getElementById(sectionId);
+        var newInputField = document.createElement('input');
+        newInputField.type = 'text';
+        newInputField.placeholder = '새 입력 필드';
+        section.appendChild(newInputField);
+    }
+</script>
+</body>
+</html>
