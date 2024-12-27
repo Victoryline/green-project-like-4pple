@@ -17,8 +17,7 @@ import java.util.List;
  * -----------------------------------------------------------
  * 2024-12-26        이동하       최초 생성
  */
-
 public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
-    @Query("SELECT jp FROM JobPost jp JOIN jp.jobSkill js WHERE js.skillCode = :skillCode")
-    List<JobPost> findBySkillCode(@Param("skillCode") String skillCode);
+    @Query("select jp from JobPost jp where jp.workCode = :workCode")
+    List<JobPost> findByWorkCode(@Param("workCode") String workCode);
 }
