@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="/static/resume/css/resume.css">
+
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="sidebar">
+            <h3>항목편집</h3>
+            <ul>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <!-- 기본정보는 항상 표시되므로 토글을 통해 보이는 형태로 변경 -->
+                        <img class="toggle checked" src="/static/images/checked-icon.png" id="basic-info-toggle">
+                        <label for="basic-info-toggle">기본정보</label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="education-toggle">
+                        <label for="education-toggle">학력</label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="experience-toggle">
+                        <label for="experience-toggle">경력</label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="skills-toggle">
+                        <label for="skills-toggle">기술스택</label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="projects-toggle">
+                        <label for="projects-toggle">프로젝트</label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="certifications-toggle">
+                        <label for="certifications-toggle">자격증</label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="introduce-toggle">
+                        <label for="introduce-toggle">자소서</label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-regist">
+            <!-- 기본정보 섹션은 항상 표시됨 -->
+            <div id="basic-info-section" class="section">
+                <div>
+                    <div class="section-header">
+                        <h3>프로필 사진</h3>
+                    </div>
+                    <div class="section-body">
+                        <div class="img">
+                            <img id="imagePreview" src="" alt="미리보기 이미지" style="max-width: 300px; max-height: 300px; display: none;">
+                        </div>
+                        <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
+                    </div>
+                </div>
+                <div class="section-header">
+                    <h3>기본정보</h3>
+                </div>
+                <div class="section-body info">
+                    <div class="name">
+                        <label>이름</label>
+                        <input type="text" placeholder="이름">
+                    </div>
+                    <div class="email">
+                        <label>이메일</label>
+                        <input type="email" placeholder="이메일">
+                    </div>
+                    <div class="birth">
+                        <label>생년월일</label>
+                        <input type="text" placeholder="생년월일">
+                    </div>
+                    <div class="phone">
+                        <label>전화번호</label>
+                        <input type="tel" placeholder="전화번호">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 다른 항목들은 토글로 보이거나 숨겨짐 -->
+            <div id="education-section" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>학력</h3>
+                    <span class="add-button edu">학력 추가</span>
+                </div>
+                <div class="section-body">
+                    <label>졸업 연도</label>
+                    <input type="text" placeholder="YYYY.MM">
+                    <label>학교명</label>
+                    <input type="text" placeholder="학교명을 입력해주세요">
+                    <label>학과명</label>
+                    <input type="text" placeholder="학과명을 입력해주세요">
+                </div>
+            </div>
+
+            <div id="experience-section" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>경력</h3>
+                    <span class="add-button exp">경력 추가</span>
+                </div>
+                <div class="section-body">
+                    <label>회사명</label>
+                    <input type="text" placeholder="회사명 입력">
+                    <label>기간</label>
+                    <input type="text" placeholder="YYYY-MM ~ YYYY-MM">
+                </div>
+            </div>
+
+            <div id="skills-section" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>기술스택</h3>
+                </div>
+                <div class="section-body">
+                    <textarea placeholder="기술스택 입력"></textarea>
+                </div>
+            </div>
+            <div id="projects-section" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>프로젝트</h3>
+                    <span class="add-button">프로젝트 추가</span>
+                </div>
+                <div class="section-body">
+                    <label>프로젝트명</label>
+                    <input type="text" placeholder="프로젝트명 입력">
+                    <label>설명</label>
+                    <textarea placeholder="프로젝트 설명 입력"></textarea>
+                </div>
+            </div>
+
+            <div id="certifications-section" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>자격증</h3>
+                    <span class="add-button">자격증 추가</span>
+                </div>
+                <div class="section-body">
+                    <label>자격증명</label>
+                    <input type="text" placeholder="자격증명 입력">
+                    <label>발급 기관</label>
+                    <input type="text" placeholder="발급 기관 입력">
+                </div>
+            </div>
+
+            <div id="introduce-section" class="section" style="display: none;">
+                <div class="section-header">
+                    <h3>자소서</h3>
+                </div>
+                <div class="section-body">
+                    <input type="text" placeholder="자소서 소제목을 입력해주세요">
+                    <textarea placeholder="기술스택 입력"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
+<script src="/static/resume/js/resume.js"></script>

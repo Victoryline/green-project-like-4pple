@@ -15,7 +15,7 @@ public class JobPostController {
     @Autowired
     JobpostServiceImpl jobpostService;
 
-    @GetMapping("/jobpostRegistForm")
+    @GetMapping("/regist")
     public String jobPost() {
         return "job-post/jobpostRegistForm";
     }
