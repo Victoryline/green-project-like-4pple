@@ -1,13 +1,12 @@
 package org.example.restserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import java.util.List;
+
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,16 +18,17 @@ import java.time.Instant;
 @Builder
 @ToString
 public class JobPost {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "job_post_no", nullable = false)
-    private Integer id;
+    @Column(name = "job_post_no")
+    private int jobPostNo;
 
     @Column(name = "username", nullable = false, length = 20)
     private String username;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "username", nullable = false)
-    private TblUser username;
+    private User username;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
