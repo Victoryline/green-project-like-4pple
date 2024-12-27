@@ -1,13 +1,16 @@
 package org.example.restserver.service;
 
 import jakarta.transaction.Transactional;
-import org.example.restserver.entity.JobPost;
-import org.example.restserver.repository.JobPostSkillRepository;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.example.restserver.entity.JobPost;
+//import org.example.restserver.entity.JobPostSkill;
+//import org.example.restserver.repository.JobPostRepository;
+//import org.example.restserver.repository.JobPostSkillRepository;
+//import org.junit.jupiter.api.Test;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : org.example.restserver.service
@@ -24,15 +27,15 @@ import java.util.List;
 @Transactional
 public class JobPostSkillTest {
 
-    @Autowired
-    private JobPostSkillRepository jobPostSkillRepository;
-
-
-    //@Test
-    void testFindBySkillCode(){
-        String workCode = "CSS";
-        List<JobPost> jobPosts = jobPostSkillRepository.findBySkillCode(workCode);
-        System.out.println(jobPosts);
-    }
+//    @Autowired
+//    private JobPostRepository jobPostRepository;
+//
+//    @Test
+//    void testFindBySkillCode(){
+//        JobPost findJobPost = jobPostRepository.findById(5).orElse(null);
+//        System.out.println("asdads" + findJobPost);
+//        List<JobPostSkill> jobPostSkills = findJobPost.getJobPostSkills();
+//        System.out.println("잡스킬 " + jobPostSkills);
+//    }
 
 }

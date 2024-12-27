@@ -4,14 +4,28 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * packageName    : org.example.restserver.repository
+ * fileName       : JobPost
+ * author         : 이동하
+ * date           : 2024-12-27
+ * description    :
+ * ===========================================================
+ * DATE              AUTHOR             NOTE
+ * -----------------------------------------------------------
+ * 2024-12-27        이동하       최초 생성
+ */
+
 @Getter
 @Setter
 @Embeddable
+@ToString
 public class JobPostSkillId implements Serializable {
     private static final long serialVersionUID = -271639146864305665L;
     @Column(name = "job_post_no", nullable = false)

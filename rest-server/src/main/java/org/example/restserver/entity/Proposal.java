@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.example.restserver.entity.Company;
+import org.example.restserver.entity.JobSeeker;
 
 import java.time.Instant;
 
@@ -15,13 +17,15 @@ public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proposal_no", nullable = false)
-    private Integer id;
+    private int proposalNo;
 
-    @Column(name = "company_id", nullable = false, length = 20)
-    private String companyId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "company_id", referencedColumnName = "username", nullable = false)
+    private Company company;
 
-    @Column(name = "job_seeker_id", nullable = false, length = 20)
-    private String jobSeekerId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "username", nullable = false)
+    private JobSeeker jobSeeker;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
@@ -30,9 +34,8 @@ public class Proposal {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @ColumnDefault("current_timestamp()")
     @Column(name = "send_date", nullable = false)
-    private Instant sendDate;
+    private Instant sendTime;
 
     @Column(name = "read_date")
     private Instant readDate;
