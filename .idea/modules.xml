@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/rest-server/4pple.rest-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/rest-server/4pple.rest-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/view-server/4pple.view-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/view-server/4pple.view-server.main.iml" />
     </modules>
   </component>
 </project>
