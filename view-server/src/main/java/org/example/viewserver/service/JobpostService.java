@@ -1,6 +1,7 @@
 package org.example.viewserver.service;
 
-import org.example.restserver.entity.JobPost;
+
+import org.example.viewserver.dto.JobPostDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,5 @@ import org.springframework.stereotype.Service;
  */
 
 public interface JobpostService{
-    public ResponseEntity<?> regist(JobPost jobpost);
+    public ResponseEntity<?> regist(JobPostDto jobpost);
 }
