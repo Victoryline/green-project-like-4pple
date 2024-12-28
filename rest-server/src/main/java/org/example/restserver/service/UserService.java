@@ -16,4 +16,6 @@ import org.example.restserver.dto.UserRequestDto;
 public interface UserService {
     int register (UserRequestDto userRequestDto);
     String login (UserRequestDto userRequestDto);
+
+    boolean checkDuplicationUsername(String username);
 }

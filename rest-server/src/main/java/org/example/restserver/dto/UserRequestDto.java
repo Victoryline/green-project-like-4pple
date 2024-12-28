@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import lombok.Builder;
 import lombok.Data;
+import org.example.restserver.entity.Company;
+import org.example.restserver.entity.JobSeeker;
 
 import java.time.Instant;
 
@@ -25,4 +27,7 @@ public class UserRequestDto {
     private String password;
     private String name;
     private String role;
+
+    JobSeeker jobSeeker;
+    Company company;
 }

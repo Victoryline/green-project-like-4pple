@@ -32,10 +32,16 @@ public class User {
     @Column(name = "update_date")
     private Instant updateDate;
 
+    @Column(name = "delete_yn")
+    private String deleteYn;
+
     @PrePersist
     public void prePersist() {
         if (createDate == null) {
             createDate = Instant.now();
+        }
+        if (deleteYn == null) {
+            deleteYn = "N";
         }
     }
 

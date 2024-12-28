@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="../../static/css/job-seeker/regist-form.css">
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <!--    <nav th:replace="/layout/navbar :: navbarFragment"></nav>-->
+    <div class="content">
+        <div class="signup-content">
+            <h1 class="signup-title">구직자 회원가입</h1>
+            <div class="signup-form-group">
+                <label for="username" class="signup-label"><span class="required">*</span> 아이디</label>
+                <div class="signup-id-group">
+                    <input onchange="resetDuplication()" type="text" id="username" class="signup-input"
+                           placeholder="4~20자리 / 영문, 숫자, 특수문자 '_' 사용 가능">
+                    <button type="button" class="signup-btn-check" onclick="checkDuplicationUsername()">중복 확인</button>
+                </div>
+                <p id="username-check-result" style="color: red; font-size: 14px;"></p>
+            </div>
+            <div class="signup-form-group">
+                <label for="password" class="signup-label"><span class="required">*</span> 비밀번호</label>
+                <input type="password" id="password" class="signup-input" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+            </div>
+            <div class="signup-form-group">
+                <label for="confirm-password" class="signup-label"><span class="required">*</span> 2차 비밀번호</label>
+                <input type="password" id="confirm-password" class="signup-input" placeholder="">
+            </div>
+            <div class="signup-form-group">
+                <label for="name" class="signup-label"><span class="required">*</span> 이름</label>
+                <input type="text" id="name" class="signup-input" placeholder="">
+            </div>
+            <div class="signup-form-group">
+                <label for="email" class="signup-label"><span class="required">*</span> 이메일</label>
+                <input type="email" id="email" class="signup-input" placeholder="이메일">
+            </div>
+            <div class="flex-row" style="justify-content: space-between">
+                <div class="signup-form-group" style="width: 70%;">
+                    <label for="birthdate" class="signup-label"><span class="required">*</span> 생년월일</label>
+                    <input type="date" id="birthdate" class="signup-input">
+                </div>
+                <div class="signup-form-group">
+                    <label class="signup-label"><span class="required">*</span> 성별</label>
+                    <div class="gender-selector">
+                        <input type="radio" id="male" name="gender" value="M" class="gender-input">
+                        <label for="male" class="gender-label">남자</label>
+                        <input type="radio" id="female" name="gender" value="F" class="gender-input">
+                        <label for="female" class="gender-label">여자</label>
+                    </div>
+                </div>
+            </div>
+            <div class="signup-form-group">
+                <label for="phone" class="signup-label"><span class="required">*</span> 휴대폰 번호</label>
+                <input maxlength="11" type="tel" id="phone" class="signup-input" placeholder="휴대폰 번호 (01012345678)">
+            </div>
+            <div class="signup-form-group signup-address-group">
+                <label class="signup-label"><span class="required">*</span> 주소</label>
+                <div class="signup-address-input">
+                    <input type="text" id="zoneCode" class="signup-input" placeholder="우편번호" readonly>
+                    <button onclick="searchAddress()" type="button" class="signup-btn-find">주소찾기</button>
+                </div>
+                <input type="text" id="address" class="signup-input" placeholder="주소" readonly>
+                <input style="margin-top: 5px" type="text" id="addressDetail" class="signup-input"
+                       placeholder="상세주소를 입력해주세요.">
+            </div>
+            <button type="button" class="signup-btn-submit" onclick="register()">회원가입</button>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="../../static/javascript/axios.js"></script>
+<script>
+    function searchAddress() {
+        const zoneCode = document.getElementById("zoneCode");
+        const address = document.getElementById("address");
+
+        new daum.Postcode({
+            oncomplete: function (data) {
+                zoneCode.value = data.zonecode;
+                address.value = data.address;
+            }
+        }).open();
+    }
+
+    let isDuplication = true;
+
+    function validation() {
+        // 입력 필드 값 가져오기
+        let isValidation = true;
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirmPassword = document.getElementById('confirm-password').value.trim();
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const birthdate = document.getElementById('birthdate').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const gender = document.querySelector('input[name="gender"]:checked');
+
+        // 정규식
+        const usernameRegex = /^[a-zA-Z0-9_]{4,20}$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^010\d{7,8}$/;
+
+        // 유효성 검사
+        if (!usernameRegex.test(username)) {
+            alert('아이디는 4~20자이며, 영문, 숫자, 특수문자 "_"만 사용할 수 있습니다.');
+            isValidation = false;
+        } else if (!passwordRegex.test(password)) {
+            alert('비밀번호는 8~16자리로 영문 대소문자, 숫자, 특수문자를 포함해야 합니다.');
+            isValidation = false;
+        } else if (password !== confirmPassword) {
+            alert('비밀번호와 2차 비밀번호가 일치하지 않습니다.');
+            isValidation = false;
+        } else if (!name) {
+            alert('이름을 입력해주세요.');
+            isValidation = false;
+        } else if (!emailRegex.test(email)) {
+            alert('올바른 이메일 형식을 입력해주세요.');
+            isValidation = false;
+        } else if (!birthdate) {
+            alert('생년월일을 선택해주세요.');
+            isValidation = false;
+        } else if (!gender) {
+            alert('성별을 선택해주세요.');
+            isValidation = false;
+        } else if (!phoneRegex.test(phone)) {
+            alert('휴대폰 번호는 "010"으로 시작하며 10~11자리 숫자여야 합니다.');
+            isValidation = false;
+        } else if (isDuplication) {
+            alert("중복확인을 해주세요.");
+            isValidation = false;
+        }
+
+        return isValidation;
+    }
+
+    function register() {
+
+        const jobSeeker = {
+            username: $('#username').val(),
+            phone: $('#phone').val(),
+            email: $('#email').val(),
+            gender: $('input[name=gender]').val(),
+            birth: $('#birthdate').val(),
+            address: $('#address').val(),
+            addressDetail: $('#addressDetail').val(),
+            zoneCode: $('#zoneCode').val()
+        }
+        const user = {
+            username: $('#username').val(),
+            password: $('#password').val(),
+            name: $('#name').val(),
+            role: 'ROLE_JOB_SEEKER',
+            jobSeeker: jobSeeker
+        }
+        if (validation()) {
+            api.post("/api/v1/users/register", user)
+        }
+    }
+
+    function resetDuplication() {
+        isDuplication = true; // 중복 확인 상태 초기화
+    }
+
+    function checkDuplicationUsername() {
+        const username = $('#username').val().trim();
+
+        api.get(`/api/v1/users/check-duplication-username?username=${username}`)
+            .then(response => {
+                if (!response.body) {
+                    $('#username-check-result').css('color', 'green').text('사용 가능한 아이디입니다.');
+                    isDuplication = false;
+                } else {
+                    $('#username-check-result').css('color', 'red').text('이미 사용 중인 아이디입니다.');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                $('#username-check-result').css('color', 'red').text('아이디 중복 확인 중 오류가 발생했습니다.');
+            });
+    }
+
+</script>
+
+</body>
+</html>

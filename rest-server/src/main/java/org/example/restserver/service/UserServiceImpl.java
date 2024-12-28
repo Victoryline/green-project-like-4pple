@@ -2,11 +2,16 @@ package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.UserRequestDto;
+import org.example.restserver.entity.Company;
+import org.example.restserver.entity.JobSeeker;
 import org.example.restserver.entity.User;
+import org.example.restserver.repository.CompanyRepository;
+import org.example.restserver.repository.JobSeekerRepository;
 import org.example.restserver.repository.UserRepository;
 import org.example.restserver.utils.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * packageName    : org.example.restserver.service
@@ -26,9 +31,13 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private final JobSeekerRepository jobSeekerRepository;
+    private final CompanyRepository companyRepository;
 
     @Override
+    @Transactional
     public int register(UserRequestDto userRequestDto) {
+        String role = userRequestDto.getRole();
         User user = User.builder()
                 .username(userRequestDto.getUsername())
                 .password(bCryptPasswordEncoder.encode(userRequestDto.getPassword()))
@@ -37,6 +46,15 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userRepository.save(user);
+
+        if (role.equals("ROLE_JOB_SEEKER")) {
+            JobSeeker jobSeeker = userRequestDto.getJobSeeker();
+            jobSeekerRepository.save(jobSeeker);
+        } else if (role.equals("ROLE_COMPANY")) {
+            Company company = userRequestDto.getCompany();
+            companyRepository.save(company);
+        }
+
         return 1;
     }
 
@@ -50,5 +68,10 @@ public class UserServiceImpl implements UserService {
         }
         // JWT 생성
         return jwtUtil.createToken(user.getUsername(), user.getName(), user.getRole());
+    }
+
+    @Override
+    public boolean checkDuplicationUsername(String username) {
+        return userRepository.findByUsername(username).isPresent();
     }
 }
