@@ -3,6 +3,8 @@ package org.example.restserver.repository;
 import org.example.restserver.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 /**
  * packageName    : org.example.restserver.repository
  * fileName       : UserRepository
@@ -15,5 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 2024-12-27        황승현       최초 생성
  */
 public interface UserRepository extends JpaRepository<User, String> {
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

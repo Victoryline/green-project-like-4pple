@@ -21,7 +21,7 @@ import java.util.List;
  * 2024-12-27        황승현       최초 생성
  */
 public class CustomUserDetails implements UserDetails {
-    private User user;
+    private final User user;
 
     public CustomUserDetails(User user) {
         this.user = user;
