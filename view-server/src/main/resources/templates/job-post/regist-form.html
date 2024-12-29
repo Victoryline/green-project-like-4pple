@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="wrap">
+
+
+            <select name="workTypeCode">
+                <option value="">선택하세요</option>
+                <th:block th:each="gubun : ${workTypeList}">
+                    <option th:value="${gubun.code}" th:text="${gubun.name}"></option>
+                </th:block>
+            </select>
+
+            <!--
+            공고 제목 : <input type="text" name="title"><br>
+            <h3> 담당자 정보</h3>
+            담당자 명  : <input type="text" name="managerName"><br>
+            담당자 전화번호 : <input type="text" name="managerPhone">
+            담당자 이메일 : <input type="text" name="managerEmail">
+
+            <h3> ***직책 / 직급</h3>
+            <select name="jobRankCode"><br>
+                <option>주임</option>
+                <option>CTO</option>
+                <option>대리</option>
+                <option>사원</option>
+                <option>과장</option>
+                <option>부장</option>
+            </select>
+
+            <h3>***직무</h3>
+            <select name="workCode"><br>
+                <option>백엔드 개발자</option>
+                <option>DB 설계자</option>
+                <option>프론트엔드 개발자</option>
+                <option>퍼블리셔</option>
+                <option>보안 개발자</option>
+            </select>
+
+            <h3> 경력</h3>
+            <input type="text" name="jobHistory"><br>
+
+            <h3>***희망학력</h3>
+            <select name="educationCode"><br>
+                <option>전문대</option>
+                <option>4년제</option>
+                <option>고졸</option>
+                <option>석사</option>
+                <option>중졸</option>
+                <option>박사</option>
+            </select>
+
+            <h3> 연봉 </h3>
+            <input type="text" name="jobSalary"><br>
+
+            <h3>***보유스킬 </h3>
+            <input type="checkbox" name="AWS">
+            <input type="checkbox" name="CSS">
+            <input type="checkbox" name="HTML">
+            <input type="checkbox" name="JAVA"><br>
+            <input type="checkbox" name="JAVASCRIPT">
+            <input type="checkbox" name="MYSQL">
+            <input type="checkbox" name="NODEJS">
+            <input type="checkbox" name="REACT">
+            <input type="checkbox" name="SPRING">
+
+            <h3> 모집 부분 및 상세내용</h3>
+            <textarea name="content"></textarea><br>
+
+            <h3> 전형 절차 </h3>
+            <textarea name="process"></textarea><br>
+
+            <h3> 접수 방법용 </h3>
+            <textarea name="method"></textarea><br>
+
+            <h3> **복리 후생 </h3>
+            <input type="text" name="benefit_content">
+            <input type="button" onclick=""> <br>
+
+            <h3> **파일 업로드 </h3>
+            <input type="file" name="file_name"><br>
+
+            <h3> 공고 시작일 / 마감일 </h3>
+            <input type="date" name="startDate">
+            <input type="date" name="endDate"><br>
+
+            <h3> 상시 모집이면 공고 날짜 disable </h3>
+            <input type="checkbox" name="temporary">
+
+            <h3> 마감 </h3>
+            <input type="checkbox" name="end_yn"><br>
+
+            <input type="submit" value="등록">
+                    -->
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
+
+

@@ -18,5 +18,9 @@ import org.springframework.stereotype.Service;
  */
 
 public interface JobpostService{
-    public ResponseEntity<?> regist(JobPostDto jobpost);
+    //public ResponseEntity<?> regist(JobPostDto jobpost);
+
+    ResponseEntity<?> regist(JobPostDto jobpost);
+
+
 }
