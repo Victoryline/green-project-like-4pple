@@ -3,5 +3,7 @@
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$/view-server/build/generated/sources/annotationProcessor/java/main" libraries="{postcode.v2}" />
     <file url="file://$PROJECT_DIR$/view-server/src/main" libraries="{postcode.v2}" />
+    <file url="file://$PROJECT_DIR$/view-server/build/generated/sources/annotationProcessor/java/main" libraries="{jquery}" />
+    <file url="file://$PROJECT_DIR$/view-server/src/main" libraries="{jquery}" />
   </component>
 </project>

@@ -1,0 +1,70 @@
+/* 전체 페이지 스타일 */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100%;
+}
+
+/* Flexbox 컨테이너 스타일 */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    height: 100%;
+    padding: 15px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed; /* 스크롤 시 화면 상단에 고정 */
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
+.sidebar-inner {
+    padding-bottom: 60px; /* 추가된 스크롤 패딩 */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-item {
+    margin-bottom: 10px;
+}
+
+.sidebar-box {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.sidebar-box label {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-box input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.sidebar-box input[type="checkbox"]:checked + label {
+    background-color: green;
+    color: #fff;
+}
+
+/* 콘텐츠 영역 스타일 */
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 250px;
+}
