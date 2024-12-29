@@ -5,33 +5,17 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-/**
- * packageName    : org.example.restserver.repository
- * fileName       : JobPost
- * author         : 이동하
- * date           : 2024-12-27
- * description    :
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 2024-12-27        이동하       최초 생성
- */
-
-@Entity
-@Table(name = "tbl_job_seeker")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "tbl_job_seeker")
 public class JobSeeker {
 
     @Id
-    @Column(name = "username", nullable = false, length = 20)
+    @Column(name = "username", nullable = false)
     private String username;
-
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "username", referencedColumnName = "username", nullable = false)
-    private User user;
 
     @Column(name = "phone", nullable = false, length = 20)
     private String phone;

@@ -1,7 +1,7 @@
 package org.example.viewserver.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.viewserver.utils.WebClientUtil;
+import org.example.viewserver.utils.WebClientManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class TestController {
 
-    private final WebClientUtil webClientUtil;
+    private final WebClientManager webClientUtil;
 
-    @GetMapping
+    @GetMapping("/test")
     public String test(Model model) {
         var apiResponseMsg = webClientUtil.get("/api/v1/test");
         model.addAttribute("msg", apiResponseMsg.getBody());

@@ -1,9 +1,9 @@
 package org.example.restserver.repository;
 
+import org.example.restserver.entity.JobSeeker;
 import org.example.restserver.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,18 +17,5 @@ import java.util.Optional;
  * -----------------------------------------------------------
  * 2024-12-27        황승현       최초 생성
  */
-public interface UserRepository extends JpaRepository<User, String> {
-    Optional<User> findByUsername(String username);
-
-    Optional<User> findByUsernameAndRoleInAndDeleteYn(
-            String username,
-            List<String> roles,
-            String deleteYn
-    );
-
-    Optional<User> findByUsernameAndRoleAndDeleteYn(
-            String username,
-            String role,
-            String deleteYn
-    );
+public interface JobSeekerRepository extends JpaRepository<JobSeeker, String> {
 }

@@ -21,6 +21,7 @@ html, body {
 
 .content {
     flex: 1; /* 남는 공간을 채워서 푸터를 하단으로 밀어냄 */
+    margin: 20px 0;
 }
 
 .header {

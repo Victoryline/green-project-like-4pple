@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="../../static/css/job-seeker/regist-form.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/job-seeker/regist-form.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <!--    <nav th:replace="/layout/navbar :: navbarFragment"></nav>-->
+    <div class="content">
+        <div class="signup-content">
+            <h1 class="signup-title">구직자 회원가입</h1>
+            <div class="signup-form-group">
+                <label for="username" class="signup-label"><span class="required">*</span> 아이디</label>
+                <div class="signup-id-group">
+                    <input onchange="resetDuplication()" type="text" id="username" class="signup-input"
+                           placeholder="4~20자리 / 영문, 숫자, 특수문자 '_' 사용 가능">
+                    <button type="button" class="signup-btn-check" onclick="checkDuplicationUsername()">중복 확인</button>
+                </div>
+                <p id="username-check-result" style="color: red; font-size: 14px;"></p>
+            </div>
+            <div class="signup-form-group">
+                <label for="password" class="signup-label"><span class="required">*</span> 비밀번호</label>
+                <input type="password" id="password" class="signup-input" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+            </div>
+            <div class="signup-form-group">
+                <label for="confirm-password" class="signup-label"><span class="required">*</span> 2차 비밀번호</label>
+                <input type="password" id="confirm-password" class="signup-input" placeholder="">
+            </div>
+            <div class="signup-form-group">
+                <label for="name" class="signup-label"><span class="required">*</span> 이름</label>
+                <input type="text" id="name" class="signup-input" placeholder="">
+            </div>
+            <div class="signup-form-group">
+                <label for="email" class="signup-label"><span class="required">*</span> 이메일</label>
+                <input type="email" id="email" class="signup-input" placeholder="이메일">
+            </div>
+            <div class="flex-row" style="justify-content: space-between">
+                <div class="signup-form-group" style="width: 70%;">
+                    <label for="birthdate" class="signup-label"><span class="required">*</span> 생년월일</label>
+                    <input type="date" id="birthdate" class="signup-input">
+                </div>
+                <div class="signup-form-group">
+                    <label class="signup-label"><span class="required">*</span> 성별</label>
+                    <div class="gender-selector">
+                        <input type="radio" id="male" name="gender" value="M" class="gender-input">
+                        <label for="male" class="gender-label">남자</label>
+                        <input type="radio" id="female" name="gender" value="F" class="gender-input">
+                        <label for="female" class="gender-label">여자</label>
+                    </div>
+                </div>
+            </div>
+            <div class="signup-form-group">
+                <label for="phone" class="signup-label"><span class="required">*</span> 휴대폰 번호</label>
+                <input maxlength="11" type="tel" id="phone" class="signup-input" placeholder="휴대폰 번호 (01012345678)">
+            </div>
+            <div class="signup-form-group signup-address-group">
+                <label class="signup-label"><span class="required">*</span> 주소</label>
+                <div class="signup-address-input">
+                    <input type="text" id="zoneCode" class="signup-input" placeholder="우편번호" readonly>
+                    <button onclick="searchAddress()" type="button" class="signup-btn-find">주소찾기</button>
+                </div>
+                <input type="text" id="address" class="signup-input" placeholder="주소" readonly>
+                <input style="margin-top: 5px" type="text" id="addressDetail" class="signup-input"
+                       placeholder="상세주소를 입력해주세요.">
+            </div>
+            <button type="button" class="signup-btn-submit" onclick="register()">회원가입</button>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
