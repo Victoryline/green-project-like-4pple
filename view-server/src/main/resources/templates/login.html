@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/sidebar/js/side-bar.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../static/common/css/common.css">
+    <link rel="stylesheet" href="../static/css/login.css">
+    <script src="../static/javascript/utils/axios.js"></script>
+    <script src="../static/javascript/utils/image.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <div class="content">
+        <div class="login-container">
+            <div class="tabs">
+                <div data-role="job-seeker"
+                     th:class="'tab' + (${role == null || role == 'ROLE_JOB_SEEKER' ? ' active' : ''})">구직자
+                </div>
+                <div data-role="company"
+                     th:class="'tab' + (${role != null && role == 'ROLE_COMPANY' ? ' active' : ''})">기업
+                </div>
+            </div>
+            <input type="text" id="username" placeholder="아이디">
+            <input type="password" id="password" placeholder="비밀번호">
+            <div class="checkbox-group">
+                <label><input type="checkbox"> 로그인 유지</label>
+                <label><input type="checkbox"> 아이디 저장</label>
+            </div>
+            <button type="button" class="login-button" onclick="login()">로그인</button>
+            <div class="links">
+                <a href="#">아이디 찾기</a> |
+                <a href="#">비밀번호 찾기</a> |
+                <a onclick="goRegister()" href="#">회원가입</a>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script>
+    let activeData = $('.tab.active').data("role");
+
+    $(function () {
+        $('.tab').click(function () {
+            $('.tab').removeClass('active');
+            $(this).addClass('active');
+            activeData = $(this).data("role");
+        });
+    })
+
+    function goRegister() {
+        location.href = `/users/${activeData}/register`;
+    }
+
+    function login() {
+        const user = {
+            username:$('#username').val(),
+            password:$('#password').val(),
+            role: activeData === 'job-seeker' ? 'ROLE_JOB_SEEKER' : 'ROLE_COMPANY'
+        }
+        api.post("/api/v1/users/login", user)
+            .then(res => {
+                // console.log(res);
+                alert("로그인 성공");
+            })
+            .catch(error => {
+                const errorMessage = error.response.data.body.message;
+                alert(errorMessage);
+            })
+    }
+</script>
+</body>
+</html>

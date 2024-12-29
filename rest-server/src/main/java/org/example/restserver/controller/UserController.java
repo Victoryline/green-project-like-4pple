@@ -1,5 +1,7 @@
 package org.example.restserver.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.entity.JobSeeker;
@@ -25,8 +27,16 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestBody UserRequestDto userRequestDto) {
-        return userService.login(userRequestDto);
+    public String login(@RequestBody UserRequestDto userRequestDto, HttpServletResponse response) {
+        String token = userService.login(userRequestDto);
+        Cookie cookie = new Cookie("token", token);
+        // 일주일
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        response.setHeader("Authorization", token);
+
+        return token;
     }
 
     @PostMapping("/register")

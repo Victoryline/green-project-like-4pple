@@ -25,6 +25,7 @@ public class Company {
     @Column(name = "info")
     private String info;
 
+    @Lob
     @Column(name = "profile_image")
     private byte[] profileImage;
 

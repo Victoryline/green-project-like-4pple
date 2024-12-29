@@ -28,6 +28,6 @@ public class UserRequestDto {
     private String name;
     private String role;
 
-    JobSeeker jobSeeker;
-    Company company;
+    JobSeekerRequestDto jobSeeker;
+    CompanyRequestDto company;
 }
