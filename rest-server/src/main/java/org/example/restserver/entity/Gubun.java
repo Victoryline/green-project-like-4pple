@@ -9,10 +9,12 @@ import lombok.Setter;
 @Entity
 @Table(name = "tbl_gubun")
 public class Gubun {
-    @EmbeddedId
-    private GubunId id;
+    @Id
+    private String gubunCode; // 'group_code' 컬럼
 
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
+    private String code; // 'code' 컬럼은 Primary Key
+
+    private String name;      // 'name' 컬럼
+
 
 }

@@ -44,10 +44,10 @@ public class JobPostDto {
     private String managerPhone;
     private String managerEmail;
     private Character endYn;
-    private String fileName;
+   // private String fileName;
     private String benefit;
     private String skillCode;
-    private String end_yn;
+
 
 
 

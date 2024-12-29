@@ -1,5 +1,6 @@
 package org.example.restserver.repository;
 
+import org.example.restserver.dto.GubunDto;
 import org.example.restserver.entity.Gubun;
 import org.example.restserver.entity.GubunId;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.awt.*;
 import java.util.Optional;
 
 /**
@@ -25,4 +27,6 @@ import java.util.Optional;
 public interface GubunRepository extends JpaRepository<Gubun, GubunId> {
     @Query("SELECT g FROM Gubun g WHERE g.id.gubunCode = :gubunCode AND g.id.code = :code")
     Optional<Gubun> findByGubunCodeAndCode(@Param("gubunCode") String gubunCode, @Param("code") String code);
+
+
 }
