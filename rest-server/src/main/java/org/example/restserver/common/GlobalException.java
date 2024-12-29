@@ -1,6 +1,8 @@
 package org.example.restserver.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +24,8 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalException extends ResponseEntityExceptionHandler {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
 
     private boolean stackTrace;
 
@@ -71,4 +75,18 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ErrorResponse(stackTraces, "서버 에러용", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public final ErrorResponse handleRuntimeException(RuntimeException ex, WebRequest request) {
+        List<StackTraceElement> stackTraces = null;
+
+        if (stackTrace) {
+            stackTraces = Arrays.asList(ex.getStackTrace());
+            logger.error("에러 ::: [AllException] {}", ex.getMessage(), ex);
+        } else {
+            logger.error("에러 ::: [AllException] {}", ex.getMessage());
+        }
+
+        return new ErrorResponse(stackTraces, ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

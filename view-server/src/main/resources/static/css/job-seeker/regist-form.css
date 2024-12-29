@@ -1,7 +1,6 @@
 .signup-content {
     max-width: 600px;
     margin: 0 auto;
-    background: #ffffff;
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -19,15 +18,11 @@
     flex-direction: column;
 }
 
-.signup-form-group {
-    margin-bottom: 15px;
-}
-
 .signup-label {
     display: block;
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .required {
@@ -45,6 +40,7 @@
 
 .signup-gender {
     display: flex;
+    align-content: center;
     gap: 15px;
 }
 
@@ -58,10 +54,6 @@
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
-}
-
-.signup-address-group .signup-input {
-    flex: 1;
 }
 
 .signup-btn-find {
@@ -88,8 +80,87 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    width: 100%;
 }
 
 .signup-btn-submit:hover {
     background-color: #218838;
+}
+
+.gender-selector {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: fit-content;
+}
+
+.gender-input {
+    display: none;
+}
+
+.gender-label {
+    padding: 8px 20px;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    color: #aaa;
+    background-color: #f9f9f9;
+    flex: 1;
+    transition: all 0.3s;
+    border-left: 1px solid #ddd;
+}
+
+.gender-label:first-child {
+    border-left: none;
+}
+
+.gender-input:checked + .gender-label {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.signup-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.signup-form-group > .signup-id-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.signup-input {
+    flex: 1;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.signup-btn-check {
+    height: 40px;
+    padding: 0 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    /*transition: background-color 0.3s, box-shadow 0.3s;*/
+}
+
+.signup-btn-check:hover {
+    background-color: #0056b3;
+}
+
+.signup-btn-check:active {
+    background-color: #004085;
+    transform: scale(0.98);
 }
