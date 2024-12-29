@@ -1,7 +1,7 @@
 package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.restserver.dto.CompanyRequestDto;
+import org.example.restserver.dto.SessionUserDto;
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.entity.Company;
 import org.example.restserver.entity.JobSeeker;
@@ -9,16 +9,13 @@ import org.example.restserver.entity.User;
 import org.example.restserver.repository.CompanyRepository;
 import org.example.restserver.repository.JobSeekerRepository;
 import org.example.restserver.repository.UserRepository;
-import org.example.restserver.utils.ImageUtil;
 import org.example.restserver.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 /**
  * packageName    : org.example.restserver.service
@@ -58,8 +55,7 @@ public class UserServiceImpl implements UserService {
         if (role.equals("ROLE_JOB_SEEKER")) {
             JobSeeker jobSeeker = modelMapper.map(userRequestDto.getJobSeeker(), JobSeeker.class);
             jobSeekerRepository.save(jobSeeker);
-        }
-        else if (role.equals("ROLE_COMPANY")) {
+        } else if (role.equals("ROLE_COMPANY")) {
             Company company = modelMapper.map(userRequestDto.getCompany(), Company.class);
             companyRepository.save(company);
         }
@@ -68,7 +64,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(UserRequestDto userRequestDto) {
+    public Map<String, Object> login(UserRequestDto userRequestDto) {
+        Map<String, Object> map = new HashMap<>();
+
         User user;
 
         List<String> roleList = new ArrayList<>();
@@ -87,8 +85,12 @@ public class UserServiceImpl implements UserService {
         if (user == null || !bCryptPasswordEncoder.matches(userRequestDto.getPassword(), user.getPassword())) {
             throw new RuntimeException("아이디 또는 비밀번호를 확인해주세요.");
         }
+        String token = jwtUtil.createToken(user.getUsername(), user.getName(), user.getRole());
+        map.put("token", token);
 
-        return jwtUtil.createToken(user.getUsername(), user.getName(), user.getRole());
+        map.put("user", new SessionUserDto(user.getUsername(), user.getName(), user.getRole()));
+
+        return map;
     }
 
     @Override

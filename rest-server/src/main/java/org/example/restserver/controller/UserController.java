@@ -9,6 +9,8 @@ import org.example.restserver.service.UserService;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * packageName    : org.example.restserver.controller
  * fileName       : UserController
@@ -27,8 +29,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestBody UserRequestDto userRequestDto, HttpServletResponse response) {
-        String token = userService.login(userRequestDto);
+    public Map<String, Object> login(@RequestBody UserRequestDto userRequestDto, HttpServletResponse response) {
+        Map<String, Object> map = userService.login(userRequestDto);
+        String token = map.get("token").toString();
         Cookie cookie = new Cookie("token", token);
         // 일주일
         cookie.setMaxAge(7 * 24 * 60 * 60);
@@ -36,7 +39,7 @@ public class UserController {
         response.addCookie(cookie);
         response.setHeader("Authorization", token);
 
-        return token;
+        return map;
     }
 
     @PostMapping("/register")

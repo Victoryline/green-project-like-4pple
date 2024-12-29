@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../static/common/css/common.css">
     <link rel="stylesheet" href="../static/css/login.css">
     <script src="../static/javascript/utils/axios.js"></script>
-    <script src="../static/javascript/utils/image.js"></script>
+    <script src="../static/javascript/utils/imageUtil.js"></script>
 </head>
 <body>
 <div class="container">
@@ -64,8 +64,10 @@
         }
         api.post("/api/v1/users/login", user)
             .then(res => {
-                // console.log(res);
                 alert("로그인 성공");
+                console.log(res.body.user);
+                sessionStorage.setItem("user", JSON.stringify(res.body.user));
+                location.href = "/";
             })
             .catch(error => {
                 const errorMessage = error.response.data.body.message;
