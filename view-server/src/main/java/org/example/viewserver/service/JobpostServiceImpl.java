@@ -1,14 +1,13 @@
 package org.example.viewserver.service;
 
-import org.apache.coyote.Response;
-
 import org.example.viewserver.dto.JobPostDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
 
 /**
  *packageName    : org.example.viewserver.service
@@ -37,4 +36,8 @@ import org.springframework.web.reactive.function.client.WebClient;
         return ResponseEntity.status(HttpStatus.OK).body("게시글 등록 성공");
 
     }
+
+
+
+
 }

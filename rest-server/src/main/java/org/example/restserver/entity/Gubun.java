@@ -9,10 +9,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "tbl_gubun")
 public class Gubun {
+
     @EmbeddedId
-    private GubunId id;
+    private GubunId id; // 복합 키 클래스
 
-    @Column(name = "name", nullable = false, length = 50)
-    private String name;
-
+    @Column(length = 50)
+    private String name; // 'name' 컬럼
 }
