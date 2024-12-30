@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="../../static/css/job-seeker/edit-form.css">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/sessionUserUtil.js"></script>
+    <script src="../../static/javascript/job-seeker/edit-form.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="edit-content">
+            <h1 class="edit-title">구직자 수정</h1>
+            <div class="edit-form-group">
+                <label for="username" class="edit-label">아이디</label>
+                <input type="text" id="username" class="edit-input" th:value="${user.username}" disabled>
+            </div>
+            <div class="edit-form-group">
+                <label for="password" class="edit-label">새 비밀번호</label>
+                <input type="password" id="password" class="edit-input" placeholder="8~16자리/영문 대소문자, 숫자, 특수문자 조합">
+            </div>
+            <div class="edit-form-group">
+                <label for="confirm-password" class="edit-label">새 비밀번호 확인</label>
+                <input type="password" id="confirm-password" class="edit-input" placeholder="">
+            </div>
+            <div class="edit-form-group">
+                <label for="name" class="edit-label">이름</label>
+                <input type="text" id="name" class="edit-input" th:value="${user.name}">
+            </div>
+            <div class="edit-form-group">
+                <label for="email" class="edit-label">이메일</label>
+                <input type="email" id="email" class="edit-input" th:value="${user.email}">
+            </div>
+            <div class="flex-row" style="justify-content: space-between">
+                <div class="edit-form-group" style="width: 70%;">
+                    <label for="birth" class="edit-label">생년월일</label>
+                    <input type="date" id="birth" class="edit-input" th:value="${user.birth}">
+                </div>
+                <div class="edit-form-group">
+                    <label class="edit-label">성별</label>
+                    <div class="gender-selector">
+                        <input type="radio" id="male" name="gender" value="M" class="gender-input"
+                               th:checked="${user.gender == 'M'}">
+                        <label for="male" class="gender-label">남자</label>
+                        <input type="radio" id="female" name="gender" value="F" class="gender-input"
+                               th:checked="${user.gender == 'F'}">
+                        <label for="female" class="gender-label">여자</label>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-form-group">
+                <label for="phone" class="edit-label">휴대폰 번호</label>
+                <input maxlength="11" type="tel" id="phone" class="edit-input" th:value="${user.phone}">
+            </div>
+            <div class="edit-form-group edit-address-group">
+                <label class="edit-label">주소</label>
+                <div class="edit-address-input">
+                    <input type="text" id="zoneCode" class="edit-input" th:value="${user.zoneCode}" placeholder="우편번호"
+                           readonly>
+                    <button onclick="searchAddress()" type="button" class="edit-btn-find">주소찾기</button>
+                </div>
+                <input type="text" id="address" class="edit-input" th:value="${user.address}" placeholder="주소" readonly>
+                <input style="margin-top: 5px" type="text" id="addressDetail" class="edit-input"
+                       th:value="${user.addressDetail}" placeholder="상세주소를 입력해주세요.">
+            </div>
+            <button type="button" class="edit-btn-submit" onclick="updateProfile()">수정</button>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

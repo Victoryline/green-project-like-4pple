@@ -2,6 +2,7 @@ package org.example.restserver.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.example.restserver.utils.ConvertTokenUtil;
 import org.example.restserver.utils.JwtUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +24,9 @@ public class TokenController {
 
         String header = request.getHeader("Authorization");
         if (header != null && header.startsWith("Bearer ")) {
-            token = header.substring(7);
+            token = ConvertTokenUtil.bearerExcludeToken(header);
         }
 
-        return token != null ? jwtUtil.getUserRole(token) : "";
+        return token != null && !token.equals("null") ? jwtUtil.getUserRole(token) : "";
     }
 }
