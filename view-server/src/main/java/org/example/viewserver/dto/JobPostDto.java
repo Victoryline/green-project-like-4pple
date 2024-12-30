@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * packageName    : org.example.restserver.dto
@@ -23,29 +25,29 @@ import java.time.Instant;
 @NoArgsConstructor
 public class JobPostDto {
 
-    private String id;
+    private int jobPostNo;
     private String username;
     private String title;
     private String workCode;
-    private Integer jobHistory;
-    private Integer jobSalary;
+    private Integer jobHistory; // 클라이언트에서 정수로 전송해야 함
+    private Integer jobSalary;  // 클라이언트에서 정수로 전송해야 함
     private String educationCode;
     private String jobRankCode;
     private String workTypeCode;
-    private Instant startDate;
-    private Instant endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String content;
     private String workCondition;
-    private Integer process;
+    private Integer process; // 클라이언트에서 정수로 전송해야 함
     private String method;
     private String addNotice;
     private String managerName;
     private String managerPhone;
     private String managerEmail;
     private Character endYn;
- //   private String fileName;
-    private String benefit;
-    private String skillCode;
+    private List<String> benefitContent;
+    private List<String> skillCode;
+
 
 
 
