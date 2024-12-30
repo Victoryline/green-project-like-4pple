@@ -23,6 +23,7 @@ public class GubunRestController {
     @GetMapping
     public List<GubunDto> getGubunList(@RequestParam String gubunCode) {
         List<GubunDto> gubunList = gubunService.getGubunList(gubunCode);
+
         return gubunList;
     }
 
