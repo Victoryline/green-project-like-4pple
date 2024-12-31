@@ -27,13 +27,10 @@ public class JobPostController {
          return ResponseEntity.ok("등록 성공");
     }
 
-    @GetMapping("list")
-    public ResponseEntity<?> getAll() {
-        List<JobPost> jobPosts = jobPostService.getlist();
-        if (jobPosts.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("리스트가 비어 있습니다.");
-        }
-        List<Company> company = jobPostService.getcompany();
+    @GetMapping("/list")
+    public ResponseEntity<List<JobPostDto>> getAllJobPostsWithCompany() {
+        // 서비스에서 채용공고와 기업정보를 가져와서 반환
+        List<JobPostDto> jobPosts = jobPostService.getAllJobPostsWithCompany();
         return ResponseEntity.ok(jobPosts);
     }
 }

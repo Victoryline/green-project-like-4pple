@@ -9,6 +9,5 @@ import java.util.List;
 public interface JobPostService {
     void register (JobPostDto jobPostDto);
 
-    List<JobPost> getlist();
-    List<Company> getcompany();
+
 }

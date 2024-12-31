@@ -22,7 +22,6 @@ import java.util.List;
  */
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
-
+        @Query("SELECT j.title, j.jobPostSkills, c.username, c.address FROM JobPost j JOIN Company c")
+        List<Object[]> findAllJobPostsWithCompanyInfo();
 }
-
-
