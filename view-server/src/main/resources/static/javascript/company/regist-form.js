@@ -1,29 +1,31 @@
-document.getElementById('profileImage').addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById('image-preview');
-    const placeholder = document.getElementById('image-placeholder');
-    const removeBtn = document.getElementById('remove-image-btn');
+$(function () {
+    document.getElementById('profileImage').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('image-placeholder');
+        const removeBtn = document.getElementById('remove-image-btn');
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            base64String = e.target.result.split(',')[1];
-            preview.src = loadImage(base64String);
-            preview.style.display = 'block';
-            placeholder.style.display = 'none';
-            removeBtn.style.display = 'block';
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                base64String = e.target.result.split(',')[1];
+                preview.src = loadImage(base64String);
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+                removeBtn.style.display = 'block';
 
-            // Base64 문자열을 확인하고 활용
-            // console.log("Base64 String:", base64String); // 필요시 주석 처리
-        };
-        reader.readAsDataURL(file);
-    } else {
-        base64String = '';
-        preview.style.display = 'none';
-        placeholder.style.display = 'block';
-        removeBtn.style.display = 'none';
-    }
-});
+                // Base64 문자열을 확인하고 활용
+                // console.log("Base64 String:", base64String); // 필요시 주석 처리
+            };
+            reader.readAsDataURL(file);
+        } else {
+            base64String = '';
+            preview.style.display = 'none';
+            placeholder.style.display = 'block';
+            removeBtn.style.display = 'none';
+        }
+    });
+})
 
 function triggerFileInput() {
     document.getElementById('profileImage').click();
