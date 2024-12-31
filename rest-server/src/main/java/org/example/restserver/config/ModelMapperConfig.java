@@ -1,7 +1,6 @@
 package org.example.restserver.config;
 
 import org.example.restserver.dto.CompanyRequestDto;
-import org.example.restserver.dto.CompanyResponseDto;
 import org.example.restserver.entity.Company;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -22,16 +21,6 @@ public class ModelMapperConfig {
                 using(context -> {
                     String base64String = (String) context.getSource();
                     return base64String != null ? Base64.getDecoder().decode(base64String) : null;
-                }).map(source.getProfileImage(), destination.getProfileImage());
-            }
-        });
-
-        modelMapper.addMappings(new PropertyMap<Company, CompanyResponseDto>() {
-            @Override
-            protected void configure() {
-                using(context -> {
-                    byte[] imageBytes = (byte[]) context.getSource();
-                    return imageBytes != null ? Base64.getEncoder().encodeToString(imageBytes) : null;
                 }).map(source.getProfileImage(), destination.getProfileImage());
             }
         });

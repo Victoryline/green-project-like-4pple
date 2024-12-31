@@ -1,7 +1,8 @@
 package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.restserver.dto.*;
+import org.example.restserver.dto.SessionUserDto;
+import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.entity.Company;
 import org.example.restserver.entity.JobSeeker;
 import org.example.restserver.entity.User;
@@ -14,10 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * packageName    : org.example.restserver.service
@@ -98,66 +96,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkDuplicationUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
-    }
-
-    @Override
-    public UserResponseDto getUser(String username) {
-        UserResponseDto userDto = userRepository.findByUsername(username)
-                .map(user -> modelMapper.map(user, UserResponseDto.class))
-                .orElse(null);
-
-        String userRole = userDto.getRole();
-        if (userRole.equals("ROLE_JOB_SEEKER")) {
-            JobSeekerResponseDto jobSeekerDto =
-                    jobSeekerRepository.findById(username)
-                            .map(jobSeeker -> modelMapper.map(jobSeeker, JobSeekerResponseDto.class))
-                            .orElse(null);
-            jobSeekerDto.setUsername(userDto.getUsername());
-            jobSeekerDto.setName(userDto.getName());
-            jobSeekerDto.setRole(userRole);
-            return jobSeekerDto;
-        } else if (userRole.equals("ROLE_COMPANY")) {
-            CompanyResponseDto CompanyDto =
-                    companyRepository.findById(username)
-                            .map(company -> modelMapper.map(company, CompanyResponseDto.class))
-                            .orElse(null);
-            CompanyDto.setUsername(userDto.getUsername());
-            CompanyDto.setName(userDto.getName());
-            CompanyDto.setRole(userRole);
-            return CompanyDto;
-        }
-        return userDto;
-    }
-
-    @Override
-    @Transactional
-    public int update(String username, UserRequestDto userRequestDto) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("없어용~"));
-
-        if(!userRequestDto.getPassword().isEmpty()) {
-            user.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
-        }
-        user.setName(userRequestDto.getName());
-        user.setRole(userRequestDto.getRole());
-
-        userRepository.save(user);
-
-        String role = user.getRole();
-        if ("ROLE_JOB_SEEKER".equals(role)) {
-            JobSeeker jobSeeker = jobSeekerRepository.findById(user.getUsername())
-                    .orElse(new JobSeeker());
-
-            modelMapper.map(userRequestDto.getJobSeeker(), jobSeeker);
-            jobSeekerRepository.save(jobSeeker);
-        } else if ("ROLE_COMPANY".equals(role)) {
-            Company company = companyRepository.findById(user.getUsername())
-                    .orElse(new Company());
-
-            modelMapper.map(userRequestDto.getCompany(), company);
-            companyRepository.save(company);
-        }
-
-        return 1;
     }
 }
