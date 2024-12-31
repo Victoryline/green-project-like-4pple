@@ -3,14 +3,10 @@ package org.example.restserver.service;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.CompanySearchDto;
 import org.example.restserver.dto.JobPostSearchDto;
-import org.example.restserver.entity.Company;
-import org.example.restserver.repository.CompanyRepository;
 import org.example.restserver.repository.JobPostRepository;
 import org.example.restserver.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

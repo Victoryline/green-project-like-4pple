@@ -2,8 +2,6 @@ package org.example.restserver.controller;
 
 import org.example.restserver.dto.CompanySearchDto;
 import org.example.restserver.dto.JobPostSearchDto;
-import org.example.restserver.entity.Company;
-import org.example.restserver.entity.JobPost;
 import org.example.restserver.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

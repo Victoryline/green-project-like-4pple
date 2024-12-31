@@ -3,7 +3,6 @@ package org.example.viewserver.service;
 
 import org.example.viewserver.dto.JobPostDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 /**
  * packageName    : org.example.viewserver.service
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
  * 24. 12. 26.        박미정      최초 생성
  */
 
-public interface JobpostService{
+public interface JobpostService {
     //public ResponseEntity<?> regist(JobPostDto jobpost);
 
     ResponseEntity<?> regist(JobPostDto jobpost);

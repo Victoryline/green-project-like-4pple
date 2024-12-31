@@ -1,6 +1,5 @@
 package org.example.restserver.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.CompanyScoreDto;
 import org.example.restserver.entity.CompanyScore;
@@ -36,8 +35,8 @@ public class CompanyScoreController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addCompanyScore(@RequestBody CompanyScore companyScore) {
-        companyScoreService.addScore(CompanyScoreDto);
+    public ResponseEntity<?> addCompanyScore(@RequestBody CompanyScoreDto companyScoreDto) {
+        companyScoreService.addScore(companyScoreDto);
         return ResponseEntity.ok("평점이 등록되었습니다.");
     }
 }

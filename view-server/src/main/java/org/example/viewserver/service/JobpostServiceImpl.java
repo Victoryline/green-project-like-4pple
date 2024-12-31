@@ -1,13 +1,10 @@
 package org.example.viewserver.service;
 
 import org.example.viewserver.dto.JobPostDto;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.List;
 
 /**
  *packageName    : org.example.viewserver.service

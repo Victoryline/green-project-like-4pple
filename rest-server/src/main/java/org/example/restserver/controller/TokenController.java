@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/token")
 public class TokenController {
     private final JwtUtil jwtUtil;
+
     @GetMapping("/role")
     public String role(HttpServletRequest request) {
         String token = null;
