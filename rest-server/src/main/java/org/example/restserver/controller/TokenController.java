@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/token")
 public class TokenController {
     private final JwtUtil jwtUtil;
+
     @GetMapping("/role")
     public String role(HttpServletRequest request) {
         String token = null;
@@ -26,6 +27,6 @@ public class TokenController {
             token = header.substring(7);
         }
 
-        return token != null ? jwtUtil.getUserRole(token) : "";
+        return token != null && token.equals("null") ? jwtUtil.getUserRole(token) : "";
     }
 }
