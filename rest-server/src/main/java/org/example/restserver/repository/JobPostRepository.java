@@ -10,20 +10,17 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-/**
- * packageName    : org.example.restserver.repository
- * fileName       : JobPost
- * author         : 이동하
- * date           : 2024-12-30
- * description    :
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 2024-12-30        이동하       최초 생성
- */
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
-        @Query("SELECT j.title, j.jobPostSkills, c.username, c.address FROM JobPost j JOIN Company c")
+        @Query("SELECT " +
+                "j.title, " +
+                "jc.id.skillCode, " + // 복합키로 접근: JobPostSkillId의 skillCode
+                "c.username, " +
+                "c.address, " +
+                "j.username " +
+                "FROM JobPost j " +
+                "JOIN Company c ON j.username = c.username " +
+                "JOIN JobPostSkill jc ON jc.jobPost.jobPostNo = j.jobPostNo")  // jobPostNo는 JobPost 엔티티에서 가져옴
         List<Object[]> findAllJobPostsWithCompanyInfo();
 
 }
