@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 /**
  * packageName    : org.example.restserver.dto
@@ -32,6 +33,6 @@ public class JobPostSearchDto {
     private String educationCode;
     private String jobRankCode;
     private String workTypeCode;
-    private Instant endDate;
+    private LocalDate endDate;
 
 }
