@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>검색 결과</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../static/common/css/common.css">
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <h1 th:text="'검색 결과: ' + ${keyword}"></h1>
+
+    <div th:if="${type == 'company'}">
+        <h2>기업 검색 결과</h2>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>회사명</th>
+                <th>주소</th>
+                <th>설립일</th>
+                <th>기업 평점</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="company : ${results}">
+                <td th:text="${company.name}"></td> <!-- 회사명 -->
+                <td th:text="${company.address}"></td> <!-- 주소 -->
+                <td th:text="${company.birth}"></td> <!-- 설립일 -->
+                <td th:text="${company.averageScore != null ? company.averageScore : '평점 없음'}"></td> <!-- 평균 별점 -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${type == 'job'}">
+        <h2>모집공고 검색 결과</h2>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>공고 제목</th>
+                <th>근무 형태</th>
+                <th>경력</th>
+                <th>학력</th>
+                <th>직급/직책</th>
+                <th>근무 형태</th>
+                <th>마감일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="job : ${results}">
+                <td th:text="${job.title}"></td> <!-- 공고 제목 -->
+                <td th:text="${job.workCode}"></td> <!-- 근무 형태 -->
+                <td th:text="${job.jobHistory}"></td> <!-- 경력 -->
+                <td th:text="${job.educationCode}"></td> <!-- 학력 -->
+                <td th:text="${job.jobRankCode}"></td> <!-- 직급/직책 -->
+                <td th:text="${job.workTypeCode}"></td> <!-- 근무 형태 -->
+                <td th:text="${job.endDate}"></td> <!-- 마감일자 -->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${#lists.isEmpty(results)}">
+        <p>검색 결과가 없습니다.</p>
+    </div>
+
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
