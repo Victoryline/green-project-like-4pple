@@ -14,7 +14,7 @@ public class UserController {
 
     @GetMapping("/register")
     public String register(@PathVariable String role) {
-        return returnPage(role, "register-form");
+        return returnPage(role, "register-form") ;
     }
 
     private String returnPage(String role, String pageName) {
