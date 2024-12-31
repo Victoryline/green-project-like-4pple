@@ -54,6 +54,6 @@ public class Company {
     @Column(name = "employee", nullable = false)
     private Integer employee;
 
-//    @OneToMany(mappedBy = "company")
-//    private List<JobPost> jobPosts;
+    @OneToMany(mappedBy = "company")
+    private List<JobPost> jobPosts;
 }

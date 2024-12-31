@@ -28,9 +28,19 @@ public class JobPostController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<JobPostDto>> getAllJobPostsWithCompany() {
-        // 서비스에서 채용공고와 기업정보를 가져와서 반환
-        List<JobPostDto> jobPosts = jobPostService.getAllJobPostsWithCompany();
-        return ResponseEntity.ok(jobPosts);
+    public ResponseEntity<String> getAllJobPostsWithCompany() {
+        List<Object[]> jobPosts = jobPostService.getAllJobPostsWithCompany();
+
+        System.out.println("jobPosts size: " + jobPosts.size());
+
+        jobPosts.forEach(jobPost -> {
+            System.out.println("Title: " + jobPost[0]);
+            System.out.println("JobPostSkills: " + jobPost[1]);
+            System.out.println("Company Username: " + jobPost[2]);
+            System.out.println("Company Address: " + jobPost[3]);
+        });
+
+
+        return  ResponseEntity.ok("리스트 성공");
     }
 }
