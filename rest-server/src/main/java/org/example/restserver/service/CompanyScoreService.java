@@ -38,6 +38,10 @@ public class CompanyScoreService {
     }
 
     public void addScore(CompanyScoreDto companyScoreDto) {
+        if (companyScoreDto.getScore() < 1 || companyScoreDto.getScore() > 5) {
+            throw new IllegalArgumentException("평점은 1점에서 5점 사이여야 합니다.");
+        }
+
         CompanyScoreId scoreId = new CompanyScoreId();
         scoreId.setCompanyId(companyScoreDto.getCompanyId());
         scoreId.setJobSeekerId(companyScoreDto.getJobSeekerId());
