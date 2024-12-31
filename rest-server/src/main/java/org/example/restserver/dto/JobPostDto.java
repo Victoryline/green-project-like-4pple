@@ -30,8 +30,8 @@ public class JobPostDto {
         private String username;
         private String title;
         private String workCode;
-        private Integer jobHistory;
-        private Integer jobSalary;
+        private Integer jobHistory; // 클라이언트에서 정수로 전송해야 함
+        private Integer jobSalary;  // 클라이언트에서 정수로 전송해야 함
         private String educationCode;
         private String jobRankCode;
         private String workTypeCode;
@@ -39,19 +39,18 @@ public class JobPostDto {
         private LocalDate endDate;
         private String content;
         private String workCondition;
-        private Integer process;
+        private Integer process; // 클라이언트에서 정수로 전송해야 함
         private String method;
         private String addNotice;
         private String managerName;
         private String managerPhone;
         private String managerEmail;
         private Character endYn;
-        private List<String> benefitContent = Collections.emptyList();
+        private List<String> benefitContent = Collections.emptyList();;
         private List<String>  jobPostSkills= Collections.emptyList();
-
-        //company
         private String companyUsername;
         private String address;
 
-
+        public JobPostDto(int jobPostNo, String title, List<JobPostSkill> jobPostSkills, String username, String address) {
+        }
 }

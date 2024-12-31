@@ -67,9 +67,5 @@ public String applicationRegist(Model model) {
     return "/jeyeon/application-regist";
 }*/
 
-    @GetMapping("/list")
-    public String list() {
-        return "job-post/list";
-    }
 
 }

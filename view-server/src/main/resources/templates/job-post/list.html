@@ -33,24 +33,27 @@
             }
         })
             .then(response => {
-            console.log("가져오기 성공");
-            const jobPosts = response.data;
-            console.log(JSON.stringify(jobPosts, null, 2));  // jobPosts 객체를 JSON 형식으로 보기 좋게 출력
-
-            jobPosts.forEach(jobPost => {
-                console.log(`제목: ${jobPost[0]}`);
-                console.log(`기술: ${jobPost[1]}`);
-                console.log(`회사 아이디: ${jobPost[2]}`);
-                console.log(`회사 주소: ${jobPost[3]}`);
-            });
+                console.log("가져오기 성공");
+                const jobPosts = response.data;
+                jobPosts.forEach(jobPosts=>{
+                    console.log(`제목: ${jobPost.title}`);
+                    console.log(`기술: ${jobPost.jobPostSkills}`);
+                    console.log(`회사 아이디: ${jobPost.username}`);
+                });
 
                 //기업정보 + 채용정보 가져오기
 
                 const jobPostContainer = document.getElementById("job-post-container");
-                jobPosts.forEach(jobPosts => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${jobPost.title} , ${jobPost.companyUsername}, ${jobPost.companyAddress}`;
-                    jobPostList.appendChild(listItem);
+                jobPosts.forEach(jobPost => {
+                    const jobPostElement = document.createElement("div");
+                    jobPostElement.classList.add("job-post");
+                    jobPostElement.innerHTML = `
+                <h3>${jobPost.title}</h3>
+                <p><strong>기술:</strong> ${jobPost.jobPostSkills}</p>
+                <p><strong>회사:</strong> ${jobPost.username}</p>
+                <p><strong>주소:</strong> ${jobPost.address}</p>
+            `;
+                    jobPostContainer.appendChild(jobPostElement);
                 });
             })
             .catch(error => {
