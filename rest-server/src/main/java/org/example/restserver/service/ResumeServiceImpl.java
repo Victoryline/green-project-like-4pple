@@ -2,7 +2,6 @@ package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.example.restserver.dto.*;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.*;
@@ -50,7 +49,7 @@ public class ResumeServiceImpl implements ResumeService {
         Resume resume = new Resume();
 
         resume.setUsername(resumeDto.getUsername());
-        resume.setTitle(resumeDto.getRTitle());
+        resume.setTitle(resumeDto.getCaption());
         resume.setImage(resumeDto.getImage());
         resume.setWishArea(resumeDto.getWishArea());
         resume.setWishSalary(resumeDto.getWishSalary());
@@ -59,10 +58,12 @@ public class ResumeServiceImpl implements ResumeService {
 
         Resume res = resumeRepository.save(resume);
 
-        List<EducationRequestDto> educations = resumeDto.getEducation();
-        for(EducationRequestDto edu : educations){
-            Education education = converterUtil.dtoToEntity(res, edu);
-            educationRepository.save(education);
+        if(resumeDto.getEducations() != null){
+            List<EducationRequestDto> educations = resumeDto.getEducations();
+            for(EducationRequestDto edu : educations){
+                Education education = converterUtil.dtoToEntity(res, edu);
+                educationRepository.save(education);
+            }
         }
 
         MilitaryRequestDto military = resumeDto.getMilitary();
@@ -71,34 +72,44 @@ public class ResumeServiceImpl implements ResumeService {
             militaryRepository.save(militaryEntity);
         }
 
-        List<ActivityRequestDto> activities = resumeDto.getActivity();
-        for(ActivityRequestDto act : activities){
-            Activity activity = converterUtil.activityToEntity(res, act);
-            activityRepository.save(activity);
+        if(resumeDto.getActivities() != null){
+            List<ActivityRequestDto> activities = resumeDto.getActivities();
+            for(ActivityRequestDto act : activities){
+                Activity activity = converterUtil.activityToEntity(res, act);
+                activityRepository.save(activity);
+            }
         }
 
-        List<LicenseRequestDto> licenses = resumeDto.getLicenses();
-        for(LicenseRequestDto lic : licenses){
-            License license = converterUtil.licenseToEntity(res, lic);
-            licenseRepository.save(license);
+        if(resumeDto.getLicenses() != null){
+            List<LicenseRequestDto> licenses = resumeDto.getLicenses();
+            for(LicenseRequestDto lic : licenses){
+                License license = converterUtil.licenseToEntity(res, lic);
+                licenseRepository.save(license);
+            }
         }
 
-        List<SkillCodeRequestDto> skills = resumeDto.getSkills();
-        for(SkillCodeRequestDto skill : skills){
-            ResumeSkill resumeSkill = converterUtil.skillToEntity(res, skill);
-            resumeSkillRepository.save(resumeSkill);
+        if(resumeDto.getSkills() != null){
+            List<SkillCodeRequestDto> skills = resumeDto.getSkills();
+            for(SkillCodeRequestDto skill : skills){
+                ResumeSkill resumeSkill = converterUtil.skillToEntity(res, skill);
+                resumeSkillRepository.save(resumeSkill);
+            }
         }
 
-        List<PortfolioRequestDto> portfolios = resumeDto.getPortfolio();
-        for(PortfolioRequestDto port : portfolios){
-            Potfolio portfolio = converterUtil.potfolioToEntity(res, port);
-            portfolioRepository.save(portfolio);
+        if (resumeDto.getPortfolios() != null){
+            List<PortfolioRequestDto> portfolios = resumeDto.getPortfolios();
+            for(PortfolioRequestDto port : portfolios){
+                Potfolio portfolio = converterUtil.potfolioToEntity(res, port);
+                portfolioRepository.save(portfolio);
+            }
         }
 
-        List<IntroduceRequestDto> introduceRequests = resumeDto.getIntroduce();
-        for(IntroduceRequestDto intro : introduceRequests){
-            Introduce introduce = converterUtil.introduceToEntity(res, intro);
-            introduceRepository.save(introduce);
+        if(resumeDto.getIntroduces() != null){
+            List<IntroduceRequestDto> introduceRequests = resumeDto.getIntroduces();
+            for(IntroduceRequestDto intro : introduceRequests){
+                Introduce introduce = converterUtil.introduceToEntity(res, intro);
+                introduceRepository.save(introduce);
+            }
         }
 
         return 1;

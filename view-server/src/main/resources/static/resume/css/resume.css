@@ -249,3 +249,57 @@
     /*text-align: center;*/
     margin: 5px;
 } /* 연한 초록색
+
+
+
+/*기본정보 */
+.profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-photo {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-photo img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-photo input[type="file"] {
+    margin-top: 10px;
+}
+
+.profile-right {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

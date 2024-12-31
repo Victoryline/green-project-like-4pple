@@ -37,7 +37,6 @@ public class ConverterUtil {
         Military militaryEntity = new Military();
 
         militaryEntity.setTblResume(res);
-        militaryEntity.setTblResume(res);
         militaryEntity.setMilitaryCode(military.getMilitaryCode());
         militaryEntity.setEnlistDate(military.getEnlistDate());
         militaryEntity.setReleaseDate(military.getReleaseDate());

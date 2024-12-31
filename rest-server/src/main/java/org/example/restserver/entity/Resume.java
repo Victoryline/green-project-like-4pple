@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -38,9 +39,7 @@ public class Resume {
     @Column(name = "work_code", length = 20)
     private String workCode;
 
-    @Column(name = "portfolio_link", length = 200)
-    private String portfolioLink;
-
+    @ColumnDefault("N")
     @Column(name = "offer_yn")
     private Character offerYn;
 
@@ -53,5 +52,17 @@ public class Resume {
     @ColumnDefault("0")
     @Column(name = "job_history")
     private Integer jobHistory;
+
+    @PrePersist
+    public void prePersist() {
+        if (createDate == null) {
+            createDate = Instant.now();
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        modifyDate = Instant.now();
+    }
 
 }

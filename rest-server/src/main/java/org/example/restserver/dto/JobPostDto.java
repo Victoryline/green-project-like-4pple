@@ -3,6 +3,7 @@ package org.example.restserver.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.restserver.entity.JobPostSkill;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -47,6 +48,9 @@ public class JobPostDto {
         private Character endYn;
         private List<String> benefitContent = Collections.emptyList();;
         private List<String>  jobPostSkills= Collections.emptyList();
+        private String companyUsername;
+        private String address;
 
-
+        public JobPostDto(int jobPostNo, String title, List<JobPostSkill> jobPostSkills, String username, String address) {
+        }
 }

@@ -1,12 +1,9 @@
 package org.example.viewserver.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.viewserver.dto.ProposalDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
@@ -24,14 +21,14 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor
 public class ProposalService {
 
-    @Autowired
-    private WebClient webClient;
+    private final WebClient webClient;
 
     public List<ProposalDto> getProposals() {
         return webClient.get()
-                .uri("/proposals")
+                .uri("/api/v1/proposals")
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<ProposalDto>>() {})
                 .block();

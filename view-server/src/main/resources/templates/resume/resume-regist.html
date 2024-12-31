@@ -26,7 +26,7 @@
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle checked" src="/static/images/checked-icon.png" id="wish-toggle">
+                        <img class="toggle" src="/static/images/checked-icon.png" id="wish-toggle">
                         <label for="wish-toggle"><a href="#wish-section">희망조건</a></label>
                     </div>
                 </li>
@@ -44,7 +44,7 @@
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img data-div-id="experience-section" class="toggle" src="/static/images/unchecked-icon.png" id="experience-toggle">
+                        <img th:data-div-id="experience-section" class="toggle" src="/static/images/unchecked-icon.png" id="experience-toggle">
                         <label for="experience-toggle"><a href="#experience-section">경력</a></label>
                     </div>
                 </li>
@@ -85,38 +85,38 @@
                     </div>
                     <div class="section-body">
                         <label>제목</label>
-                        <input type="text" name="rTitle" placeholder="이력서 제목 입력">
+                        <input type="text" name="caption" placeholder="이력서 제목 입력">
                     </div>
-                    <div>
-                        <div class="section-header">
-                            <h3>프로필 사진</h3>
-                        </div>
-                        <div class="section-body profile-img">
-                            <div class="img">
-                                <img id="imagePreview" alt="미리보기 이미지">
+                    <div class="profile-container">
+                        <div class="profile-left">
+                            <div class="profile-photo">
+<!--                                <img id="profilePreview" src="/static/images/default-profile.png" alt="프로필 사진">-->
+                                <img id="profilePreview" alt="프로필 사진">
+                                <label for="profileImageInput" class="edit-icon">
+                                    <img alt="연필 아이콘">
+<!--                                    <img src="/static/images/pencil-icon.png" alt="연필 아이콘">-->
+                                </label>
+                                <input type="file" id="profileImageInput" onclick="previewImage(event)" accept="image/*" style="display: none;">
                             </div>
-                            <input type="file" name="image" id="imageInput" accept="image/*" onchange="previewImage(event)">
                         </div>
-                    </div>
-                    <div class="section-header">
-                        <h3>기본정보</h3>
-                    </div>
-                    <div class="section-body info">
-                        <div class="name">
-                            <label>이름</label>
-                            <input type="text" name="name" placeholder="이름">
-                        </div>
-                        <div class="email">
-                            <label>이메일</label>
-                            <input type="email" name="email" placeholder="이메일">
-                        </div>
-                        <div class="birth">
-                            <label>생년월일</label>
-                            <input type="text" name="birth" placeholder="생년월일">
-                        </div>
-                        <div class="phone">
-                            <label>전화번호</label>
-                            <input type="tel" name="phone" placeholder="전화번호">
+                        <div class="profile-right">
+                            <h3>기본 정보</h3>
+                            <div class="form-group">
+                                <label for="username">이름</label>
+                                <input type="text" id="username" name="username" placeholder="이름">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">이메일</label>
+                                <input type="email" id="email" name="email" placeholder="이메일">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">전화번호</label>
+                                <input type="tel" id="phone" name="phone" placeholder="전화번호">
+                            </div>
+                            <div class="form-group">
+                                <label for="birth">생일</label>
+                                <input type="tel" id="birth" name="birth" placeholder="생년월일">
+                            </div>
                         </div>
                     </div>
                     <div id="wish-section" style="display: none;">
@@ -144,12 +144,12 @@
                 </div>
 
                 <!-- 다른 항목들은 토글로 보이거나 숨겨짐 -->
-                <div data-div-id="education-section" id="education-section" class="section" style="display: none;">
+                <div id="education-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>학력</h3>
                         <span class="add-button edu">학력 추가</span>
                     </div>
-                    <div class="section-body">
+                    <div class="section-body" data-div-id="education-section">
                         <label for="educationCode">학력 선택</label>
                         <select name="educationCode" id="educationCode">
                             <option value="">학력을 선택해주세요</option>
@@ -171,11 +171,11 @@
                     </div>
                 </div>
 
-                <div data-div-id="military-section" id="military-section" class="section" style="display: none;">
+                <div id="military-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>병역</h3>
                     </div>
-                    <div class="section-body">
+                    <div class="section-body" data-div-id="military-section">
                         <label for="militaryCode">군별</label>
                         <select name="militaryCode" id="militaryCode">
                             <option value="">군별을 선택해주세요</option>
@@ -191,12 +191,12 @@
                     </div>
                 </div>
 
-                <div data-div-id="experience-section" id="experience-section" class="section" style="display: none;">
+                <div id="experience-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>경력 및 활동</h3>
                         <span class="add-button exp">경력 및 활동 추가</span>
                     </div>
-                    <div class="section-body">
+                    <div class="section-body" data-div-id="experience-section">
                         <label for="activityType">활동 유형</label>
                         <select name="activityType" id="activityType">
                             <option value="">활동 유형을 선택해주세요</option>
@@ -215,12 +215,12 @@
                     </div>
                 </div>
 
-                <div data-div-id="license-section" id="license-section" class="section" style="display: none;">
+                <div id="license-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>자격증</h3>
                         <span class="add-button license">자격증 추가</span>
                     </div>
-                    <div class="section-body">
+                    <div class="section-body" data-div-id="license-section">
                         <label>자격증명</label>
                         <input type="text" name="licenseName" placeholder="자격증명 입력">
                         <label>합격일</label>
@@ -230,12 +230,12 @@
                     </div>
                 </div>
 
-                <div data-div-id="skills-section" id="skills-section" class="section" style="display: none;">
+                <div id="skills-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>기술스택</h3>
 <!--                        <span class="add-button skill">기술스택 추가</span>-->
                     </div>
-                    <div class="section-body">
+                    <div class="section-body" data-div-id="skills-section">
                         <div id="availableSkills">
 
                         </div>
@@ -246,12 +246,12 @@
                     </div>
                 </div>
 
-                <div data-div-id="projects-section" id="projects-section" class="section" style="display: none;">
+                <div id="projects-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>포트폴리오</h3>
                         <span class="add-button project">포트폴리오 추가</span>
                     </div>
-                    <div class="section-body">
+                    <div class="section-body" data-div-id="projects-section">
                         <label>포트폴리오명</label>
                         <input type="text" name="portfolioFilename" placeholder="프로젝트명 입력">
                         <label>주소</label>
@@ -259,14 +259,14 @@
                     </div>
                 </div>
 
-                <div data-div-id="introduce-section" id="introduce-section" class="section" style="display: none;" >
+                <div id="introduce-section" class="section" style="display: none;" >
                     <div class="section-header">
                         <h3>자소서</h3>
                         <span class="add-button introduce">자소서 추가</span>
                     </div>
                     <div class="section-body">
                         <div id="introduce-items-container">
-                            <div class="introduce-item" data-id="1">
+                            <div class="introduce-item" data-id="1" data-div-id="introduce-section">
                                 <input type="hidden" name="ord" value="1">
                                 <input type="text" name="title" placeholder="자소서 소제목을 입력해주세요">
                                 <textarea name="content" placeholder="자소서 내용 입력"></textarea>
@@ -341,20 +341,14 @@
 
         const formData = {}; // 데이터를 담을 객체 생성
         const fields = [
-            'username', 'rTitle',
-            'wishArea', 'wishSalary', 'wishTime', 'workCode',
-            'educationCode', 'enterDate', 'graduateDate', 'schoolName', 'specialty',
-            'militaryCode', 'enlistDate', 'releaseDate',
-            'activityType', 'activityCenterName', 'activityContent', 'startDate', 'endDate',
-            'licenseName', 'passDate', 'licenseCenterName',
-            'portfolioFilename', 'portfolioLink',
-            'ord', 'title', 'content'
+            'username', 'caption',
+            'wishArea', 'wishSalary', 'wishTime', 'workCode'
         ];
 
 
         // 필드 값을 JSON 객체에 추가
         fields.forEach(field => {
-            const input = document.querySelector(`input[name="${field}"]:not([style*="display: none"])`);
+            const input = document.querySelector(`input[name="${field}"]`);
             const select = document.querySelector(`select[name="${field}"]`);
             const textarea = document.querySelector(`textarea[name="${field}"]`);
 
@@ -367,6 +361,91 @@
             }
         });
 
+        let dataSet
+        dataSet = document.querySelectorAll("img.checked");
+        console.log(dataSet);
+        dataSet.forEach(checked =>{
+            const divId = checked.getAttribute("data-div-id");
+            console.log(divId);
+            switch (divId) {
+                case 'introduce-section':
+                    const introduceItems = [];
+                    document.querySelectorAll(`div[data-div-id="introduce-section"]`).forEach(itemDiv => {
+                        introduceItems.push({
+                            ord: itemDiv.querySelector('input[name="ord"]').value,
+                            title: itemDiv.querySelector('input[name="title"]').value,
+                            content: itemDiv.querySelector('textarea[name="content"]').value
+                        });
+                    });
+                    formData["introduces"] = introduceItems;
+                    break;
+
+                case 'education-section':
+                    const educations = [];
+                    document.querySelectorAll(`div[data-div-id="education-section"]`).forEach(itemDiv => {
+                        educations.push({
+                            educationCode: itemDiv.querySelector('select[name="educationCode"]').value,
+                            enterDate: itemDiv.querySelector('input[name="enterDate"]').value,
+                            graduateDate: itemDiv.querySelector('input[name="graduateDate"]').value,
+                            schoolName: itemDiv.querySelector('input[name="schoolName"]').value,
+                            specialty: itemDiv.querySelector('input[name="specialty"]').value
+                        });
+                    })
+                    formData["educations"] = educations;
+                    break;
+
+                case 'license-section':
+                    const licenses = [];
+                    document.querySelectorAll(`div[data-div-id="license-section"]`).forEach(itemDiv => {
+                        licenses.push({
+                            licenseName: itemDiv.querySelector('input[name="licenseName"]').value,
+                            passDate: itemDiv.querySelector('input[name="passDate"]').value,
+                            licenseCenterName: itemDiv.querySelector('input[name="licenseCenterName"]').value
+                        });
+                    });
+                    formData["licenses"] = licenses;
+                    break;
+
+                case 'projects-section':
+                    const portfolios = [];
+                    document.querySelectorAll(`div[data-div-id="projects-section"]`).forEach(itemDiv => {
+                        portfolios.push({
+                            portfolioFilename: itemDiv.querySelector('input[name="portfolioFilename"]').value,
+                            portfolioLink: itemDiv.querySelector('input[name="portfolioLink"]').value
+                        });
+                    });
+                    formData["portfolios"] = portfolios;
+                    break;
+
+                case 'experience-section':
+                    const experiences = [];
+                    document.querySelectorAll(`div[data-div-id="experience-section"]`).forEach(itemDiv => {
+                        experiences.push({
+                            activityType: itemDiv.querySelector('select[name="activityType"]').value,
+                            activityCenterName: itemDiv.querySelector('input[name="activityCenterName"]').value,
+                            activityContent: itemDiv.querySelector('textarea[name="activityContent"]').value,
+                            startDate: itemDiv.querySelector('input[name="startDate"]').value,
+                            endDate: itemDiv.querySelector('input[name="endDate"]').value
+                        });
+                    });
+                    formData["activities"] = experiences;
+                    break;
+
+                case 'skills-section':
+                    const skills = [];
+                    document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
+                        skills.push(skillDiv.textContent.trim().slice(0, -1)); // "X" 제거
+                    });
+                    formData["skills"] = skills;
+                    break;
+
+                default:
+                    console.error(`Invalid divId: ${divId}`);
+                    break;
+
+            }
+        })
+
         // 이미지 파일 처리
         const fileInput = document.getElementById('imageInput');
         if (fileInput && fileInput.files.length > 0) {
@@ -374,12 +453,7 @@
             fileToBase64(file).then(base64String => {
                 formData.image = base64String;
 
-                // 기술 스택 처리
-                const skills = [];
-                document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
-                    skills.push(skillDiv.textContent.trim().slice(0, -1)); // "X" 제거
-                });
-                formData.skills = skills;
+
 
                 // JSON 데이터 전송
                 sendFormData(formData);
@@ -388,13 +462,6 @@
                 alert('이미지 변환 중 문제가 발생했습니다.');
             });
         } else {
-            // 기술 스택 처리
-            const skills = [];
-            document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
-                skills.push(skillDiv.textContent.trim().slice(0, -1)); // "X" 제거
-            });
-            formData.skills = skills;
-
             // JSON 데이터 전송
             sendFormData(formData);
         }
@@ -435,15 +502,6 @@
             imagePreview.style.display = 'none'; // 이미지 미리보기 초기화
         });
     }
-
-/*    function fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]);
-            reader.onerror = error => reject(error);
-        });
-    }*/
 
     window.onload = loadSkills();
 </script>

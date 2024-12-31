@@ -37,7 +37,6 @@ Object.keys(sections).forEach(toggleId => {
         const sectionId = sections[toggleId];
         const section = document.getElementById(sectionId);
 
-
         console.log(section);
         console.log(toggleId);
         document.getElementById(toggleId).classList.toggle('checked');

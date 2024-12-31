@@ -26,7 +26,7 @@ public class ResumeRequestDto {
 
     private String username;
 
-    private String rTitle;
+    private String caption;
 
     private String image;
 
@@ -36,18 +36,18 @@ public class ResumeRequestDto {
     private String wishTime;
     private String workCode;
     //학력
-    private List<EducationRequestDto> education;
+    private List<EducationRequestDto> educations;
     //병역
     private MilitaryRequestDto military;
     //경력
-    private List<ActivityRequestDto> activity;
+    private List<ActivityRequestDto> activities;
     //자격증
     private List<LicenseRequestDto> licenses;
     //기술스택
     private List<SkillCodeRequestDto> skills;
     //포트폴리오
-    private List<PortfolioRequestDto> portfolio;
+    private List<PortfolioRequestDto> portfolios;
     //자소서
-    private List<IntroduceRequestDto> introduce;
+    private List<IntroduceRequestDto> introduces;
 
 }
