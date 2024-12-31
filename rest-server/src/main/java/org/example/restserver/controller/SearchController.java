@@ -46,4 +46,5 @@ public class SearchController {
             return ResponseEntity.badRequest().body("유효하지 않은 검색 타입입니다.");
         }
     }
+
 }
