@@ -27,6 +27,6 @@ public class TokenController {
             token = header.substring(7);
         }
 
-        return token != null && token.equals("null") ? jwtUtil.getUserRole(token) : "";
+        return token != null && !token.equals("null") ? jwtUtil.getUserRole(token) : "";
     }
 }
