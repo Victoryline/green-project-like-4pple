@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Company</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="../../static/css/company/edit-form.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="../../static/javascript/utils/sessionUserUtil.js"></script>
+    <script src="../../static/javascript/company/edit-form.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <div class="content">
+        <div class="edit-content">
+            <h1 class="edit-title">기업 정보 수정</h1>
+            <div class="edit-form-group">
+                <label for="username" class="edit-label">아이디</label>
+                <input type="text" id="username" class="edit-input" th:value="${user.username}" readonly>
+            </div>
+            <div class="edit-form-group">
+                <label for="password" class="edit-label">비밀번호</label>
+                <input type="password" id="password" class="edit-input" placeholder="비밀번호를 변경하려면 입력하세요.">
+            </div>
+            <div class="edit-form-group">
+                <label for="confirm-password" class="edit-label">2차 비밀번호</label>
+                <input type="password" id="confirm-password" class="edit-input" placeholder="">
+            </div>
+            <div class="edit-form-group">
+                <label for="name" class="edit-label">기업명</label>
+                <input type="text" id="name" class="edit-input" th:value="${user.name}">
+            </div>
+            <div class="edit-form-group">
+                <label for="businessNumber" class="edit-label">사업자 등록번호</label>
+                <input type="text" id="businessNumber" class="edit-input" th:value="${user.businessNumber}" maxlength="10">
+            </div>
+            <div class="edit-form-group">
+                <label for="email" class="edit-label">이메일</label>
+                <input type="email" id="email" class="edit-input" th:value="${user.email}">
+            </div>
+            <div class="edit-form-group">
+                <label for="profileImage" class="edit-label">기업이미지</label>
+                <button id="remove-image-btn" class="edit-btn-remove" style="display: none;" onclick="removeImage(event)">이미지 삭제</button>
+                <div class="edit-image-upload">
+                    <input type="file" id="profileImage" class="edit-input-file" accept="image/*" hidden>
+                    <div class="edit-image-box" onclick="triggerFileInput()">
+                        <img th:data-profile-image="${user.profileImage}" id="image-preview" alt="이미지 미리보기" style="display: none;">
+                        <span id="image-placeholder" class="image-placeholder">+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-form-group">
+                <label for="info" class="edit-label">기업소개</label>
+                <textarea id="info" class="edit-textarea" th:text="${user.info}"></textarea>
+            </div>
+            <div class="edit-form-group">
+                <label for="employee" class="edit-label">직원수</label>
+                <input type="number" id="employee" class="edit-input" th:value="${user.employee}">
+            </div>
+            <div class="edit-form-group">
+                <label for="contact" class="edit-label">대표 번호</label>
+                <input type="tel" id="contact" class="edit-input" th:value="${user.contact}">
+            </div>
+            <div class="edit-form-group">
+                <label for="birth" class="edit-label">창립일</label>
+                <input type="date" id="birth" class="edit-input" th:value="${user.birth}">
+            </div>
+            <div class="edit-form-group">
+                <label for="website" class="edit-label">홈페이지 링크</label>
+                <input type="url" id="website" class="edit-input" th:value="${user.website}">
+            </div>
+            <div class="edit-form-group edit-address-group">
+                <label class="edit-label">주소</label>
+                <div class="edit-address-input">
+                    <input type="text" id="zoneCode" class="edit-input" th:value="${user.zonecode}" placeholder="우편번호" readonly>
+                    <button onclick="searchAddress()" type="button" class="edit-btn-find">주소찾기</button>
+                </div>
+                <input type="text" id="address" class="edit-input" th:value="${user.address}" placeholder="주소" readonly>
+                <input style="margin-top: 5px" type="text" id="addressDetail" class="edit-input" th:value="${user.addressDetail}" placeholder="상세주소를 입력해주세요.">
+            </div>
+            <button type="button" class="edit-btn-submit" onclick="update()">수정 완료</button>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
