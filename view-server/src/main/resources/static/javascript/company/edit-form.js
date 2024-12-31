@@ -1,6 +1,26 @@
-let base64String;
+let base64String = '';
 
 $(function () {
+    function loadSetImage() {
+        const preview = document.getElementById('image-preview');
+        const placeholder = document.getElementById('image-placeholder');
+        const removeBtn = document.getElementById('remove-image-btn');
+
+        const src = preview.dataset.profileImage
+
+        if (src) {
+            console.log('adskj;lasd;kads;k');
+            base64String = src;
+            preview.src = loadImage(base64String);
+            preview.style.display = 'block';
+            placeholder.style.display = 'none';
+            removeBtn.style.display = 'block';
+        }
+    }
+
+    loadSetImage();
+
+
     document.getElementById('profileImage').addEventListener('change', function (event) {
         const file = event.target.files[0];
         const preview = document.getElementById('image-preview');
@@ -45,18 +65,6 @@ function removeImage(event) {
     placeholder.style.display = 'block';
     removeBtn.style.display = 'none';
 }
-
-
-$(function () {
-    const imagePreview = $('#image-preview');
-
-    const src = imagePreview.data('profile-image');
-
-    if (src) {
-        console.log(loadImage(src));
-        imagePreview.attr('src', loadImage(src));
-    }
-})
 
 function searchAddress() {
     const zoneCode = document.getElementById("zoneCode");
