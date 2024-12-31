@@ -58,8 +58,8 @@
 
     function login() {
         const user = {
-            username:$('#username').val(),
-            password:$('#password').val(),
+            username: $('#username').val(),
+            password: $('#password').val(),
             role: activeData === 'job-seeker' ? 'ROLE_JOB_SEEKER' : 'ROLE_COMPANY'
         }
         api.post("/api/v1/users/login", user)
