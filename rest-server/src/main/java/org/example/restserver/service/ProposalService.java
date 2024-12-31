@@ -1,5 +1,6 @@
 package org.example.restserver.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.restserver.entity.Proposal;
 import org.example.restserver.repository.ProposalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,14 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor
 public class ProposalService {
 
-    @Autowired
-    private ProposalRepository proposalRepository;
+    private final ProposalRepository proposalRepository;
 
-    public List<Proposal> findAll() {
-        return proposalRepository.findAll();
+    //제안서 저장
+    public Proposal saveProposal(Proposal proposal) {
+        return proposalRepository.save(proposal);
     }
 
 }

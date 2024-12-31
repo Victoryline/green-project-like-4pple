@@ -17,8 +17,8 @@ public class GubunService {
 
     public List<GubunDto> getGubunList(String gubunCode)  {
         List<GubunDto> gubnList = (List<GubunDto>) webClientManager
-                    .get("/api/v1/gubun?gubunCode=" + gubunCode)
-                    .getBody();
+                                .get("/api/v1/gubun?gubunCode=" + gubunCode)
+                                .getBody();
 //        System.out.print("gubnList: " + gubnList);
         // 레스트 서버 API 호출
         return gubnList;

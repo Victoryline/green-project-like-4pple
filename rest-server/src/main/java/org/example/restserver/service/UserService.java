@@ -1,6 +1,7 @@
 package org.example.restserver.service;
 
 import org.example.restserver.dto.UserRequestDto;
+import org.example.restserver.dto.UserResponseDto;
 
 import java.util.Map;
 
@@ -20,4 +21,8 @@ public interface UserService {
     Map<String, Object> login (UserRequestDto userRequestDto);
 
     boolean checkDuplicationUsername(String username);
+
+    UserResponseDto getUser(String username);
+
+    int update(String username,UserRequestDto userRequestDto);
 }

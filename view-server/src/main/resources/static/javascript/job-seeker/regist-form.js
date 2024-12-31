@@ -20,17 +20,15 @@ function validation() {
     const confirmPassword = document.getElementById('confirm-password').value.trim();
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
-    const birthdate = document.getElementById('birthdate').value.trim();
+    const birth = document.getElementById('birth').value.trim();
     const phone = document.getElementById('phone').value.trim();
     const gender = document.querySelector('input[name="gender"]:checked');
 
-    // 정규식
     const usernameRegex = /^[a-zA-Z0-9_]{4,20}$/;
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^010\d{7,8}$/;
 
-    // 유효성 검사
     if (!usernameRegex.test(username)) {
         alert('아이디는 4~20자이며, 영문, 숫자, 특수문자 "_"만 사용할 수 있습니다.');
         isValidation = false;
@@ -46,7 +44,7 @@ function validation() {
     } else if (!emailRegex.test(email)) {
         alert('올바른 이메일 형식을 입력해주세요.');
         isValidation = false;
-    } else if (!birthdate) {
+    } else if (!birth) {
         alert('생년월일을 선택해주세요.');
         isValidation = false;
     } else if (!gender) {
@@ -71,7 +69,7 @@ function register() {
         phone: $('#phone').val(),
         email: $('#email').val(),
         gender: $('input[name=gender]').val(),
-        birth: $('#birthdate').val(),
+        birth: $('#birth').val(),
         address: $('#address').val(),
         addressDetail: $('#addressDetail').val(),
         zoneCode: $('#zoneCode').val()
