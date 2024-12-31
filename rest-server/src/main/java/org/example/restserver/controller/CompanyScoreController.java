@@ -2,13 +2,11 @@ package org.example.restserver.controller;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.example.restserver.dto.CompanyScoreDto;
 import org.example.restserver.entity.CompanyScore;
 import org.example.restserver.service.CompanyScoreService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +33,11 @@ public class CompanyScoreController {
     public ResponseEntity<List<CompanyScore>> getCompanyScore(@PathVariable("companyId") String companyId) {
         List<CompanyScore> companyScores = companyScoreService.getCompanyScores(companyId);
         return ResponseEntity.ok(companyScores);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addCompanyScore(@RequestBody CompanyScore companyScore) {
+        companyScoreService.addScore(CompanyScoreDto);
+        return ResponseEntity.ok("평점이 등록되었습니다.");
     }
 }
