@@ -1,11 +1,11 @@
 package org.example.restserver.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.restserver.entity.Proposal;
 import org.example.restserver.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,14 +22,15 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/proposal")
+@RequiredArgsConstructor
 public class ProposalController {
 
-    @Autowired
-    private ProposalService proposalService;
+    private final ProposalService proposalService;
 
-    @GetMapping
-    public List<Proposal> getProposals() {
-        return proposalService.findAll();
+    @PostMapping
+    public ResponseEntity<Proposal> createProposal(@RequestBody Proposal proposal) {
+        Proposal savedProposal = proposalService.saveProposal(proposal);
+        return ResponseEntity.ok(savedProposal);
     }
 
 }
