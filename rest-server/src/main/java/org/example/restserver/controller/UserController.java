@@ -6,11 +6,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.dto.UserResponseDto;
+import org.example.restserver.dto.WeeklyRegisterUsersDto;
 import org.example.restserver.service.UserService;
 import org.example.restserver.utils.ConvertTokenUtil;
 import org.example.restserver.utils.JwtUtil;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,5 +71,10 @@ public class UserController {
     @GetMapping("/check-duplication-username")
     public boolean checkDuplicationUsername(@RequestParam String username) {
         return userService.checkDuplicationUsername(username);
+    }
+
+    @GetMapping("/weekly-register-users-data")
+    public List<WeeklyRegisterUsersDto> getWeeklyRegisterUsersData() {
+        return userService.getWeeklyRegisterUsers();
     }
 }

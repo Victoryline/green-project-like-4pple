@@ -2,14 +2,114 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>관리자 메인</title>
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .content {
+            min-width: 860px;
+            min-height: 500px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        #myChart {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 <body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div><h1 class="flex">최근 7일 가입자 수</h1></div>
+        <div style="width: 60%; margin: auto;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script>
 
+    $(function () {
+        api.get('api/v1/users/weekly-register-users-data')
+            .then(res => {
+
+                console.log(res);
+                const data = res.body;
+
+                console.log(res.body);
+
+                const labels = [];
+                const jobSeekers = [];
+                const companies = [];
+
+                res.body.map((data) => {
+                    labels.push(data.date);
+                    jobSeekers.push(data.jobSeekers);
+                    companies.push(data.companies);
+                })
+
+                const today = new Date().toISOString().slice(0, 10);
+                const todayIndex = labels.indexOf(today);
+
+                const jobSeekersColors = jobSeekers.map((_, index) =>
+                    index === todayIndex ? 'rgba(255, 99, 132, 0.5)' : 'rgba(75, 192, 192, 0.2)'
+                );
+                const companiesColors = companies.map((_, index) =>
+                    index === todayIndex ? 'rgba(255, 159, 64, 0.5)' : 'rgba(153, 102, 255, 0.2)'
+                );
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '구직자',
+                                data: jobSeekers,
+                                backgroundColor: jobSeekersColors,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: '기업',
+                                data: companies,
+                                backgroundColor: companiesColors,
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function (value) {
+                                        return value.toFixed(0);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+    })
+</script>
 </body>
 </html>

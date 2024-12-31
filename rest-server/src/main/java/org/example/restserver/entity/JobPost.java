@@ -92,10 +92,10 @@ public class JobPost {
     @OneToMany(mappedBy = "jobPost",  cascade = CascadeType.ALL)
     private List<JobPostSkill> jobPostSkills = new ArrayList<>();
 
-    @OneToMany(mappedBy = "company")
-    private List<JobPost> jobPosts;
-
-    @ManyToOne(fetch = FetchType.EAGER)  // 즉시 로딩 (EAGER)
-    @JoinColumn(name = "username")
-    private Company companyusername;
+//    @OneToMany(mappedBy = "company")
+//    private List<JobPost> jobPosts;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)  // 즉시 로딩 (EAGER)
+//    @JoinColumn(name = "username")
+//    private Company companyusername;
 }
