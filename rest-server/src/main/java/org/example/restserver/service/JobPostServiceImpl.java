@@ -1,27 +1,25 @@
 package org.example.restserver.service;
 
+import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.BenefitRepository;
 import org.example.restserver.repository.JobPostRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class JobPostServiceImpl implements JobPostService {
 
     private final JobPostRepository jobPostRepository;
     private final BenefitRepository benefitRepository;
     private final JobPostSkillRepository jobPostSkillRepository;
 
-    public JobPostServiceImpl(JobPostRepository jobPostRepository, BenefitRepository benefitRepository, JobPostSkillRepository jobPostSkillRepository) {
-        this.jobPostRepository = jobPostRepository;
-        this.benefitRepository = benefitRepository;
-        this.jobPostSkillRepository = jobPostSkillRepository;
-    }
+
 
     public void register(JobPostDto jobPostDto) {
         System.out.println("Job Post No: ");  // 로그 추가
@@ -95,5 +93,10 @@ public class JobPostServiceImpl implements JobPostService {
         } else{
             System.out.println("No skill codes provided.");
         }
+    }
+
+    @Override
+    public List<JobPost> getlist() {
+            return jobPostRepository.findAll();
     }
 }

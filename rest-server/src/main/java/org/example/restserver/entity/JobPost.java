@@ -90,6 +90,6 @@ public class JobPost {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "jobPost",  cascade = CascadeType.ALL)
-    private List<JobPostSkill> jobPostSkills= new ArrayList<>();
+    private List<JobPostSkill> jobPostSkills = new ArrayList<>();
 
 }
