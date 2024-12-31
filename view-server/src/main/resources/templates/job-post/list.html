@@ -17,19 +17,8 @@
     <div class="content">
         <h2>채용 공고 리스트 </h2>
 
-        <div class="content-wrap">
-            //회사이름
-            <label for="title">공고 제목:</label>
+        <div id="job-post-container">
 
-            <h3> 직무</h3>
-            <label for="workCode">직무:</label>
-            <select id="workCode" name="workCode">
-                <th:block th:each="gubun : ${workList}">
-                    <option th:value="${gubun.name}" th:text="${gubun.name}"></option>
-                </th:block>
-            </select><br>
-
-            //회사 근무지
         </div>
 
 
@@ -44,7 +33,28 @@
             }
         })
             .then(response => {
+                console.log("가져오기 성공");
+                const jobPosts = response.data;
+                jobPosts.forEach(jobPosts=>{
+                    console.log(`제목: ${jobPost.title}`);
+                    console.log(`기술: ${jobPost.jobPostSkills}`);
+                    console.log(`회사 아이디: ${jobPost.username}`);
+                });
+
                 //기업정보 + 채용정보 가져오기
+
+                const jobPostContainer = document.getElementById("job-post-container");
+                jobPosts.forEach(jobPost => {
+                    const jobPostElement = document.createElement("div");
+                    jobPostElement.classList.add("job-post");
+                    jobPostElement.innerHTML = `
+                <h3>${jobPost.title}</h3>
+                <p><strong>기술:</strong> ${jobPost.jobPostSkills}</p>
+                <p><strong>회사:</strong> ${jobPost.username}</p>
+                <p><strong>주소:</strong> ${jobPost.address}</p>
+            `;
+                    jobPostContainer.appendChild(jobPostElement);
+                });
             })
             .catch(error => {
                 console.error("가져오기 실패:", error);

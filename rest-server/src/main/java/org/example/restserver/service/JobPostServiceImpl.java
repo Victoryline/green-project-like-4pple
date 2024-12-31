@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.BenefitRepository;
+import org.example.restserver.repository.CompanyRepository;
 import org.example.restserver.repository.JobPostRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final JobPostRepository jobPostRepository;
     private final BenefitRepository benefitRepository;
     private final JobPostSkillRepository jobPostSkillRepository;
-
+    private final CompanyRepository companyRepository;
 
 
     public void register(JobPostDto jobPostDto) {
@@ -95,8 +97,29 @@ public class JobPostServiceImpl implements JobPostService {
         }
     }
 
-    @Override
-    public List<JobPost> getlist() {
-            return jobPostRepository.findAll();
+
+    public List<JobPostDto> getAllJobPostsWithCompany() {
+        // 레포지토리에서 채용공고와 회사 정보 가져오기
+        List<Object[]> results = jobPostRepository.findAllJobPostsWithCompanyInfo();
+
+        // 결과를 DTO로 변환
+        return results.stream().map(result -> {
+            JobPost jobPost = (JobPost) result[0];
+            Company company = (Company) result[1];
+            return new JobPostDto(
+                    jobPost.getJobPostNo(),
+                    jobPost.getTitle(),
+                    jobPost.getJobPostSkills(),
+                    company.getUsername(),
+                    company.getAddress()
+            );
+        }).collect(Collectors.toList());
     }
 }
+
+
+
+
+
+
+

@@ -2,7 +2,6 @@ package org.example.restserver.repository;
 
 import org.apache.ibatis.annotations.Param;
 
-import org.example.restserver.dto.JobPostSearchDto;
 import org.example.restserver.entity.JobPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,13 +22,6 @@ import java.util.List;
  */
 @Repository
 public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
-
-    @Query("SELECT new org.example.restserver.dto.JobPostSearchDto(j.username, j.title, j.workCode, " +
-            "j.jobHistory, j.educationCode, j.jobRankCode, " +
-            "j.workTypeCode, j.endDate) " +
-            "FROM JobPost j WHERE j.title LIKE %:keyword%")
-    List<JobPostSearchDto> findJobPostByKeyword(@Param("keyword") String keyword);
-
+        @Query("SELECT j.title, j.jobPostSkills, c.username, c.address FROM JobPost j JOIN Company c")
+        List<Object[]> findAllJobPostsWithCompanyInfo();
 }
-
-
