@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.BenefitRepository;
+import org.example.restserver.repository.CompanyRepository;
 import org.example.restserver.repository.JobPostRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final JobPostRepository jobPostRepository;
     private final BenefitRepository benefitRepository;
     private final JobPostSkillRepository jobPostSkillRepository;
-
+    private final CompanyRepository companyRepository;
 
 
     public void register(JobPostDto jobPostDto) {
@@ -99,4 +100,11 @@ public class JobPostServiceImpl implements JobPostService {
     public List<JobPost> getlist() {
             return jobPostRepository.findAll();
     }
+
+    @Override
+    public List<Company> getcompany() {
+        return companyRepository.findAll();
+    }
+
+
 }
