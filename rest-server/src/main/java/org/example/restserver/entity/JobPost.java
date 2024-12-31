@@ -6,6 +6,8 @@ import org.hibernate.annotations.ColumnDefault;
 
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -49,10 +51,10 @@ public class JobPost {
     private String workTypeCode;
 
     @Column(name = "start_date", nullable = false)
-    private Instant startDate;
+    private LocalDate startDate;
 
     @Column(name = "end_date")
-    private Instant endDate;
+    private LocalDate endDate;
 
     @Lob
     @Column(name = "content", nullable = false)
@@ -87,6 +89,7 @@ public class JobPost {
     private Character endYn;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "jobPost", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<JobPostSkill> jobPostSkills;
+    @OneToMany(mappedBy = "jobPost",  cascade = CascadeType.ALL)
+    private List<JobPostSkill> jobPostSkills = new ArrayList<>();
+
 }

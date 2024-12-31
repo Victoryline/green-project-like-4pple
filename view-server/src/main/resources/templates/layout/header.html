@@ -1,15 +1,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header class="header" th:fragment="headerFragment">
-    <span class="logo"><img th:src="@{/static/images/logo.png}" alt="Logo"></span>
-    <div class="header-middle">
-        <input type="text" placeholder="검색">
-        <button>
-            <img src="https://img.icons8.com/ios-filled/50/000000/search--v1.png" alt="Search Icon">
-        </button>
+    <div class="logo">
+        <img th:src="@{/static/images/logo.png}" alt="Logo">
     </div>
-    <div class="flex-row header-right">
+    <div class="header-middle">
+        <form id="searchForm" action="/search" method="get" onsubmit="return validateForm()">
+            <select name="type">
+                <option value="company">기업별</option>
+                <option value="job">공고별</option>
+            </select>
+            <input id="keywordInput" type="text" name="keyword" placeholder="검색">
+            <button type="submit">
+                <img src="https://img.icons8.com/ios-filled/50/000000/search--v1.png" alt="Search Icon">
+            </button>
+        </form>
+    </div>
+    <div class="header-right">
         <a th:href="@{/login}">로그인</a>
-        <a th:href="@{/search-form}">회원가입</a>
     </div>
 </header>
 <nav class="navbar" th:fragment="navbarFragment">
@@ -20,4 +27,15 @@
         <li><a href="#">커뮤니티</a></li>
     </ul>
 </nav>
+
+<script>
+    function validateForm() {
+        const keyword = document.getElementById("keywordInput").value.trim();
+        if (keyword === "") {
+            alert("검색하고자 하는 키워드를 입력해주세요.");
+            return false;
+        }
+        return true;
+    }
+</script>
 </html>

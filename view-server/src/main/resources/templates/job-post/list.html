@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <h2>채용 공고 리스트 </h2>
+
+        <div class="content-wrap">
+            //회사이름
+            <label for="title">공고 제목:</label>
+
+            <h3> 직무</h3>
+            <label for="workCode">직무:</label>
+            <select id="workCode" name="workCode">
+                <th:block th:each="gubun : ${workList}">
+                    <option th:value="${gubun.name}" th:text="${gubun.name}"></option>
+                </th:block>
+            </select><br>
+
+            //회사 근무지
+        </div>
+
+
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script>
+    window.onload = function getList(){
+        axios.get('http://localhost:8080/api/v1/job-post/list', {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                //기업정보 + 채용정보 가져오기
+            })
+            .catch(error => {
+                console.error("가져오기 실패:", error);
+                alert("리스트 정보를 가져오기 실패, 다시 시도해주세요.");
+            });
+    }
+
+</script>
+</body>
+</html>
