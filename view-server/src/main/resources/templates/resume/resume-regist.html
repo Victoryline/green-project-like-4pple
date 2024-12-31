@@ -76,7 +76,7 @@
         </div>
 
         <form id="resume-form" class="resume-form">
-            <input type="hidden" name="username" value="qwer">
+            <input type="hidden" name="username" value="mimi">
             <div class="content-regist">
                 <!-- 기본정보 섹션은 항상 표시됨 -->
                 <div id="basic-info-section" class="section">
@@ -231,10 +231,16 @@
                 <div id="skills-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>기술스택</h3>
-                        <span class="add-button skill">기술스택 추가</span>
+<!--                        <span class="add-button skill">기술스택 추가</span>-->
                     </div>
                     <div class="section-body">
-                        <textarea name="skillCode" placeholder="기술스택 입력"></textarea>
+                        <div id="availableSkills">
+
+                        </div>
+                        <div id="selectedSkills">
+
+                        </div>
+<!--                        <textarea name="skillCode" placeholder="기술스택 입력"></textarea>-->
                     </div>
                 </div>
 
@@ -283,6 +289,50 @@
 <script src="/static/javascript/utils/axios.js"></script>
 <script src="/static/javascript/utils/imageUtil.js"></script>
 <script>
+
+    function loadSkills(){
+        api.get('/api/v1/resume')
+            .then(response => {
+                const skills = response.body;
+                console.log(skills);
+                const availableSkills = document.getElementById('availableSkills');
+                const selectedSkills = document.getElementById('selectedSkills');
+
+                skills.forEach(skill => {
+                    const skillDiv = document.createElement('div');
+                    skillDiv.className = 'available-skill';
+                    skillDiv.textContent = skill.code;
+                    skillDiv.onclick = () => addSkill(skill.code);
+                    availableSkills.appendChild(skillDiv);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function addSkill(skillCode) {
+        const selectedSkills = document.getElementById('selectedSkills');
+        const existingSkill = Array.from(selectedSkills.children).find(
+            skillDiv => skillDiv.textContent.trim().replace(' X', '') === skillCode
+        );
+
+        // 이미 선택된 기술인 경우 아무 작업도 하지 않음
+        if (existingSkill) {
+            return;
+        }
+
+        // 새로운 기술 추가
+        const skillDiv = document.createElement('div');
+        skillDiv.className = 'skill';
+        skillDiv.innerHTML = `${skillCode} <span class="remove" onclick="removeSkill(this)">X</span>`;
+        selectedSkills.appendChild(skillDiv);
+    }
+
+    function removeSkill(element){
+        element.parentElement.remove();
+    }
+
     // form submit
     function registForm(event) {
         event.preventDefault(); // form submit 이벤트preventDefault
@@ -295,7 +345,6 @@
             'militaryCode', 'enlistDate', 'releaseDate',
             'activityType', 'activityCenterName', 'activityContent', 'startDate', 'endDate',
             'licenseName', 'passDate', 'licenseCenterName',
-            'skillCode',
             'portfolioFilename', 'portfolioLink',
             'ord', 'title', 'content'
         ]
@@ -315,7 +364,14 @@
 
             }
         });
-        api.post('/resume', formData)
+
+        const skills = [];
+        document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
+            skills.push(skillDiv.textContent.trim().slice(0, -1));
+        });
+        formData.append('skills', JSON.stringify(skills)); // skills csv string으로 append
+
+        api.post('/api/v1/resume', formData)
             .then(() => {
                 alert('성공적으로 저장하였습니다.');
                 location.href = '/resume/list';
@@ -339,4 +395,6 @@
             imagePreview.style.display = 'none'; // 이미지 미리보기 초기화
         });
     }
+
+    window.onload = loadSkills();
 </script>

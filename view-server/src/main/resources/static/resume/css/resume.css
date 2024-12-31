@@ -210,3 +210,42 @@
 .reset-button:hover {
     background-color: #5a6268;
 }
+
+
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width:600px;
+    margin: 5px;
+}
+.skill {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #add8e6; /* 연한 초록색 배경 */
+    text-align: center;
+    margin: 5px;
+}
+.skill .remove {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
+#availableSkills {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.available-skill {
+    cursor: pointer;
+    /*display: inline-block;*/
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4f5d4;
+    /*text-align: center;*/
+    margin: 5px;
+} /* 연한 초록색
