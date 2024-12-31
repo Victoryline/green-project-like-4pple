@@ -30,3 +30,4 @@ public class TokenController {
         return token != null && !token.equals("null") ? jwtUtil.getUserRole(token) : "";
     }
 }
+

@@ -26,3 +26,4 @@ public interface UserService {
 
     int update(String username,UserRequestDto userRequestDto);
 }
+

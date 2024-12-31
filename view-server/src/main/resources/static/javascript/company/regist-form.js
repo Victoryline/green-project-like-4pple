@@ -178,3 +178,4 @@ function checkDuplicationUsername() {
             $('#username-check-result').css('color', 'red').text('아이디 중복 확인 중 오류가 발생했습니다.');
         });
 }
+
