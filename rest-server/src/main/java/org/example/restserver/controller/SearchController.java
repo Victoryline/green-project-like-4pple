@@ -32,13 +32,9 @@ public class SearchController {
     private SearchService searchService;
 
     @GetMapping
-    public ResponseEntity<?> search(@RequestParam String type, @RequestParam String keyword) {
-        System.out.println("type: " + type + " keyword: " + keyword);
+    public ResponseEntity<?> search(@RequestParam String type, @RequestParam(required = false) String keyword) {
 
-        if (keyword == null || keyword.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body("검색어를 입력하세요.");
-        }
-
+        keyword = (keyword == null) ? "" : keyword.trim();
 
         if ("company".equals(type)) {
             List<CompanySearchDto> companies = searchService.searchCompanies(keyword);
