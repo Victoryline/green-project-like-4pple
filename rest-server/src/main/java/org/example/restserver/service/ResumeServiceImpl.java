@@ -1,8 +1,8 @@
 package org.example.restserver.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.ognl.Evaluation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.example.restserver.dto.*;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.*;
@@ -10,6 +10,7 @@ import org.example.restserver.utils.ConverterUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : org.example.restserver.service
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository resumeRepository;
@@ -35,17 +37,19 @@ public class ResumeServiceImpl implements ResumeService {
     private final PortfolioRepository portfolioRepository;
     private final IntroduceRepository introduceRepository;
 
+    private final JobSeekerRepository jobSeekerRepository;
+    private final UserRepository userRepository;
+
     private final ConverterUtil converterUtil;
 
     @Override
-    @Transactional
     public int postResume(ResumeRequestDto resumeDto) {
-        User user = new User();
-        user.setUsername(resumeDto.getUsername());
+
+        log.info(String.valueOf(resumeDto));
 
         Resume resume = new Resume();
 
-        resume.setUsername(user);
+        resume.setUsername(resumeDto.getUsername());
         resume.setTitle(resumeDto.getRTitle());
         resume.setImage(resumeDto.getImage());
         resume.setWishArea(resumeDto.getWishArea());
@@ -79,7 +83,7 @@ public class ResumeServiceImpl implements ResumeService {
             licenseRepository.save(license);
         }
 
-        List<SkillCodeRequestDto> skills = resumeDto.getSkill();
+        List<SkillCodeRequestDto> skills = resumeDto.getSkills();
         for(SkillCodeRequestDto skill : skills){
             ResumeSkill resumeSkill = converterUtil.skillToEntity(res, skill);
             resumeSkillRepository.save(resumeSkill);
@@ -98,6 +102,28 @@ public class ResumeServiceImpl implements ResumeService {
         }
 
         return 1;
+    }
+
+    @Override
+    public JobSeekerUserResponseDto getUserInfo(String username) {
+        JobSeekerUserResponseDto jobSeeker = new JobSeekerUserResponseDto();
+
+        JobSeeker seeker = jobSeekerRepository.findByUsername(username);
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        String addr1 = seeker.getAddress();
+        String addr2 = seeker.getAddressDetail();
+
+        String address = addr1 + " " + addr2;
+
+        jobSeeker.setUsername(username);
+        jobSeeker.setName(user.get().getName());
+        jobSeeker.setEmail(seeker.getEmail());
+        jobSeeker.setPhone(seeker.getPhone());
+        jobSeeker.setAddress(address.trim());
+
+        return jobSeeker;
     }
 
 }

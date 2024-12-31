@@ -17,9 +17,8 @@ public class Resume {
     @Column(name = "resume_no", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "username", nullable = false)
-    private User username;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @Column(name = "title", nullable = false, length = 50)
     private String title;
@@ -45,7 +44,7 @@ public class Resume {
     @Column(name = "offer_yn")
     private Character offerYn;
 
-    @Column(name = "create_date", nullable = false)
+    @Column(name = "create_date")
     private Instant createDate;
 
     @Column(name = "modify_date")

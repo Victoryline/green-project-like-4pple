@@ -1,5 +1,6 @@
 package org.example.restserver.service;
 
+import org.example.restserver.dto.JobSeekerUserResponseDto;
 import org.example.restserver.dto.ResumeRequestDto;
 
 /**
@@ -16,5 +17,7 @@ import org.example.restserver.dto.ResumeRequestDto;
 public interface ResumeService {
 
     int postResume(ResumeRequestDto resumeDto);
+
+    JobSeekerUserResponseDto getUserInfo(String username);
 
 }

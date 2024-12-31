@@ -37,13 +37,17 @@ Object.keys(sections).forEach(toggleId => {
         const sectionId = sections[toggleId];
         const section = document.getElementById(sectionId);
 
+
+        console.log(section);
+        console.log(toggleId);
+        document.getElementById(toggleId).classList.toggle('checked');
         // 토글 이미지를 변경
         if (section.style.display === 'none' || section.style.display === '') {
             section.style.display = 'block';
-            this.src = '/static/images/checked-icon.png'; // 체크된 이미지
+            this.src = '/static/images/checked-icon.png';// 체크된 이미지
         } else {
             section.style.display = 'none';
-            this.src = '/static/images/unchecked-icon.png'; // 체크되지 않은 이미지
+            this.src = '/static/images/unchecked-icon.png';// 체크되지 않은 이미지
         }
     });
 });

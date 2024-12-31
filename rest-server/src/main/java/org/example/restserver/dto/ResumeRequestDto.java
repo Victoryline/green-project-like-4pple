@@ -29,11 +29,7 @@ public class ResumeRequestDto {
     private String rTitle;
 
     private String image;
-    // 기본 정보
-    private String name;
-    private String email;
-    private String birth;
-    private String phone;
+
     //희망 조건
     private String wishArea;
     private Integer wishSalary;
@@ -48,7 +44,7 @@ public class ResumeRequestDto {
     //자격증
     private List<LicenseRequestDto> licenses;
     //기술스택
-    private List<SkillCodeRequestDto> skill;
+    private List<SkillCodeRequestDto> skills;
     //포트폴리오
     private List<PortfolioRequestDto> portfolio;
     //자소서

@@ -20,7 +20,7 @@
             <ul>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle checked" src="/static/images/checked-icon.png" id="basic-info-toggle">
+                        <img class="toggle" src="/static/images/checked-icon.png" id="basic-info-toggle">
                         <label for="basic-info-toggle"><a href="#basic-info-section">기본정보</a></label>
                     </div>
                 </li>
@@ -32,43 +32,43 @@
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="education-toggle">
+                        <img data-div-id="education-section" class="toggle" src="/static/images/unchecked-icon.png" id="education-toggle">
                         <label for="education-toggle"><a href="#education-section">학력</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="military-toggle">
+                        <img data-div-id="military-section" class="toggle" src="/static/images/unchecked-icon.png" id="military-toggle">
                         <label for="military-toggle"><a href="#military-section">병역</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="experience-toggle">
+                        <img data-div-id="experience-section" class="toggle" src="/static/images/unchecked-icon.png" id="experience-toggle">
                         <label for="experience-toggle"><a href="#experience-section">경력</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="license-toggle">
+                        <img data-div-id="license-section" class="toggle" src="/static/images/unchecked-icon.png" id="license-toggle">
                         <label for="license-toggle"><a href="#license-section">자격증</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="skills-toggle">
+                        <img data-div-id="skills-section" class="toggle" src="/static/images/unchecked-icon.png" id="skills-toggle">
                         <label for="skills-toggle"><a href="#skills-section">기술스택</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="projects-toggle">
+                        <img data-div-id="projects-section" class="toggle" src="/static/images/unchecked-icon.png" id="projects-toggle">
                         <label for="projects-toggle"><a href="#projects-section">프로젝트</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
-                        <img class="toggle unchecked" src="/static/images/unchecked-icon.png" id="introduce-toggle">
+                        <img data-div-id="introduce-section" class="toggle" src="/static/images/unchecked-icon.png" id="introduce-toggle">
                         <label for="introduce-toggle"><a href="#introduce-section">자소서</a></label>
                     </div>
                 </li>
@@ -76,7 +76,7 @@
         </div>
 
         <form id="resume-form" class="resume-form">
-            <input type="hidden" name="username" value="mimi">
+            <input type="hidden" name="username" value="qwer1">
             <div class="content-regist">
                 <!-- 기본정보 섹션은 항상 표시됨 -->
                 <div id="basic-info-section" class="section">
@@ -132,7 +132,8 @@
                             <input type="text" name="wishTime" placeholder="00:00 - 24:00 형식으로 입력">
                             <label for="workCode">희망직무</label>
                             <select name="workCode" id="workCode">
-                                <option name="" value="BACKEND_DEVELOPER">백엔드 개발자</option>
+                                <option value="">희망직무를 선택해주세요</option>
+                                <option value="BACKEND_DEVELOPER">백엔드 개발자</option>
                                 <option value="DB_DESIGNER">DB 설계자</option>
                                 <option value="FRONTEND_DEVELOPER">프론트엔드 개발자</option>
                                 <option value="PUBLISHER">퍼블리셔</option>
@@ -143,7 +144,7 @@
                 </div>
 
                 <!-- 다른 항목들은 토글로 보이거나 숨겨짐 -->
-                <div id="education-section" class="section" style="display: none;">
+                <div data-div-id="education-section" id="education-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>학력</h3>
                         <span class="add-button edu">학력 추가</span>
@@ -151,6 +152,7 @@
                     <div class="section-body">
                         <label for="educationCode">학력 선택</label>
                         <select name="educationCode" id="educationCode">
+                            <option value="">학력을 선택해주세요</option>
                             <option value="PHD">박사</option>
                             <option value="MASTER">석사</option>
                             <option value="BACHELOR">대학교 졸업</option>
@@ -169,14 +171,14 @@
                     </div>
                 </div>
 
-                <div id="military-section" class="section" style="display: none;">
+                <div data-div-id="military-section" id="military-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>병역</h3>
                     </div>
                     <div class="section-body">
                         <label for="militaryCode">군별</label>
                         <select name="militaryCode" id="militaryCode">
-                            <option value="">선택해주세요</option>
+                            <option value="">군별을 선택해주세요</option>
                             <option value="DEFENSE_INDUSTRY">전역</option>
                             <option value="DISCHARGED">면제</option>
                             <option value="EXEMPT">방위산업체</option>
@@ -189,7 +191,7 @@
                     </div>
                 </div>
 
-                <div id="experience-section" class="section" style="display: none;">
+                <div data-div-id="experience-section" id="experience-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>경력 및 활동</h3>
                         <span class="add-button exp">경력 및 활동 추가</span>
@@ -197,7 +199,7 @@
                     <div class="section-body">
                         <label for="activityType">활동 유형</label>
                         <select name="activityType" id="activityType">
-                            <option value="">선택해주세요</option>
+                            <option value="">활동 유형을 선택해주세요</option>
                             <option value="JOB_CAREEAR">직무 관련 경력</option>
                             <option value="JOB_ACT">직무 관련 활동</option>
                             <option value="SOCIAL_ACT">사회 경험 활동</option>
@@ -213,7 +215,7 @@
                     </div>
                 </div>
 
-                <div id="license-section" class="section" style="display: none;">
+                <div data-div-id="license-section" id="license-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>자격증</h3>
                         <span class="add-button license">자격증 추가</span>
@@ -228,7 +230,7 @@
                     </div>
                 </div>
 
-                <div id="skills-section" class="section" style="display: none;">
+                <div data-div-id="skills-section" id="skills-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>기술스택</h3>
 <!--                        <span class="add-button skill">기술스택 추가</span>-->
@@ -244,7 +246,7 @@
                     </div>
                 </div>
 
-                <div id="projects-section" class="section" style="display: none;">
+                <div data-div-id="projects-section" id="projects-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>포트폴리오</h3>
                         <span class="add-button project">포트폴리오 추가</span>
@@ -257,7 +259,7 @@
                     </div>
                 </div>
 
-                <div id="introduce-section" class="section" style="display: none;" >
+                <div data-div-id="introduce-section" id="introduce-section" class="section" style="display: none;" >
                     <div class="section-header">
                         <h3>자소서</h3>
                         <span class="add-button introduce">자소서 추가</span>
@@ -296,7 +298,6 @@
                 const skills = response.body;
                 console.log(skills);
                 const availableSkills = document.getElementById('availableSkills');
-                const selectedSkills = document.getElementById('selectedSkills');
 
                 skills.forEach(skill => {
                     const skillDiv = document.createElement('div');
@@ -335,11 +336,12 @@
 
     // form submit
     function registForm(event) {
-        event.preventDefault(); // form submit 이벤트preventDefault
-        console.log(123321123);
-        // const resumeForm = document.getElementById('resume-form');
-        const formData = new FormData(); // form data 생성
-        const fields = ['username', 'rTitle', 'image', 'name', 'email', 'birth', 'phone',
+        event.preventDefault(); // form submit 이벤트 preventDefault
+        console.log("Form submission started");
+
+        const formData = {}; // 데이터를 담을 객체 생성
+        const fields = [
+            'username', 'rTitle',
             'wishArea', 'wishSalary', 'wishTime', 'workCode',
             'educationCode', 'enterDate', 'graduateDate', 'schoolName', 'specialty',
             'militaryCode', 'enlistDate', 'releaseDate',
@@ -347,44 +349,82 @@
             'licenseName', 'passDate', 'licenseCenterName',
             'portfolioFilename', 'portfolioLink',
             'ord', 'title', 'content'
-        ]
+        ];
+
+
+        // 필드 값을 JSON 객체에 추가
         fields.forEach(field => {
-            console.log(field);
-            const input = document.querySelector('input[name="' + field + '"]');
-            const select = document.querySelector('select[name="' + field + '"]');
+            const input = document.querySelector(`input[name="${field}"]:not([style*="display: none"])`);
+            const select = document.querySelector(`select[name="${field}"]`);
+            const textarea = document.querySelector(`textarea[name="${field}"]`);
 
-            if (input && input.value) {
-                formData.append('field', input.value);
-                console.log(formData);
-            }
-
-            if(select && select.value) {
-                formData.append('field', select.value);
-                console.log(formData);
-
+            if (input && input.value !== '') {
+                formData[field] = input.value;
+            } else if (select && select.value !== '') {
+                formData[field] = select.value;
+            } else if (textarea && textarea.value !== '') {
+                formData[field] = textarea.value;
             }
         });
 
-        const skills = [];
-        document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
-            skills.push(skillDiv.textContent.trim().slice(0, -1));
-        });
-        formData.append('skills', JSON.stringify(skills)); // skills csv string으로 append
+        // 이미지 파일 처리
+        const fileInput = document.getElementById('imageInput');
+        if (fileInput && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileToBase64(file).then(base64String => {
+                formData.image = base64String;
 
-        api.post('/api/v1/resume', formData)
-            .then(() => {
-                alert('성공적으로 저장하였습니다.');
-                location.href = '/resume/list';
-                // 성공시 리다이렉트
-            })
-            .catch(err => {
-                console.error(err);
-                alert('저장 실패하였습니다. 다시 시도해주세요.'); // 에러시 에러 메시지 출력
-            })
+                // 기술 스택 처리
+                const skills = [];
+                document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
+                    skills.push(skillDiv.textContent.trim().slice(0, -1)); // "X" 제거
+                });
+                formData.skills = skills;
 
+                // JSON 데이터 전송
+                sendFormData(formData);
+            }).catch(error => {
+                console.error("Error converting file to Base64", error);
+                alert('이미지 변환 중 문제가 발생했습니다.');
+            });
+        } else {
+            // 기술 스택 처리
+            const skills = [];
+            document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
+                skills.push(skillDiv.textContent.trim().slice(0, -1)); // "X" 제거
+            });
+            formData.skills = skills;
+
+            // JSON 데이터 전송
+            sendFormData(formData);
+        }
     }
 
-    // form reset
+    function sendFormData(formData) {
+        console.log(formData);
+        api.post('/api/v1/resume', JSON.stringify(formData))
+            .then(() => {
+                alert('성공적으로 저장하였습니다.');
+                location.href = '/resume/list'; // 성공 시 리다이렉트
+            })
+            .catch(err => {
+                console.error("Error saving data", err);
+                alert('저장 실패하였습니다. 다시 시도해주세요.'); // 에러 메시지 출력
+            });
+    }
+
+
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]); // base64 string
+            reader.onerror = error => reject(error);
+        });
+    }
+
+
+            // form reset
     function resetForm(event) {
         event.preventDefault();
         console.log("1234");
@@ -395,6 +435,15 @@
             imagePreview.style.display = 'none'; // 이미지 미리보기 초기화
         });
     }
+
+/*    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+        });
+    }*/
 
     window.onload = loadSkills();
 </script>
