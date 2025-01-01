@@ -14,10 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : org.example.restserver.service
@@ -135,7 +137,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new IllegalArgumentException("없어용~"));
 
-        if(!userRequestDto.getPassword().isEmpty()) {
+        if (!userRequestDto.getPassword().isEmpty()) {
             user.setPassword(bCryptPasswordEncoder.encode(userRequestDto.getPassword()));
         }
         user.setName(userRequestDto.getName());
@@ -159,5 +161,14 @@ public class UserServiceImpl implements UserService {
         }
 
         return 1;
+    }
+
+    @Override
+    public List<WeeklyRegisterUsersDto> getWeeklyRegisterUsers() {
+        return userRepository.getWeeklyUserData().stream().map((row) ->
+                new WeeklyRegisterUsersDto(row[0].toString(),
+                        ((Number) row[1]).intValue(),
+                        ((Number) row[2]).intValue())
+        ).collect(Collectors.toList());
     }
 }

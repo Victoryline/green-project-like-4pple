@@ -6,11 +6,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.dto.UserResponseDto;
+import org.example.restserver.dto.WeeklyRegisterUsersDto;
 import org.example.restserver.service.UserService;
 import org.example.restserver.utils.ConvertTokenUtil;
 import org.example.restserver.utils.JwtUtil;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,9 +53,19 @@ public class UserController {
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setPath("/");
         response.addCookie(cookie);
-        response.setHeader("Authorization", token);
+//        response.setHeader("Authorization", token);
 
         return map;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return "로그아웃 완료";
     }
 
     @PostMapping("/register")
@@ -69,5 +82,10 @@ public class UserController {
     @GetMapping("/check-duplication-username")
     public boolean checkDuplicationUsername(@RequestParam String username) {
         return userService.checkDuplicationUsername(username);
+    }
+
+    @GetMapping("/weekly-register-users-data")
+    public List<WeeklyRegisterUsersDto> getWeeklyRegisterUsersData() {
+        return userService.getWeeklyRegisterUsers();
     }
 }
