@@ -62,5 +62,4 @@ public interface UserRepository extends JpaRepository<User, String> {
                 ORDER BY dr.date;
             """, nativeQuery = true)
     List<Object[]> getWeeklyUserData();
-
 }
