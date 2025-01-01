@@ -1,12 +1,15 @@
 package org.example.restserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 @Getter
 @Setter
 @Entity
@@ -21,7 +24,7 @@ public class Proposal {
     private String companyId;
 
     @Column(name = "job_seeker_id", nullable = false, length = 20)
-    private String jobSeekerId;
+    private String userId;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
