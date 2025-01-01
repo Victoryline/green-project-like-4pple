@@ -26,37 +26,31 @@
     <footer th:replace="/layout/footer :: footerFragment"></footer>
 </div>
 <script>
-    window.onload = function getList(){
-        axios.get('http://localhost:8080/api/v1/job-post/list', {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+    window.onload = function getList() {
+        api.get('/api/v1/job-post/list')
             .then(response => {
-            console.log("가져오기 성공");
-            const jobPosts = response.data;
-            console.log(JSON.stringify(jobPosts, null, 2));  // jobPosts 객체를 JSON 형식으로 보기 좋게 출력
+                console.log("가져오기 성공");
+                console.log(response);
+                const jobPosts = response.body;
+                // console.log(JSON.stringify(jobPosts, null, 2));  // jobPosts 객체를 JSON 형식으로 보기 좋게 출력
 
-            jobPosts.forEach(jobPost => {
-                console.log(`제목: ${jobPost[0]}`);
-                console.log(`기술: ${jobPost[1]}`);
-                console.log(`회사 아이디: ${jobPost[2]}`);
-                console.log(`회사 주소: ${jobPost[3]}`);
-            });
+                // jobPosts.forEach(jobPost => {
+                //     console.log(`제목: ${jobPost[0]}`);
+                //     console.log(`기술: ${jobPost[1]}`);
+                //     console.log(`회사 아이디: ${jobPost[2]}`);
+                //     console.log(`회사 주소: ${jobPost[3]}`);
+                // });
 
                 //기업정보 + 채용정보 가져오기
+                console.log(jobPosts);
 
                 const jobPostContainer = document.getElementById("job-post-container");
-                jobPosts.forEach(jobPosts => {
+                jobPosts.forEach(jobPost => {
                     const listItem = document.createElement('li');
-                    listItem.textContent = `${jobPost.title} , ${jobPost.companyUsername}, ${jobPost.companyAddress}`;
-                    jobPostList.appendChild(listItem);
+                    listItem.textContent = `${jobPost.title} , ${jobPost.companyName}, ${jobPost.address}`;
+                    jobPostContainer.appendChild(listItem);
                 });
             })
-            .catch(error => {
-                console.error("가져오기 실패:", error);
-                alert("리스트 정보를 가져오기 실패, 다시 시도해주세요.");
-            });
     }
 
 </script>
