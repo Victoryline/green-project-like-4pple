@@ -26,6 +26,7 @@ public class Company {
     @Column(name = "info")
     private String info;
 
+    @ToString.Exclude
     @Lob
     @Column(name = "profile_image")
     private byte[] profileImage;

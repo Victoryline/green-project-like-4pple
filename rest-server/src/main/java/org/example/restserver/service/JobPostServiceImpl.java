@@ -2,6 +2,7 @@ package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
+import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.BenefitRepository;
 import org.example.restserver.repository.CompanyRepository;
@@ -23,11 +24,11 @@ public class JobPostServiceImpl implements JobPostService {
 
 
     public void register(JobPostDto jobPostDto) {
-        System.out.println("Job Post No: ");  // 로그 추가
 
+        Company company = companyRepository.findById(jobPostDto.getUsername()).orElse(null);
         // JobPost 엔티티 생성 - Builder 패턴 사용
         JobPost jobPost = JobPost.builder()
-                .username(jobPostDto.getUsername())
+                .company(company)
                 .title(jobPostDto.getTitle())
                 .workCode(jobPostDto.getWorkCode())
                 .jobHistory(jobPostDto.getJobHistory())
@@ -97,9 +98,9 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
 
-   public List<Object[]> getAllJobPostsWithCompany() {
+   public List<JobPostResponseDto> getAllJobPostsWithCompany() {
 
-        return jobPostRepository.findAllJobPostsWithCompanyInfo();
+        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
     }
 }
 
