@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -98,22 +97,9 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
 
-    public List<JobPostDto> getAllJobPostsWithCompany() {
-        // 레포지토리에서 채용공고와 회사 정보 가져오기
-        List<Object[]> results = jobPostRepository.findAllJobPostsWithCompanyInfo();
+   public List<Object[]> getAllJobPostsWithCompany() {
 
-        // 결과를 DTO로 변환
-        return results.stream().map(result -> {
-            JobPost jobPost = (JobPost) result[0];
-            Company company = (Company) result[1];
-            return new JobPostDto(
-                    jobPost.getJobPostNo(),
-                    jobPost.getTitle(),
-                    jobPost.getJobPostSkills(),
-                    company.getUsername(),
-                    company.getAddress()
-            );
-        }).collect(Collectors.toList());
+        return jobPostRepository.findAllJobPostsWithCompanyInfo();
     }
 }
 
