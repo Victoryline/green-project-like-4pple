@@ -2,7 +2,9 @@ package org.example.restserver.service;
 
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.dto.UserResponseDto;
+import org.example.restserver.dto.WeeklyRegisterUsersDto;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,4 +27,6 @@ public interface UserService {
     UserResponseDto getUser(String username);
 
     int update(String username,UserRequestDto userRequestDto);
+
+    List<WeeklyRegisterUsersDto> getWeeklyRegisterUsers();
 }

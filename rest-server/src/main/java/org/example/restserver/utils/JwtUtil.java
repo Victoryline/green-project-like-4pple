@@ -65,6 +65,4 @@ public class JwtUtil {
         Claims claims = validateToken(token);
         return claims.get("name", String.class);
     }
-
-
 }

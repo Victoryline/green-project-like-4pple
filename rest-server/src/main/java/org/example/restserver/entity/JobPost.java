@@ -96,5 +96,4 @@ public class JobPost {
     @JoinColumn(name = "username") // 외래 키 설정
     private Company company;
 
-
 }
