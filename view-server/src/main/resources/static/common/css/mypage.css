@@ -33,6 +33,7 @@ html, body {
 .logo {
     width: 20%;
     min-width: 300px;
+    cursor: pointer;
 }
 
 .header-right {

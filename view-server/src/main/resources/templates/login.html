@@ -64,10 +64,14 @@
         }
         api.post("/api/v1/users/login", user)
             .then(res => {
-                alert("로그인 성공");
-                console.log(res.body.user);
-                sessionStorage.setItem("user", JSON.stringify(res.body.user));
-                location.href = "/";
+                console.log();
+                const user = res.body.user;
+                axios.post("/api/v1/session", user)
+                    .then(() => {
+                        alert("로그인 성공");
+                        sessionStorage.setItem("user", JSON.stringify(user));
+                        location.href = "/";
+                    })
             })
             .catch(error => {
                 const errorMessage = error.response.data.body.message;
