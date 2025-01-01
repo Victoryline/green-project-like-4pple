@@ -10,6 +10,7 @@ import org.example.restserver.dto.WeeklyRegisterUsersDto;
 import org.example.restserver.service.UserService;
 import org.example.restserver.utils.ConvertTokenUtil;
 import org.example.restserver.utils.JwtUtil;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,9 +53,19 @@ public class UserController {
         cookie.setMaxAge(7 * 24 * 60 * 60);
         cookie.setPath("/");
         response.addCookie(cookie);
-        response.setHeader("Authorization", token);
+//        response.setHeader("Authorization", token);
 
         return map;
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return "로그아웃 완료";
     }
 
     @PostMapping("/register")

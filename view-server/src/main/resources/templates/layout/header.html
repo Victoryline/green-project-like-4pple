@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header class="header" th:fragment="headerFragment">
     <div class="logo">
-        <img th:src="@{/static/images/logo.png}" alt="Logo">
+        <img onclick="location.href = '/';" th:src="@{/static/images/logo.png}" alt="Logo">
     </div>
     <div class="header-middle">
         <form id="searchForm" action="/search" method="get" onsubmit="return validateForm()">
@@ -16,17 +16,11 @@
         </form>
     </div>
     <div class="header-right">
-        <a th:href="@{/login}">로그인</a>
+        <a th:if="${user == null}" th:href="@{/login}">로그인</a>
+        <a th:if="${user != null}" onclick="logout()" href="#">로그아웃</a>
     </div>
 </header>
-<nav class="navbar" th:fragment="navbarFragment">
-    <ul>
-        <li><a href="#">이력서 등록</a></li>
-        <li><a href="#">지원현황</a></li>
-        <li><a href="#">채용리스트</a></li>
-        <li><a href="#">커뮤니티</a></li>
-    </ul>
-</nav>
+
 
 <script>
     function validateForm() {

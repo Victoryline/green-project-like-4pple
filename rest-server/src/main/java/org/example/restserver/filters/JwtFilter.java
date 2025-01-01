@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.restserver.dto.SessionUserDto;
 import org.example.restserver.utils.JwtUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,12 +39,13 @@ public class JwtFilter extends OncePerRequestFilter {
                     .orElse(null);
         }
 
-        if (token == null) {
-            String header = request.getHeader("Authorization");
-            if (header != null && header.startsWith("Bearer ")) {
-                token = header.substring(7);
-            }
-        }
+//      필요없어서 지웠습니당
+//        if (token == null) {
+//            String header = request.getHeader("Authorization");
+//            if (header != null && header.startsWith("Bearer ")) {
+//                token = header.substring(7);
+//            }
+//        }
 
 //        System.out.println(token);
         if (token != null && jwtUtil.validateToken(token) != null) {
