@@ -1,39 +1,41 @@
 package org.example.restserver.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "tbl_comment")
 public class Comment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_no", nullable = false)
+    private Integer id;
 
-    @Column(name = "commnet_no")
-    private int comment_no;
+    @Column(name = "community_no", nullable = false)
+    private Integer communityNo;
 
-    @Column(name = "mommunity_no")
-    private int community_no;
-
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, length = 20)
     private String username;
 
-    @Column(name = "content")
+    @Lob
+    @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "create_date", nullable = false, updatable = false)
+    @ColumnDefault("current_timestamp()")
+    @Column(name = "create_date", nullable = false)
     private Instant createDate;
 
-    @Column(name = "modify_date", nullable = false, updatable = false)
-    private Instant modify_date;
+    @Column(name = "modify_date")
+    private Instant modifyDate;
+
+    @ColumnDefault("'N'")
+    @Column(name = "delete_yn")
+    private Character deleteYn;
 
 }
