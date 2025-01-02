@@ -31,8 +31,9 @@ $(function () {
                     id: this.getAttribute('data-id'),
                     status: selectVal
                 });
-
-                api.put(`/api/v1/boards/${this.getAttribute("data-type")}?id=${this.getAttribute('data-id')}&deleteYn=${selectVal}`)
+                const type = this.getAttribute('data-type');
+                const id = this.getAttribute('data-id');
+                api.put(`/api/v1/boards/${encodeURIComponent(type)}?id=${encodeURIComponent(id)}&deleteYn=${selectVal}`)
                     .then(res => {
                         if (res.body == 1) {
                             alert(selectOption.text() + ' 처리되었습니다.');
