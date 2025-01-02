@@ -27,4 +27,10 @@ public class JobPostSkillService {
     public List<JobPost> getJobPostsBySkillCode(String skillCode) {
         return jobPostSkillRepository.findJobPostsBySkillCode(skillCode);
     }
+
+    public List<JobPost> getJobPostsBySkillCodes(List<String> skillCodes) {
+        return jobPostSkillRepository.findJobPostsBySkillCodes(skillCodes);
+    }
+
+
 }

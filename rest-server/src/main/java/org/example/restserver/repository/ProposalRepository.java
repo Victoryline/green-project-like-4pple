@@ -4,6 +4,7 @@ import org.example.restserver.entity.JobSeeker;
 import org.example.restserver.entity.Proposal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +22,12 @@ import java.util.List;
  */
 @Repository
 public interface ProposalRepository extends JpaRepository<Proposal, Integer> {
-    List<Proposal> findByJobSeekerId(JobSeeker jobSeekerId);
+
+    // 특정 구직자가 받은 모든 제안서 조회
+    @Query("SELECT p FROM Proposal p WHERE p.userId = :userId")
+    List<Proposal> findByUserId(@Param("userId") String userId);
+
+    // 특정 기업의 읽지 않은 제안서 조회
+    @Query("SELECT p FROM Proposal p WHERE p.companyId = :companyId AND p.readDate IS NULL")
+    List<Proposal> findUnreadProposalsByCompanyId(@Param("companyId") String companyId);
 }
