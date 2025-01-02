@@ -52,6 +52,7 @@ public class SecurityConfig {
 //                        .requestMatchers(HttpMethod.POST,"/api/v1/users/register","/api/v1/users/login").permitAll()
 //                        .anyRequest().hasAnyRole("JOB_SEEKER", "ADMIN")
                                 .requestMatchers("/api/v1/test").hasRole("ADMIN")
+                                .requestMatchers("/api/v1/scores/rating").hasRole("JOB_SEEKER")
                                 .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session

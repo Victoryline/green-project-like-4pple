@@ -24,16 +24,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class SearchController {
 
-    @Autowired
-    private WebClient webClient;
-
     private final WebClientManager webClientManager;
 
     @GetMapping("/search")
     public String searchResults(@RequestParam("type") String type, @RequestParam("keyword") String keyword,
             Model model) {
         var searchData = webClientManager.get("/api/v1/search?type=" + type + "&keyword=" + keyword).getBody();
-
+        System.out.println(searchData);
         model.addAttribute("results", searchData);
         model.addAttribute("keyword", keyword);
         model.addAttribute("type", type);

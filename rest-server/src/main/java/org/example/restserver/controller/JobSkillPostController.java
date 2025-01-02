@@ -1,13 +1,11 @@
 package org.example.restserver.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.example.restserver.entity.JobPost;
 import org.example.restserver.service.JobPostSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,15 +23,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/jobpost")
+@RequiredArgsConstructor
 public class JobSkillPostController {
 
-    @Autowired
-    JobPostSkillService jobPostSkillService;
+    private final JobPostSkillService jobPostSkillService;
 
     @GetMapping("/skill/{skillCode}")
     public ResponseEntity<List<JobPost>> getJobPostsBySkill(@PathVariable String skillCode) {
         List<JobPost> jobPosts = jobPostSkillService.getJobPostsBySkillCode(skillCode);
         System.out.println(jobPosts);
+        return ResponseEntity.ok(jobPosts);
+    }
+
+    @PostMapping("/skills/match")
+    public ResponseEntity<List<JobPost>> getJobPostsBySkills(@RequestBody List<String> skillCodes) {
+        List<JobPost> jobPosts = jobPostSkillService.getJobPostsBySkillCodes(skillCodes);
         return ResponseEntity.ok(jobPosts);
     }
 }
