@@ -20,7 +20,8 @@
         <div class="post-management">
             <h1>게시물 관리</h1>
             <div class="tabs">
-                <div class="tab active" onclick="showTab('communities')" th:text="'게시글 (' + ${communities.size()} +')'"></div>
+                <div class="tab active" onclick="showTab('communities')"
+                     th:text="'게시글 (' + ${communities.size()} +')'"></div>
                 <div class="tab" onclick="showTab('comments')" th:text="'댓글 (' + ${comments.size()} +')'"></div>
             </div>
 
@@ -39,10 +40,10 @@
                     <tr th:each="community : ${communities}">
                         <td th:text="${community.id}"></td>
                         <td th:text="${community.title}"></td>
-                        <td th:text="${community.author}"></td>
+                        <td th:text="${community.username}"></td>
                         <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(community.createDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
                         <td>
-                            <select th:data-id="${community.id}" class="status-select"
+                            <select data-type="community" th:data-id="${community.id}" class="status-select"
                                     th:disabled="${community.deleteYn == 'Y'}">
                                 <option th:selected="${community.deleteYn == 'N'}" value="N">활성화</option>
                                 <option th:selected="${community.deleteYn == 'H'}" value="H">비활성화</option>
@@ -69,10 +70,10 @@
                     <tr th:each="comment : ${comments}">
                         <td th:text="${comment.id}"></td>
                         <td th:text="${comment.content}"></td>
-                        <td th:text="${comment.author}"></td>
+                        <td th:text="${comment.username}"></td>
                         <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(comment.createDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
                         <td>
-                            <select th:data-id="${comment.id}" class="status-select"
+                            <select data-type="comment" th:data-id="${comment.id}" class="status-select"
                                     th:disabled="${comment.deleteYn == 'Y'}">
                                 <option th:selected="${comment.deleteYn == 'N'}" value="N">활성화</option>
                                 <option th:selected="${comment.deleteYn == 'H'}" value="H">비활성화</option>

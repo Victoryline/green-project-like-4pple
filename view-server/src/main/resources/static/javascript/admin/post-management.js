@@ -22,7 +22,7 @@ $(function () {
         const selectOption = $(this).find(':selected');
         const selectVal = selectOption.val();
 
-        if (selectVal === 'D') {
+        if (selectVal === 'Y') {
             alert("삭제 처리는 불가능합니다.");
             $(this).val(previousValue);
         } else {
@@ -31,9 +31,10 @@ $(function () {
                     id: this.getAttribute('data-id'),
                     status: selectVal
                 });
-                api.put(`/api/v1/posts/status/${this.getAttribute('data-id')}?status=${selectVal}`)
+
+                api.put(`/api/v1/boards/${this.getAttribute("data-type")}?id=${this.getAttribute('data-id')}&deleteYn=${selectVal}`)
                     .then(res => {
-                        if (res.data.success) {
+                        if (res.body == 1) {
                             alert(selectOption.text() + ' 처리되었습니다.');
                             location.reload();
                         } else {
