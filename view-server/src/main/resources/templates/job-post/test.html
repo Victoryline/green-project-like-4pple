@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <h2>채용 공고 리스트 </h2>
+
+        <div id="job-post-container">
+
+        </div>
+
+
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script>
+    window.onload = function getList() {
+        api.get('/api/v1/job-post/list')
+            .then(response => {
+                console.log("가져오기 성공");
+                console.log(response);
+                const jobPosts = response.body;
+
+                console.log(jobPosts);
+
+                const jobPostContainer = document.getElementById("job-post-container");
+                jobPosts.forEach(jobPost => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${jobPost.jobPostNo}, ${jobPost.title} , ${jobPost.companyName}, ${jobPost.address}, ${jobPost.workCode}, ${jobPost.jobPostSkills}`;
+                    jobPostContainer.appendChild(listItem);
+                });
+            })
+    }
+
+</script>
+</body>
+</html>

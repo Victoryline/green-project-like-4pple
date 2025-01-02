@@ -8,6 +8,7 @@
     <script src="../../static/javascript/utils/axios.js"></script>
     <script src="../../static/common/javascript/common.js"></script>
     <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/common/javascript/common.js"></script>
     <style>
         .wrap{
             text-align: center;
@@ -119,7 +120,7 @@
                 <label for="endYn">공고 마감:</label>
                 <input type="checkbox" id="endYn" name="endYn"><br>
 
-                <input type="hidden" name="username" th:value="${user.username}">
+                <input type="hidden" name="username" th:value="${session.user.username}">
 
                 <input type="submit" value="등록" onclick="regist(event)">
             </form>
