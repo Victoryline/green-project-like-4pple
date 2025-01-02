@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'IBM Plex Sans KR', sans-serif; /* 기본 폰트 */
+    line-height: 1.6; /* 줄 간격 */
+    color: #181717; /* 기본 텍스트 색상 */
+    height: 100%; /* 화면 전체 높이 */
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* 화면 높이를 채움 */
+}
+
+.header {
+    width: 60%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 1270px;
+    height: 100px;
+}
+
+.logo {
+    width: 20%;
+    min-width: 300px;
+    cursor: pointer;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: row;
+    width: 20%;
+    min-width: 300px;
+    justify-content: space-around;
+    align-items: end;
+    height: 40px;
+}
+
+.header-middle {
+    display: flex;
+    align-items: center;
+    width: 30%;
+    min-width: 400px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 0 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-middle input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    padding: 0 10px;
+    border-radius: 20px;
+}
+
+.header-middle button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.header-middle button img {
+    width: 20px;
+    height: 20px;
+}
+
+.navbar {
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 20px;
+}
+
+.footer {
+    background-color: #355239; /* 어두운 초록색 배경 */
+    color: #fff; /* 텍스트 색상 흰색 */
+    padding: 20px 0;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+    font-size: 14px;
+}
+
+.footer-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-left {
+    margin-bottom: 20px;
+}
+
+.footer-left h3 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.footer-left p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.footer-social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.footer-social-icons img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.footer-social-icons img:hover {
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.3); /* 얇은 흰색 선 */
+    padding-top: 10px;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+a {
+    color: #181717; /* 기본 텍스트 색상 */
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* sidebar */
+.sidebar {
+    width: 220px; /* 사이드바 너비 */
+    background-color: #ffffff;
+    box-sizing: border-box;
+    padding: 20px;
+}
+
+/* main: 사이드바와 컨텐츠를 가로로 정렬 */
+.main {
+    display: flex;
+    width: 100%;
+    margin: 0 auto;
+    min-width: 1270px;
+}
+
+/* content: 사이드바 옆에 위치 */
+.content {
+    flex: 1;
+    background-color: #ffffff; /* 흰색 배경 */
+    border-radius: 8px; /* 테두리 둥글게 */
+    padding: 20px; /* 상하좌우 간격 추가 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 부드러운 그림자 */
+    margin: 20px 0; /* 위아래 간격 추가 */
+}
+
+.content h1 {
+    font-size: 1.8em; /* 제목 크기 */
+    font-weight: 700; /* 제목 굵게 */
+    margin-bottom: 20px; /* 제목 아래 간격 */
+    color: #333; /* 제목 색상 */
+    text-align: center; /* 제목 중앙 정렬 */
+}
+
+.content table {
+    width: 100%; /* 테이블 너비 */
+    border-collapse: collapse; /* 셀 경계선 제거 */
+    margin-top: 20px; /* 테이블 위쪽 간격 */
+    background-color: #f9f9f9; /* 테이블 배경색 */
+    border-radius: 8px; /* 테이블 테두리 둥글게 */
+    overflow: hidden; /* 테두리 둥글게 적용 */
+}
+
+.content table th,
+.content table td {
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+    padding: 15px; /* 셀 안쪽 여백 */
+    border-bottom: 1px solid #ddd; /* 셀 경계선 */
+}
+
+.content table th {
+    background-color: #4CAF50; /* 테이블 헤더 배경색 */
+    color: #fff; /* 테이블 헤더 텍스트 색상 */
+    font-weight: bold; /* 테이블 헤더 텍스트 굵게 */
+}
+
+.content table tbody tr:hover {
+    background-color: #f1f1f1; /* 테이블 행 hover 효과 */
+}
+
+.content table tbody tr:last-child td {
+    border-bottom: none; /* 마지막 행 경계선 제거 */
+}
+
+/* 메뉴 스타일 */
+.menu {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin: 15px 0;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.menu a:hover,
+.menu .active > a {
+    background-color: #e6e6e6;
+    color: #4CAF50;
+}

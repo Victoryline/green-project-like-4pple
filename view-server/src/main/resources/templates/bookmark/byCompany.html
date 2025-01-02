@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/static/sidebar/js/side-bar.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="/static/common/css/mypage1.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="main">
+        <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
+        <div class="content">
+            <h1>기업이 구직자를 관심 등록 한 페이지</h1>
+            <table>
+                <thead>
+                <tr>
+                    <th>이력서 제목</th>
+                    <th>이름</th>
+                    <th>나이</th>
+                    <th>성별</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(bookmark)}">
+                    <td colspan="4">등록된 관심 항목이 없습니다.</td>
+                </tr>
+                <tr th:each="resume : ${bookmark}">
+                    <td><a th:href="@{|/resume/details/${resume.id}|}" th:text="${resume.title}"></a></td>
+                    <td th:text="${resume.name}">[이름]</td>
+                    <td th:text="${resume.age}">[나이]</td>
+                    <td th:text="${resume.gender}">[성별]</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

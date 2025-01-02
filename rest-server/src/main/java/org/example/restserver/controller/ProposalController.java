@@ -5,6 +5,7 @@ import org.example.restserver.common.ApiResponse;
 import org.example.restserver.dto.ProposalRequestDto;
 import org.example.restserver.dto.ProposalResponseDto;
 import org.example.restserver.entity.Proposal;
+import org.example.restserver.entity.Resume;
 import org.example.restserver.service.ProposalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,27 +25,31 @@ import java.util.List;
  * 2024-12-27        이동하       최초 생성
  */
 @RestController
-@RequestMapping("/proposal")
+@RequestMapping("/api/v1/proposal")
 @RequiredArgsConstructor
 public class ProposalController {
 
     private final ProposalService proposalService;
 
-    @GetMapping("/{proposalId}")
-    public ResponseEntity<ApiResponse<ProposalResponseDto>> getProposalById(@PathVariable Integer proposalId) {
-        ProposalResponseDto proposal = proposalService.getProposalById(proposalId);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", proposal));
+    //기업이 북마크한 구직자 리스트 보기
+    @GetMapping("/bookmarked/{companyId}")
+    public ResponseEntity<List<String>> getBookmarkedJobSeeker(@PathVariable String companyId) {
+        List<String> bookmarkedJobSeeker = proposalService.getBookmarkedJobSeeker(companyId);
+        return ResponseEntity.ok(bookmarkedJobSeeker);
     }
 
-    @GetMapping("/jobseeker/{userId}")
-    public ResponseEntity<ApiResponse<List<ProposalResponseDto>>> getProposalsByUser(@PathVariable String userId) {
-        List<ProposalResponseDto> userProposals = proposalService.getProposalsByUser(userId);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", userProposals));
+    //북마크한 전체 구직자의 이력서 조회
+    @GetMapping("/bookmarked/resumes/{companyId}")
+    public ResponseEntity<List<Resume>> getResumes(@PathVariable String companyId) {
+        List<Resume> resumes = proposalService.getResumes(companyId);
+        return ResponseEntity.ok(resumes);
     }
 
-    @GetMapping("/company/{companyId}/unread")
-    public ResponseEntity<ApiResponse<List<ProposalResponseDto>>> getUnreadProposalsByCompany(@PathVariable String companyId) {
-        List<ProposalResponseDto> unreadProposals = proposalService.getUnreadProposalsByCompany(companyId);
-        return ResponseEntity.ok(new ApiResponse<>("SUCCESS", unreadProposals));
+    //하나의 이력서 상세정보 조회
+    @GetMapping("/resume/{resumeId}")
+    public ResponseEntity<Resume> getResumeDetails(@PathVariable Integer resumeId) {
+        Resume resumeDetails = proposalService.getResumeDetails(resumeId);
+        return ResponseEntity.ok(resumeDetails);
     }
+
 }

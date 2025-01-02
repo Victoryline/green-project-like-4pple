@@ -2,6 +2,7 @@ package org.example.viewserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.viewserver.dto.ProposalDto;
+import org.example.viewserver.utils.WebClientManager;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -24,13 +25,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProposalService {
 
-    private final WebClient webClient;
-
-    public List<ProposalDto> getProposals() {
-        return webClient.get()
-                .uri("/api/v1/proposals")
-                .retrieve()
-                .bodyToMono(new ParameterizedTypeReference<List<ProposalDto>>() {})
-                .block();
-    }
+//    private final WebClientManager webClientManager;
+//
+//    public List<ProposalDto> getProposalsForCompany(String companyId) {
+//
+//
+//            return webClient.get()
+//                .uri(uriBuilder -> uriBuilder
+//                        .path("/api/v1/proposals")
+//                        .queryParam("companyId", companyId)
+//                        .build())
+//                .retrieve()
+//                .bodyToMono(new ParameterizedTypeReference<List<ProposalDto>>() {})
+//                .block();
+//    }
 }

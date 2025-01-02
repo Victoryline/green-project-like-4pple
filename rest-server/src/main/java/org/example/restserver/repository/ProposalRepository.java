@@ -1,7 +1,8 @@
 package org.example.restserver.repository;
 
-import org.example.restserver.entity.JobSeeker;
+import org.example.restserver.entity.Like;
 import org.example.restserver.entity.Proposal;
+import org.example.restserver.entity.Resume;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,11 +24,13 @@ import java.util.List;
 @Repository
 public interface ProposalRepository extends JpaRepository<Proposal, Integer> {
 
-    //모든 제안서 조회
-    @Query("SELECT p FROM Proposal p WHERE p.userId = :userId")
-    List<Proposal> findByUserId(@Param("userId") String userId);
-
-    // 읽지 않은 제안서 조회
-    @Query("SELECT p FROM Proposal p WHERE p.companyId = :companyId AND p.readDate IS NULL")
-    List<Proposal> findUnreadProposalsByCompanyId(@Param("companyId") String companyId);
+    //기업이 북마크한 구직자 조회
+    @Query("SELECT l.id.jobSeekerId FROM Like l WHERE l.id.companyId = :companyId AND l.id.likeType = 'C'")
+    List<String> findBookmarkedJobSeeker(@Param("companyId") String companyId);
+    //북마크한 전체 구직자의 이력서 조회
+    @Query("SELECT r FROM Resume r WHERE r.username IN :userIds")
+    List<Resume> findResume(@Param("userIds") List<String> userIds);
+    //하나의 이력서 상세정보 조회
+    @Query("SELECT r FROM Resume r WHERE r.id = :resumeId")
+    Resume findResumeDetail(@Param("resumeId") Integer resumeId);
 }

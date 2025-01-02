@@ -3,7 +3,6 @@ package org.example.restserver.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.entity.JobPost;
 import org.example.restserver.service.JobPostSkillService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
