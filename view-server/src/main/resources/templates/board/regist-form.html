@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+    <style>
+        /* Ensure unique styling for the form */
+        .custom-form {
+            width: 70%;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f9f9f9; /* Adding a subtle background to distinguish the form */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .custom-form input[type="text"],
+        .custom-form textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .custom-form textarea {
+            height: 200px;
+        }
+
+        .custom-form button {
+            padding: 12px 25px;
+            background-color: #1D8935;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-form button:hover {
+            background-color: #18341F;
+        }
+
+        /* Optional: Add spacing to the content */
+        .custom-form input[type="text"]:focus,
+        .custom-form textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="custom-form">
+            <h2>게시글 등록</h2><br>
+            <input type="text" id="title" name="title" placeholder="   제목"><br>
+            <textarea id="content" name="content" placeholder=" 내용"></textarea><br><br>
+            <button type="button" class="Regist" onclick="registBoard()">게시글등록</button>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script>
+    function registBoard() {
+
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+
+        if (!title || !content) {
+            alert("제목과 내용을 모두 입력해주세요.");
+            return;
+        }
+
+        const postData = {
+            title: title,
+            content: content
+        };
+
+        api.post('/api/board/detail', postData)
+            .then(function (response) {
+                alert("게시글이 성공적으로 등록되었습니다.");
+
+                document.getElementById("title").value = "";
+                document.getElementById("content").value = "";
+
+            })
+            .catch(function (error) {
+                console.error("게시글 등록 실패", error);
+                alert("게시글 등록에 실패하였습니다. 다시 시작해주세요");
+
+            });
+    }
+</script>
+</body>
+</html>
