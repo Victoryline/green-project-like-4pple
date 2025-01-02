@@ -13,126 +13,129 @@
 <div class="container">
     <header th:replace="/layout/header :: headerFragment"></header>
     <nav th:replace="/layout/navbar :: navbarFragment"></nav>
-    <h1 th:text="'검색 결과: ' + ${keyword}"></h1>
+        <div class="content">
+            <h1 th:text="'검색 결과: ' + ${keyword}"></h1>
 
-    <div th:if="${type == 'company'}">
-        <h2>기업 검색 결과</h2>
-        <table border="1">
-            <thead>
-            <tr>
-                <th>회사명</th>
-                <th>주소</th>
-                <th>설립일</th>
-                <th>기업 평점</th>
-                <th>평점 주기</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="company : ${results}">
-                <td th:text="${company.name}"></td> <!-- 회사명 -->
-                <td th:text="${company.address}"></td> <!-- 주소 -->
-                <td th:text="${company.birth}"></td> <!-- 설립일 -->
-                <td th:text="${company.averageScore != null ? company.averageScore : '평점 없음'}"></td> <!-- 평균 별점 -->
-                <td>
-                    <button type="button"
-                            th:attr="data-company-name=${company.name}, data-company-id=${company.companyId}"
-                            onclick="handleOpenRatingModal(this)">평점주기</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            <div th:if="${type == 'company'}">
+                <h2>기업 검색 결과</h2>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>회사명</th>
+                        <th>주소</th>
+                        <th>설립일</th>
+                        <th>기업 평점</th>
+                        <th>평점 주기</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="company : ${results}">
+                        <td th:text="${company.name}"></td> <!-- 회사명 -->
+                        <td th:text="${company.address}"></td> <!-- 주소 -->
+                        <td th:text="${company.birth}"></td> <!-- 설립일 -->
+                        <td th:text="${company.averageScore != null ? company.averageScore : '평점 없음'}"></td>
+                        <!-- 평균 별점 -->
+                        <td>
+                            <button type="button"
+                                    th:attr="data-company-name=${company.name}, data-company-id=${company.companyId}"
+                                    onclick="handleOpenRatingModal(this)">평점주기
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <div th:if="${type == 'job'}">
-        <h2>모집공고 검색 결과</h2>
-        <table border="1">
-            <thead>
-            <tr>
-                <th>공고 제목</th>
-                <th>근무 형태</th>
-                <th>경력</th>
-                <th>학력</th>
-                <th>직급/직책</th>
-                <th>근무 형태</th>
-                <th>마감일자</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="job : ${results}">
-                <td th:text="${job.title}"></td> <!-- 공고 제목 -->
-                <td th:text="${job.workCode}"></td> <!-- 근무 형태 -->
-                <td th:text="${job.jobHistory}"></td> <!-- 경력 -->
-                <td th:text="${job.educationCode}"></td> <!-- 학력 -->
-                <td th:text="${job.jobRankCode}"></td> <!-- 직급/직책 -->
-                <td th:text="${job.workTypeCode}"></td> <!-- 근무 형태 -->
-                <td th:text="${job.endDate}"></td> <!-- 마감일자 -->
-            </tr>
-            </tbody>
-        </table>
-    </div>
+            <div th:if="${type == 'job'}">
+                <h2>모집공고 검색 결과</h2>
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>공고 제목</th>
+                        <th>근무 형태</th>
+                        <th>경력</th>
+                        <th>학력</th>
+                        <th>직급/직책</th>
+                        <th>근무 형태</th>
+                        <th>마감일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="job : ${results}">
+                        <td th:text="${job.title}"></td> <!-- 공고 제목 -->
+                        <td th:text="${job.workCode}"></td> <!-- 근무 형태 -->
+                        <td th:text="${job.jobHistory}"></td> <!-- 경력 -->
+                        <td th:text="${job.educationCode}"></td> <!-- 학력 -->
+                        <td th:text="${job.jobRankCode}"></td> <!-- 직급/직책 -->
+                        <td th:text="${job.workTypeCode}"></td> <!-- 근무 형태 -->
+                        <td th:text="${job.endDate}"></td> <!-- 마감일자 -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <div th:if="${#lists.isEmpty(results)}">
-        <p>검색 결과가 없습니다.</p>
-    </div>
+            <div th:if="${#lists.isEmpty(results)}">
+                <p>검색 결과가 없습니다.</p>
+            </div>
 
-    <!-- 평점 입력 모달 -->
-    <div id="ratingModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid black;">
-        <h3 id="modalCompanyName">회사 이름</h3>
-        <p>평점을 입력해주세요 (1 ~ 5):</p>
-        <input type="number" id="ratingInput" min="1" max="5" oninput="validateRating()">
-        <button onclick="submitRating()">등록</button>
-        <button onclick="closeRatingModal()">취소</button>
-    </div>
-
+            <div id="ratingModal"
+                 style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid black;">
+                <h3 id="modalCompanyName">회사 이름</h3>
+                <p>평점을 입력해주세요 (1 ~ 5):</p>
+                <input type="number" id="ratingInput" min="1" max="5" oninput="validateRating()">
+                <button onclick="submitRating()">등록</button>
+                <button onclick="closeRatingModal()">취소</button>
+            </div>
+        </div>
     <footer th:replace="/layout/footer :: footerFragment"></footer>
-</div>
+    </div>
 
-<script>
-    let selectedCompanyId = null;
+    <script>
+        let selectedCompanyId = null;
 
-    function handleOpenRatingModal(button) {
-        const companyName = button.getAttribute('data-company-name');
-        const companyId = button.getAttribute('data-company-id');
+        function handleOpenRatingModal(button) {
+            const companyName = button.getAttribute('data-company-name');
+            const companyId = button.getAttribute('data-company-id');
 
-        document.getElementById('modalCompanyName').innerText = companyName; // 회사 이름 표시
-        selectedCompanyId = companyId; // 선택한 회사 ID 저장
-        document.getElementById('ratingModal').style.display = 'block'; // 모달 보이기
-    }
-
-    function closeRatingModal() {
-        document.getElementById('ratingModal').style.display = 'none'; // 모달 숨기기
-    }
-
-    function submitRating() {
-        const rating = document.getElementById('ratingInput').value;
-
-        if (!rating || rating < 1 || rating > 5) {
-            alert('1~5 사이의 평점을 입력해주세요.');
-            return;
+            document.getElementById('modalCompanyName').innerText = companyName;
+            selectedCompanyId = companyId;
+            document.getElementById('ratingModal').style.display = 'block';
         }
 
-        api.post('/api/v1/scores/rating', {
-            companyId: selectedCompanyId,
-            jobSeekerId: getUsername(), // getUsername 함수에서 사용자 ID 가져오기
-            score: rating
-        })
-            .then(response => {
-                alert("평점이 성공적으로 등록되었습니다.");
-                closeRatingModal();
+        function closeRatingModal() {
+            document.getElementById('ratingModal').style.display = 'none';
+        }
+
+        function submitRating() {
+            const rating = document.getElementById('ratingInput').value;
+
+            if (!rating || rating < 1 || rating > 5) {
+                alert('1~5 사이의 평점을 입력해주세요.');
+                return;
+            }
+
+            api.post('/api/v1/scores/rating', {
+                companyId: selectedCompanyId,
+                jobSeekerId: getUsername(),
+                score: rating
             })
-            .catch(error => {
-                alert("평점 등록에 실패했습니다.");
-            });
-    }
-
-    function validateRating() {
-        const input = document.getElementById('ratingInput');
-        if (input.value < 1) {
-            input.value = 1;
-        } else if (input.value > 5) {
-            input.value = 5;
+                .then(response => {
+                    alert("평점이 성공적으로 등록되었습니다.");
+                    closeRatingModal();
+                })
+                .catch(error => {
+                    alert("평점 등록에 실패했습니다.");
+                });
         }
-    }
-</script>
+
+        function validateRating() {
+            const input = document.getElementById('ratingInput');
+            if (input.value < 1) {
+                input.value = 1;
+            } else if (input.value > 5) {
+                input.value = 5;
+            }
+        }
+    </script>
 </body>
 </html>
