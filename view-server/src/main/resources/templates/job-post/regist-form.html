@@ -5,6 +5,8 @@
     <title>Title</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
     <link rel="stylesheet" href="../../static/common/css/common.css">
     <style>
         .wrap{
@@ -71,7 +73,7 @@
                     </th:block>
                 </select><br>
 
-                <h3> 연봉 </h3>
+                <h3> 연봉 (*천만원)</h3>
                 <label for="jobSalary">연봉:</label>
                 <input type="number" id="jobSalary" name="jobSalary"><br>
 
@@ -117,7 +119,7 @@
                 <label for="endYn">공고 마감:</label>
                 <input type="checkbox" id="endYn" name="endYn"><br>
 
-                <input type="hidden" name="username" value="mimi">
+                <input type="hidden" name="username" th:value="${user.username}">
 
                 <input type="submit" value="등록" onclick="regist(event)">
             </form>
@@ -197,7 +199,7 @@
 
         console.log(jobPostData);
         console.log(jobPostData["skills"]);
-        axios.post('http://localhost:8080/api/v1/job-post/register', jobPostData, {
+        api.post('/api/v1/job-post/register', jobPostData, {
             headers: {
                 'Content-Type': 'application/json'
             }

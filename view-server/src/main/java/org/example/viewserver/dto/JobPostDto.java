@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+import java.time.Instant;
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * packageName    : org.example.restserver.dto
@@ -45,9 +44,9 @@ public class JobPostDto {
     private String managerPhone;
     private String managerEmail;
     private Character endYn;
-    private List<String> benefitContent;
-    private List<String> skillCode;
-
+ //   private String fileName;
+    private String benefit;
+    private String skillCode;
 
 
 

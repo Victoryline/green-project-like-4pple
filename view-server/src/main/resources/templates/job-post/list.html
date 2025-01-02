@@ -17,19 +17,8 @@
     <div class="content">
         <h2>채용 공고 리스트 </h2>
 
-        <div class="content-wrap">
-            //회사이름
-            <label for="title">공고 제목:</label>
+        <div id="job-post-container">
 
-            <h3> 직무</h3>
-            <label for="workCode">직무:</label>
-            <select id="workCode" name="workCode">
-                <th:block th:each="gubun : ${workList}">
-                    <option th:value="${gubun.name}" th:text="${gubun.name}"></option>
-                </th:block>
-            </select><br>
-
-            //회사 근무지
         </div>
 
 
@@ -37,19 +26,31 @@
     <footer th:replace="/layout/footer :: footerFragment"></footer>
 </div>
 <script>
-    window.onload = function getList(){
-        axios.get('http://localhost:8080/api/v1/job-post/list', {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
+    window.onload = function getList() {
+        api.get('/api/v1/job-post/list')
             .then(response => {
+                console.log("가져오기 성공");
+                console.log(response);
+                const jobPosts = response.body;
+                // console.log(JSON.stringify(jobPosts, null, 2));  // jobPosts 객체를 JSON 형식으로 보기 좋게 출력
+
+                // jobPosts.forEach(jobPost => {
+                //     console.log(`제목: ${jobPost[0]}`);
+                //     console.log(`기술: ${jobPost[1]}`);
+                //     console.log(`회사 아이디: ${jobPost[2]}`);
+                //     console.log(`회사 주소: ${jobPost[3]}`);
+                // });
+
                 //기업정보 + 채용정보 가져오기
+                console.log(jobPosts);
+
+                const jobPostContainer = document.getElementById("job-post-container");
+                jobPosts.forEach(jobPost => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${jobPost.title} , ${jobPost.companyName}, ${jobPost.address}`;
+                    jobPostContainer.appendChild(listItem);
+                });
             })
-            .catch(error => {
-                console.error("가져오기 실패:", error);
-                alert("리스트 정보를 가져오기 실패, 다시 시도해주세요.");
-            });
     }
 
 </script>

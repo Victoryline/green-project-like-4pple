@@ -3,6 +3,7 @@ package org.example.restserver.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.restserver.entity.JobPostSkill;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -29,8 +30,8 @@ public class JobPostDto {
         private String username;
         private String title;
         private String workCode;
-        private Integer jobHistory; // 클라이언트에서 정수로 전송해야 함
-        private Integer jobSalary;  // 클라이언트에서 정수로 전송해야 함
+        private Integer jobHistory;
+        private Integer jobSalary;
         private String educationCode;
         private String jobRankCode;
         private String workTypeCode;
@@ -38,15 +39,19 @@ public class JobPostDto {
         private LocalDate endDate;
         private String content;
         private String workCondition;
-        private Integer process; // 클라이언트에서 정수로 전송해야 함
+        private Integer process;
         private String method;
         private String addNotice;
         private String managerName;
         private String managerPhone;
         private String managerEmail;
         private Character endYn;
-        private List<String> benefitContent = Collections.emptyList();;
+        private List<String> benefitContent = Collections.emptyList();
         private List<String>  jobPostSkills= Collections.emptyList();
+
+        //company
+        private String companyUsername;
+        private String address;
 
 
 }

@@ -5,6 +5,7 @@ import lombok.*;
 import org.example.restserver.entity.User;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -25,6 +26,7 @@ public class Company {
     @Column(name = "info")
     private String info;
 
+    @ToString.Exclude
     @Lob
     @Column(name = "profile_image")
     private byte[] profileImage;
@@ -52,4 +54,7 @@ public class Company {
 
     @Column(name = "employee", nullable = false)
     private Integer employee;
+
+//    @OneToMany(mappedBy = "company")
+//    private List<JobPost> jobPosts;
 }

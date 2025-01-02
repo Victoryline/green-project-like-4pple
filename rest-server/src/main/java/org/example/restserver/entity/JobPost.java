@@ -26,7 +26,7 @@ public class JobPost {
     @Column(name = "job_post_no")
     private int jobPostNo;
 
-    @Column(name = "username")
+    @Column(name = "username", insertable = false, updatable = false)
     private String username;
 
     @Column(name = "title", nullable = false, length = 100)
@@ -92,4 +92,8 @@ public class JobPost {
     @OneToMany(mappedBy = "jobPost",  cascade = CascadeType.ALL)
     private List<JobPostSkill> jobPostSkills = new ArrayList<>();
 
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)  // 지연 로딩 (필요할 때만 로드)
+    @JoinColumn(name = "username") // 외래 키 설정
+    private Company company;
 }

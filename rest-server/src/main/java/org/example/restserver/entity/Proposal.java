@@ -1,14 +1,15 @@
 package org.example.restserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
-import org.example.restserver.entity.Company;
-import org.example.restserver.entity.JobSeeker;
 
 import java.time.Instant;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 @Getter
 @Setter
 @Entity
@@ -17,15 +18,13 @@ public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "proposal_no", nullable = false)
-    private int proposalNo;
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "company_id", referencedColumnName = "username", nullable = false)
-    private Company company;
+    @Column(name = "company_id", nullable = false, length = 20)
+    private String companyId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "username", nullable = false)
-    private JobSeeker jobSeeker;
+    @Column(name = "job_seeker_id", nullable = false, length = 20)
+    private String userId;
 
     @Column(name = "title", nullable = false, length = 100)
     private String title;
@@ -34,8 +33,9 @@ public class Proposal {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @ColumnDefault("current_timestamp()")
     @Column(name = "send_date", nullable = false)
-    private Instant sendTime;
+    private Instant sendDate;
 
     @Column(name = "read_date")
     private Instant readDate;
@@ -45,4 +45,5 @@ public class Proposal {
 
     @Column(name = "email", nullable = false, length = 100)
     private String email;
+
 }

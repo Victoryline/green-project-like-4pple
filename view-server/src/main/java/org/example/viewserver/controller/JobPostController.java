@@ -34,11 +34,9 @@ public class JobPostController {
         // regist-form.html 뷰를 반환합니다.
         return "job-post/regist-form";
     }
-
     @GetMapping("/list")
     public String list() {
         return "job-post/list";
     }
-
 
 }
