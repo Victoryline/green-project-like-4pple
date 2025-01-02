@@ -17,9 +17,5 @@ import org.springframework.http.ResponseEntity;
  */
 
 public interface JobpostService {
-    //public ResponseEntity<?> regist(JobPostDto jobpost);
-
-    ResponseEntity<?> regist(JobPostDto jobpost);
-
 
 }

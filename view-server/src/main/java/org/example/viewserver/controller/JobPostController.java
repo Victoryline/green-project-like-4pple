@@ -2,10 +2,14 @@ package org.example.viewserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.viewserver.dto.GubunDto;
+
+import org.example.viewserver.dto.JobPostDto;
 import org.example.viewserver.service.GubunService;
+import org.example.viewserver.service.JobpostServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -17,6 +21,8 @@ import java.util.List;
 public class JobPostController {
 
     private final GubunService gubunService;
+    private final JobpostServiceImpl jobpostService;
+
 
     @GetMapping("/regist")
     public String regist(Model model) {
@@ -37,6 +43,18 @@ public class JobPostController {
     @GetMapping("/list")
     public String list() {
         return "job-post/list";
+    }
+
+
+
+    @GetMapping("/update-form/{jobpostno}")
+    public String showJobPostDetails(@PathVariable Integer jobpostno, Model model) {
+        JobPostDto jobPostDto = jobpostService.getJobPostDetail(jobpostno);
+        if (jobPostDto == null) {
+            return "error/404";  // 예시로 404 에러 페이지로 리다이렉트
+        }
+        model.addAttribute("jobPost", jobPostDto);
+        return "job-post/update-form";
     }
 
 }
