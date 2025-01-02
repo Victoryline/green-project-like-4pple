@@ -16,16 +16,41 @@
     <nav th:replace="/layout/navbar :: navbarFragment"></nav>
 </div>
 
+<h2>게시글</h2>
 
+<ul class="post-list">
+    <!-- 게시글 항목들 -->
+    <li class="post-item" onclick="goToDetailPage(1)">
+        <h3>제목 1</h3>
+        <p>작성자: 홍길동 | 작성일자: 2024-12-31</p>
+        <p>댓글수: 5 | 조회수: 100</p>
+    </li>
+    <li class="post-item" onclick="goToDetailPage(2)">
+        <h3>제목 2</h3>
+        <p>작성자: 이순신 | 작성일자: 2024-12-30</p>
+        <p>댓글수: 3 | 조회수: 50</p>
+    </li>
+    <li class="post-item" onclick="goToDetailPage(3)">
+        <h3>제목 3</h3>
+        <p>작성자: 김유신 | 작성일자: 2024-12-29</p>
+        <p>댓글수: 8 | 조회수: 200</p>
+    </li>
+    <li class="post-item" onclick="goToDetailPage(4)">
+        <h3>제목 4</h3>
+        <p>작성자: 윤혜나 | 작성일자: 2024-12-19</p>
+        <p>댓글수: 4 | 조회수:100</p>
 
-
-
-
-
+    </li>
+</ul>
 <script>
-    function boardRegist(){
-        api.post()
-    }
+    function goToDetailPage(postId) {
+// 예시로 postId에 맞는 상세 페이지로 이동
+        window.location.href = `detail.html?postId=${postId}`;
 </script>
+
+
+
+
+
 </body>
 </html>

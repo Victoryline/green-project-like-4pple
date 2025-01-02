@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/css/community/community.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <style>
+        button{
+            padding: 10px 20px;
+            background-color: #1D8935;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+         button:hover {
+            background-color: #18341F;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+        .form {
+            width: 70%;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+</div>
+    <div class="form">
+        <h2>게시글 등록</h2><br>
+        <input type="text" id="title" name="title" placeholder="   제목"><br>
+        <textarea id="content" name="content" placeholder=" 내용"></textarea><br><br>
+        <button type="button" class="Regist" onclick="Regist()">게시글등록</button>
+    </div>
+
+<script>
+    function Regist() {
+
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
+
+
+        if (!title || !content) {
+            alert("제목과 내용을 모두 입력해주세요.");
+            return;
+
+        }
+
+        const postData = {
+            title: title,
+            content: content
+        };
+
+
+        axios.post('api/board/detail', postData)
+            .then(function (response) {
+                alert("게시글이 성공적으로 등록되었습니다.");
+
+                document.getElementById("title").value = "";
+                document.getElementById("content").value = "";
+
+            })
+            .catch(function (error) {
+                console.error("게시글 등록 실패", error);
+                alert("게시글 등록에 실패하였습니다. 다시 시작해주세요");
+
+            });
+
+
+    }
+
+
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</script>
+</body>
+</html>

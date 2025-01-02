@@ -5,17 +5,16 @@
     <title>Title</title>
     <style>
         .comment-box-wrapper {
-            width: 100%;
-            max-width: 600px;
+
+            max-width: 640px;
             margin: 30px auto;
             padding: 20px;
             border-radius: 10px;
-            background-color:2px solid #999;
+            background-color:white;
 
         }
         .community-box{
-            width: 100%;
-            max-width: 600px;
+            width: 640px;
             margin: 30px auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -35,12 +34,13 @@
         }
 
         .comment input {
-            width: 100%;
+            width: 80%;
             padding: 35px;
-            margin-right: 15px;
+            margin-left: 2px;
+            margin-top: 2px;
             border: 1px solid #ccc;
             border-radius: 5px;
-
+            display: block;
         }
         .comment button:hover {
             background-color: #18341F;
@@ -53,6 +53,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -66,25 +67,63 @@
 
 
 
-    <section id="community">
-        <div class="community-box">
+<section id="community">
+    <div class="community-box">
         <label>제목</label><br>
         <label>내용</label><br>
         <label>No.</label><br>
         <label>조회수</label><br>
         <label>작성일자</label><br>
         <label>수정일자</label><br>
+    </div>
+    <div class="comment-box-wrapper">
+        <div class="comment">
+
+            <input type="text" id="commentText" name="comment" placeholder="댓글을 입력하세요:)">
+            <button type="button" id="commentButton">등록</button>
         </div>
-        <div class="comment-box-wrapper">
-            <div class="comment">
-
-                <input type="text" id="comment-input" name="comment" placeholder="댓글을 입력하세요:)">
-                <button type="button">등록</button>
-            </div>
+        <div class="comment-list" id="comment-list">
         </div>
-    </section>
+    </div>
+</section>
+
+<script>
+    const commentButton = document.getElementById("commentButton");
+    const commentList = document.getElementById("comment-list");
+
+    commentButton.addEventListener("click",function(){
+        const commentText = document.getElementById("commentText").value;
 
 
+
+        if(commentText === " "){
+            return;
+        }
+        commentText.innerText
+
+        const commentItem = document.createElement("div");
+        commentItem.classList.add("comment-item");
+
+        const commentContent = document.createElement("span");
+        commentContent.textContent = commentText;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add("delte-button");
+        deleteButton.texetContent = "삭제";
+        deleteButton.addEventListener("click",function(){
+            commentList.remove(commentItem);
+        });
+
+        commentItem.appendChild(commentContent);
+        commentItem.appendChild(deleteButton);
+
+        commentList.appendChild(commentItem);
+
+        commentInput.value = "";
+    })
+
+
+</script>
 
 </body>
 </html>
