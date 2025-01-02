@@ -23,11 +23,11 @@ import java.util.List;
 @Repository
 public interface ProposalRepository extends JpaRepository<Proposal, Integer> {
 
-    // 특정 구직자가 받은 모든 제안서 조회
+    //모든 제안서 조회
     @Query("SELECT p FROM Proposal p WHERE p.userId = :userId")
     List<Proposal> findByUserId(@Param("userId") String userId);
 
-    // 특정 기업의 읽지 않은 제안서 조회
+    // 읽지 않은 제안서 조회
     @Query("SELECT p FROM Proposal p WHERE p.companyId = :companyId AND p.readDate IS NULL")
     List<Proposal> findUnreadProposalsByCompanyId(@Param("companyId") String companyId);
 }

@@ -30,21 +30,18 @@ public class ProposalController {
 
     private final ProposalService proposalService;
 
-    // 단일 제안서 조회
     @GetMapping("/{proposalId}")
     public ResponseEntity<ApiResponse<ProposalResponseDto>> getProposalById(@PathVariable Integer proposalId) {
         ProposalResponseDto proposal = proposalService.getProposalById(proposalId);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", proposal));
     }
 
-    // 특정 구직자가 받은 모든 제안서 조회
     @GetMapping("/jobseeker/{userId}")
     public ResponseEntity<ApiResponse<List<ProposalResponseDto>>> getProposalsByUser(@PathVariable String userId) {
         List<ProposalResponseDto> userProposals = proposalService.getProposalsByUser(userId);
         return ResponseEntity.ok(new ApiResponse<>("SUCCESS", userProposals));
     }
 
-    // 특정 기업의 읽지 않은 제안서 조회
     @GetMapping("/company/{companyId}/unread")
     public ResponseEntity<ApiResponse<List<ProposalResponseDto>>> getUnreadProposalsByCompany(@PathVariable String companyId) {
         List<ProposalResponseDto> unreadProposals = proposalService.getUnreadProposalsByCompany(companyId);

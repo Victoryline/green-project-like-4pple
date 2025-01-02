@@ -31,7 +31,6 @@ public class ProposalService {
 
     private final ProposalRepository proposalRepository;
 
-    // 1. 제안서 생성
     public void createProposal(ProposalRequestDto request) {
         Proposal proposal = Proposal.builder()
                 .companyId(request.getCompanyId())
@@ -45,14 +44,12 @@ public class ProposalService {
         proposalRepository.save(proposal);
     }
 
-    // 2. 단일 제안서 조회 (ID로)
     public ProposalResponseDto getProposalById(Integer proposalId) {
         Proposal proposal = proposalRepository.findById(proposalId)
                 .orElseThrow(() -> new RuntimeException("Proposal not found with ID: " + proposalId));
         return convertToDto(proposal);
     }
 
-    // 3. 특정 유저가 받은 모든 제안서 조회
     public List<ProposalResponseDto> getProposalsByUser(String userId) {
         List<Proposal> userProposals = proposalRepository.findByUserId(userId);
         return userProposals.stream()
@@ -60,7 +57,6 @@ public class ProposalService {
                 .collect(Collectors.toList());
     }
 
-    // 4. 읽음 처리
     public void markAsRead(Integer proposalId) {
         Proposal proposal = proposalRepository.findById(proposalId)
                 .orElseThrow(() -> new RuntimeException("Proposal not found with ID: " + proposalId));
@@ -71,7 +67,6 @@ public class ProposalService {
         }
     }
 
-    // 5. 읽지 않은 제안서 조회 (기업 ID로)
     public List<ProposalResponseDto> getUnreadProposalsByCompany(String companyId) {
         List<Proposal> unreadProposals = proposalRepository.findUnreadProposalsByCompanyId(companyId);
         return unreadProposals.stream()
@@ -79,7 +74,6 @@ public class ProposalService {
                 .collect(Collectors.toList());
     }
 
-    // Proposal -> ProposalResponseDto 변환
     private ProposalResponseDto convertToDto(Proposal proposal) {
         return new ProposalResponseDto(
                 proposal.getId(),

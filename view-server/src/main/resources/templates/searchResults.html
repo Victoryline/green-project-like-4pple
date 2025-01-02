@@ -75,7 +75,6 @@
         <p>검색 결과가 없습니다.</p>
     </div>
 
-    <!-- 평점 입력 모달 -->
     <div id="ratingModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border:1px solid black;">
         <h3 id="modalCompanyName">회사 이름</h3>
         <p>평점을 입력해주세요 (1 ~ 5):</p>
@@ -94,13 +93,13 @@
         const companyName = button.getAttribute('data-company-name');
         const companyId = button.getAttribute('data-company-id');
 
-        document.getElementById('modalCompanyName').innerText = companyName; // 회사 이름 표시
-        selectedCompanyId = companyId; // 선택한 회사 ID 저장
-        document.getElementById('ratingModal').style.display = 'block'; // 모달 보이기
+        document.getElementById('modalCompanyName').innerText = companyName;
+        selectedCompanyId = companyId;
+        document.getElementById('ratingModal').style.display = 'block';
     }
 
     function closeRatingModal() {
-        document.getElementById('ratingModal').style.display = 'none'; // 모달 숨기기
+        document.getElementById('ratingModal').style.display = 'none';
     }
 
     function submitRating() {
@@ -113,7 +112,7 @@
 
         api.post('/api/v1/scores/rating', {
             companyId: selectedCompanyId,
-            jobSeekerId: getUsername(), // getUsername 함수에서 사용자 ID 가져오기
+            jobSeekerId: getUsername(),
             score: rating
         })
             .then(response => {
