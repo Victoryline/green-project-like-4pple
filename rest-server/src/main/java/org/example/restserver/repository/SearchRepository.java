@@ -21,7 +21,7 @@ import java.util.List;
  * 2024-12-31        이동하       최초 생성
  */
 
-public interface SearchRepository extends JpaRepository<User, String> { // Object와 Long은 사용하지 않는 기본 값
+public interface SearchRepository extends JpaRepository<User, String> {
 
     @Query("SELECT new org.example.restserver.dto.JobPostSearchDto(" +
             "j.username, j.title, j.workCode, j.jobHistory, j.educationCode, " +

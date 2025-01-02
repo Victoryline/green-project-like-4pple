@@ -14,10 +14,10 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
         @Query(value = "SELECT j.job_post_no AS jobPostNo, j.username AS username, u.name AS name, j.title AS title, " +
                 "j.work_code AS workCode, j.job_history AS jobHistory, j.job_salary AS jobSalary, " +
                 "j.start_date AS startDate, j.end_date AS endDate, j.work_condition AS workCondition, j.end_yn AS endYn, " +
-                "(SELECT GROUP_CONCAT(jc.skill_code) FROM tbl_job_post_skill jc WHERE jc.job_post_no = j.job_post_no) AS jobPostSkills " +
-                ", c.address " +
+                "(SELECT GROUP_CONCAT(jc.skill_code) FROM tbl_job_post_skill jc WHERE jc.job_post_no = j.job_post_no) AS jobPostSkills, " +
+                "c.address, c.profile_image " +
                 "FROM tbl_job_post j " +
-                "JOIN tbl_user u ON j.username = u.username AND u.delete_yn = 'N' AND u.role = 'ROLE_COMPANY'" +
+                "JOIN tbl_user u ON j.username = u.username AND u.delete_yn = 'N' AND u.role = 'ROLE_COMPANY' " +
                 "JOIN tbl_company c ON u.username = c.username " +
                 "WHERE j.end_yn = 'N' AND j.start_date <= NOW() AND (j.end_date IS NULL OR j.end_date > NOW())",
                 nativeQuery = true)
@@ -38,7 +38,8 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
                                 (String) result[9],  // workCondition
                                 (Character) result[10], // endYn
                                 (String) result[11],   // jobPostSkills
-                                (String) result[12]
+                                (String) result[12],
+                                (byte[]) result[13]
                         ))
                         .collect(Collectors.toList());
         }

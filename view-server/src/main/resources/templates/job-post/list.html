@@ -2,26 +2,76 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>채용 공고 리스트</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!--  css 경로 확인하고 사용해주세용 -->
     <link rel="stylesheet" href="../../static/common/css/common.css">
     <script src="../../static/javascript/utils/axios.js"></script>
     <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+    <style>
+        .content {
+            width: 60%;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+            margin: 10px 0;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .card-company-name {
+            font-size: 16px;
+            margin: 10px 0;
+            font-weight: 900;
+        }
+
+        .card-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <header th:replace="/layout/header :: headerFragment"></header>
     <nav th:replace="/layout/navbar :: navbarFragment"></nav>
     <div class="content">
-        <h2>채용 공고 리스트 </h2>
-
-        <div id="job-post-container">
-
+        <h2 class="section-title">채용중인 공고</h2>
+        <div class="card-grid" id="job-post-container">
+            <!-- 동적으로 생성될 카드 -->
         </div>
-
-
     </div>
     <footer th:replace="/layout/footer :: footerFragment"></footer>
 </div>
@@ -30,29 +80,35 @@
         api.get('/api/v1/job-post/list')
             .then(response => {
                 console.log("가져오기 성공");
-                console.log(response);
                 const jobPosts = response.body;
-                // console.log(JSON.stringify(jobPosts, null, 2));  // jobPosts 객체를 JSON 형식으로 보기 좋게 출력
-
-                // jobPosts.forEach(jobPost => {
-                //     console.log(`제목: ${jobPost[0]}`);
-                //     console.log(`기술: ${jobPost[1]}`);
-                //     console.log(`회사 아이디: ${jobPost[2]}`);
-                //     console.log(`회사 주소: ${jobPost[3]}`);
-                // });
-
-                //기업정보 + 채용정보 가져오기
-                console.log(jobPosts);
-
                 const jobPostContainer = document.getElementById("job-post-container");
+
                 jobPosts.forEach(jobPost => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `${jobPost.title} , ${jobPost.companyName}, ${jobPost.address}`;
-                    jobPostContainer.appendChild(listItem);
+                    // jobPost.jobPostSkills가 문자열인 경우 배열로 변환하여 처리
+                    const jobPostSkills = Array.isArray(jobPost.jobPostSkills) ? jobPost.jobPostSkills
+                        : jobPost.jobPostSkills ? jobPost.jobPostSkills.split(',') : [];
+
+                    const cardContent = `
+                    <div class="card-content">
+                        <h3 class="card-company-name">${jobPost.companyName}</a></h3>
+
+                            <h3 class="card-title">
+                                <a href="/job-post/update-form/${jobPost.jobPostNo}">${jobPost.title}</a>
+                            </h3>
+
+                        <p class="card-meta">
+                            ${jobPostSkills.length > 0 ? jobPostSkills.join(' · ') : '기술 스킬 정보 없음'}<br>
+                            ${jobPost.address} · ${jobPost.workCode}
+                        </p>
+                    </div>
+                `;
+                    jobPostContainer.innerHTML += `<div class="card">${cardContent}</div>`;
                 });
             })
+            .catch(error => {
+                console.error("데이터를 가져오지 못했습니다:", error);
+            });
     }
-
 </script>
 </body>
 </html>
