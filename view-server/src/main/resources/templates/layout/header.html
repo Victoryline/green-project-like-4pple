@@ -16,8 +16,8 @@
         </form>
     </div>
     <div class="header-right">
-        <a th:if="${user == null}" th:href="@{/login}">로그인</a>
-        <a th:if="${user != null}" onclick="logout()" href="#">로그아웃</a>
+        <a th:if="${session.user == null}" th:href="@{/login}">로그인</a>
+        <a th:if="${session.user != null}" onclick="logout()" href="#">로그아웃</a>
     </div>
 </header>
 
