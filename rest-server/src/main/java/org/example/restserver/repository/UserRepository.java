@@ -2,10 +2,13 @@ package org.example.restserver.repository;
 
 import org.apache.ibatis.annotations.Param;
 import org.example.restserver.dto.CompanySearchDto;
+import org.example.restserver.dto.UserResponseDto;
 import org.example.restserver.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,4 +65,24 @@ public interface UserRepository extends JpaRepository<User, String> {
                 ORDER BY dr.date;
             """, nativeQuery = true)
     List<Object[]> getWeeklyUserData();
+
+    @Query(value = """
+            SELECT u
+            FROM User u
+            WHERE u.role = :role
+            ORDER BY
+                CASE
+                    WHEN u.deleteYn = 'N' THEN 1
+                    WHEN u.deleteYn = 'H' THEN 2
+                    WHEN u.deleteYn = 'Y' THEN 3
+                    ELSE 4
+                END,
+                u.createDate DESC
+            """)
+    List<User> findByRoleOrderByDeleteYnAndName(String role);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE User u SET u.deleteYn = :deleteYn WHERE u.username = :username")
+    int updateDeleteYnByUsername(@Param("username") String username, @Param("deleteYn") String deleteYn);
 }

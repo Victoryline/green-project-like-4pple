@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+    <link rel="stylesheet" href="../../static/css/admin/user-management.css">
+    <script src="../../static/javascript/admin/user-management.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="user-management">
+            <h1>사용자 관리</h1>
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('jobSeekers')"
+                     th:text="'구직자 (' + ${jobSeekers.size()} +')'"></div>
+                <div class="tab" onclick="showTab('company')" th:text="'기업 (' + ${companies.size()} +')'"></div>
+            </div>
+
+            <div id="jobSeekers" class="content active">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>아이디</th>
+                        <th>구직자명</th>
+                        <th>가입일시</th>
+                        <th>활성여부</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="jobSeeker : ${jobSeekers}">
+                        <td th:text="${jobSeeker.username}"></td>
+                        <td th:text="${jobSeeker.name}"></td>
+                        <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(jobSeeker.createDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
+                        <td>
+                            <select th:data-username="${jobSeeker.username}" class="deleteYn-select"
+                                    th:disabled="${jobSeeker.deleteYn == 'Y'}">
+                                <option th:selected="${jobSeeker.deleteYn == 'N'}" value="N">활성화</option>
+                                <option th:selected="${jobSeeker.deleteYn == 'H'}" value="H">비활성화</option>
+                                <option th:selected="${jobSeeker.deleteYn == 'Y'}" value="Y">탈퇴</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="company" class="content">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>아이디</th>
+                        <th>기업명</th>
+                        <th>가입일시</th>
+                        <th>활성여부</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="company : ${companies}">
+                        <td th:text="${company.username}"></td>
+                        <td th:text="${company.name}"></td>
+                        <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(company.createDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
+                        <td>
+                            <select th:data-username="${company.username}" class="deleteYn-select"
+                                    th:disabled="${company.deleteYn == 'Y'}">
+                                <option th:selected="${company.deleteYn == 'N'}" value="N">활성화</option>
+                                <option th:selected="${company.deleteYn == 'H'}" value="H">비활성화</option>
+                                <option th:selected="${company.deleteYn == 'Y'}" value="Y">탈퇴</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
