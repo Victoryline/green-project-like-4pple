@@ -6,3 +6,8 @@ function logout() {
             location.href = "/";
         });
 }
+
+function disconnect() {
+    eventSource.close();
+    console.log(`[${clientId}] 연결 종료`);
+}
