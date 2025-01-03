@@ -30,4 +30,7 @@ public interface JobPostSkillRepository extends JpaRepository<JobPostSkill, JobP
     @Query("SELECT DISTINCT jp FROM JobPost jp JOIN JobPostSkill jps ON jp.jobPostNo = jps.id.jobPostNo " +
             "WHERE jps.id.skillCode IN :skillCodes")
     List<JobPost> findJobPostsBySkillCodes(@Param("skillCodes") List<String> skillCodes);
+
+    @Query("SELECT jp FROM JobPost jp JOIN FETCH jp.company LEFT JOIN FETCH jp.jobPostSkills")
+    List<JobPost> findAllJobPosts();
 }

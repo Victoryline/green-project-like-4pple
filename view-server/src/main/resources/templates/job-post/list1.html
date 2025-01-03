@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../static/common/css/common.css">
+    <script src="../static/javascript/utils/axios.js"></script>
+    <script src="../static/javascript/utils/sessionUserUtil.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+
+    <div class="content">
+        <h2>채용 공고 리스트</h2>
+
+        <div>
+            <label for="skillDropdown">기술 스택 선택:</label>
+            <select id="skillDropdown">
+                <option value="">전체 보기</option>
+            </select>
+        </div>
+
+        <div id="job-post-container">
+        </div>
+    </div>
+
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const skillDropdown = document.getElementById('skillDropdown');
+
+        function getSkills() {
+            api.get('/api/v1/jobpost/skills')
+                .then(data => {
+                    const skills = data.body;
+
+                    if (skills && skills.length > 0) {
+                        skills.forEach(skill => {
+                            const option = document.createElement('option');
+                            option.value = skill.code;
+                            option.textContent = skill.name;
+                            skillDropdown.appendChild(option);
+                        });
+                    } else {
+                        const emptyOption = document.createElement('option');
+                        emptyOption.value = "";
+                        emptyOption.textContent = "기술 스택 데이터가 없습니다.";
+                        skillDropdown.appendChild(emptyOption);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching skills:', error);
+                });
+        }
+
+        function fetchAllJobPosts() {
+            api.get('/api/v1/jobpost/all')
+                .then(data => {
+                    const jobPosts = data.body;
+                    renderJobPosts(jobPosts);
+                })
+                .catch(error => {
+                    console.error('Error fetching all job posts:', error);
+                });
+        }
+
+        function fetchFilteredJobPosts(skill) {
+            if (!skill) {
+                fetchAllJobPosts();
+                return;
+            }
+
+            const apiUrl = `/api/v1/jobpost/filter?skills=${skill}`;
+
+            api.get(apiUrl)
+                .then(data => {
+                    const jobPosts = data.body;
+                    renderJobPosts(jobPosts);
+                })
+                .catch(error => {
+                    console.error('Error fetching filtered job posts:', error);
+                    renderJobPosts([]);
+                });
+        }
+
+        function renderJobPosts(jobPosts) {
+            const container = document.getElementById('job-post-container');
+            container.innerHTML = '';
+
+            if (jobPosts.length === 0) {
+                container.textContent = '선택한 기술 스택에 해당하는 채용 공고가 없습니다.';
+                return;
+            }
+
+            jobPosts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.classList.add('job-post');
+
+                postDiv.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p>회사명: ${post.username}</p>
+                    <p>기술 스택: ${post.jobPostSkills.join(', ')}</p>
+                    <p>주소: ${post.address}</p>
+                    <p>경력: ${post.jobHistory}년</p>
+                `;
+
+                container.appendChild(postDiv);
+            });
+        }
+
+        skillDropdown.addEventListener('change', function () {
+            const selectedSkill = skillDropdown.value;
+            fetchFilteredJobPosts(selectedSkill);
+        });
+
+        getSkills();
+        fetchAllJobPosts();
+    });
+</script>
+</body>
+</html>
