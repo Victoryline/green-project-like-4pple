@@ -1,9 +1,11 @@
 package org.example.restserver.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.restserver.dto.GubunDto;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.entity.Company;
+import org.example.restserver.entity.Gubun;
 import org.example.restserver.entity.JobPost;
 import org.example.restserver.service.JobPostServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -35,4 +37,5 @@ public class JobPostController {
         System.out.println("jobPosts size: " + jobPosts.size());
         return jobPosts;
     }
+
 }
