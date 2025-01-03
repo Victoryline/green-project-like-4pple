@@ -7,12 +7,14 @@ import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JobPostServiceImpl implements JobPostService {
 
     private final JobPostRepository jobPostRepository;
@@ -115,13 +117,14 @@ public class JobPostServiceImpl implements JobPostService {
 
 
     public JobPostDto getJobPostDetailById(Integer jobpostno) {
+        System.out.println(jobpostno+"sdfsdfsdfsdf");
         JobPost jobPost = jobPostRepository.findById(jobpostno)
                 .orElse(null);
-        System.out.println(jobPost+"sdfsdfsdfsdf");
 
 
         JobPostDto jobPostDto = new JobPostDto();
-        jobPostDto.setUsername(jobPost.getUsername());
+        jobPostDto.setJobPostNo(jobPost.getJobPostNo());
+        jobPostDto.setUsername(jobPost.getCompany().getUsername());
         jobPostDto.setTitle(jobPost.getTitle());
         jobPostDto.setWorkCode(jobPost.getWorkCode());
         jobPostDto.setJobHistory(jobPost.getJobHistory());
@@ -156,5 +159,97 @@ public class JobPostServiceImpl implements JobPostService {
         jobPostDto.setBenefitContent(benefitList);
         System.out.println(jobPostDto+ "sdfsdfsdfsdfsdfsdfsd");
         return jobPostDto;
+    }
+
+    public void modify(JobPostDto jobPostDto) {
+        System.out.println(jobPostDto + "수정수정 디티오 디티오 ");
+
+        // username이 null이거나 빈 값인지 확인
+        if (jobPostDto.getUsername() == null || jobPostDto.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+
+        // Company 객체 찾기
+        Company company = companyRepository.findById(jobPostDto.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Company not found"));
+
+        // JobPost 엔티티 생성 - Builder 패턴 사용
+        JobPost jobPost = new JobPost();
+
+        jobPost.setUsername(jobPostDto.getUsername());
+        jobPost.setJobPostNo(jobPostDto.getJobPostNo());
+        jobPost.setTitle(jobPostDto.getTitle());
+        jobPost.setWorkCode(jobPostDto.getWorkCode());
+        jobPost.setJobHistory(jobPostDto.getJobHistory());
+        jobPost.setJobSalary(jobPostDto.getJobSalary());
+        jobPost.setEducationCode(jobPostDto.getEducationCode());
+        jobPost.setJobRankCode(jobPostDto.getJobRankCode());
+        jobPost.setWorkTypeCode(jobPostDto.getWorkTypeCode());
+        jobPost.setStartDate(jobPostDto.getStartDate());
+        jobPost.setEndDate(jobPostDto.getEndDate());
+        jobPost.setContent(jobPostDto.getContent());
+        jobPost.setWorkCondition(jobPostDto.getWorkCondition());
+        jobPost.setProcess(jobPostDto.getProcess());
+        jobPost.setMethod(jobPostDto.getMethod());
+        jobPost.setAddNotice(jobPostDto.getAddNotice());
+        jobPost.setManagerName(jobPostDto.getManagerName());
+        jobPost.setManagerPhone(jobPostDto.getManagerPhone());
+        jobPost.setManagerEmail(jobPostDto.getManagerEmail());
+        jobPost.setEndYn('N');
+        jobPost.setCompany(company);
+
+        // JobPost 저장
+        jobPostRepository.save(jobPost);
+        int jobPostNo = jobPost.getJobPostNo();
+
+        // Benefit 처리
+        BenefitId benefitId = new BenefitId();
+        benefitId.setBenefitContent(jobPostDto.getContent());
+        benefitId.setJobPostNo(jobPostNo);
+
+        Benefit benefit = new Benefit();
+        benefit.setId(benefitId);
+        benefit.setJobPost(jobPost);
+
+        benefitRepository.save(benefit);
+
+        // JobPostSkills 처리
+        if (jobPostDto.getJobPostSkills() != null && !jobPostDto.getJobPostSkills().isEmpty()) {
+            // skillCode가 null 또는 빈 리스트가 아닐 경우 처리
+            for (String skillCodeStr : jobPostDto.getJobPostSkills()) {
+                System.out.println(skillCodeStr + "스킬스킬");
+
+                // JobPostSkill 엔티티 생성 및 저장
+                JobPostSkillId jobPostSkillId = new JobPostSkillId();
+                jobPostSkillId.setJobPostNo(jobPost.getJobPostNo());
+                jobPostSkillId.setSkillCode(skillCodeStr);
+
+                JobPostSkill jobPostSkill = new JobPostSkill();
+                jobPostSkill.setId(jobPostSkillId);
+                jobPostSkill.setJobPost(jobPost);
+
+                // jobPostSkills 리스트가 null인 경우 초기화
+                if (jobPost.getJobPostSkills() == null) {
+                    jobPost.setJobPostSkills(new ArrayList<>());
+                }
+
+                // jobPostSkills 리스트에 추가
+                jobPost.getJobPostSkills().add(jobPostSkill);
+
+                // 저장
+                jobPostSkillRepository.flush();
+
+                jobPostSkillRepository.save(jobPostSkill);
+            }
+        } else {
+            System.out.println("No skill codes provided.");
+        }
+
+        System.out.println("수정수정수정 서비스 " + jobPostDto);
+    }
+
+    public void delete(Integer jobPostNo) {
+        System.out.println("삭제삭wp" + jobPostNo);
+        jobPostRepository.deleteById(jobPostNo);
     }
 }
