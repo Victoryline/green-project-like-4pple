@@ -2,6 +2,9 @@ package org.example.restserver.service;
 
 import org.example.restserver.dto.JobSeekerUserResponseDto;
 import org.example.restserver.dto.ResumeRequestDto;
+import org.example.restserver.dto.ResumeResponseDto;
+
+import java.util.List;
 
 /**
  * packageName    : org.example.restserver.service
@@ -20,4 +23,9 @@ public interface ResumeService {
 
     JobSeekerUserResponseDto getUserInfo(String username);
 
+    ResumeResponseDto getResumeInfo(int resumeNo);
+
+    List<ResumeResponseDto> getAllResumes(String username);
+
+    void deleteResume(int resumeNo);
 }

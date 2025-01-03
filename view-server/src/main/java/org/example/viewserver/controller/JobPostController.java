@@ -45,6 +45,11 @@ public class JobPostController {
         return "job-post/list";
     }
 
+    @GetMapping("/list1")
+    public String list1() {
+        return "job-post/list1";
+    }
+
 
 
     @GetMapping("/update-form/{jobpostno}")

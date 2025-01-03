@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.service.JobPostServiceImpl;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,8 +27,8 @@ public class JobPostController {
     @GetMapping("/list")
     public List<JobPostResponseDto> getAllJobPostsWithCompany() {
         List<JobPostResponseDto> jobPosts = jobPostService.getAllJobPostsWithCompany();
+
         System.out.println("jobPosts size: " + jobPosts.size());
-        //System.out.println(jobPosts.get(1));
         return jobPosts;
     }
 

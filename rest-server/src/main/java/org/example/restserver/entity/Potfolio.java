@@ -17,7 +17,7 @@ public class Potfolio {
     @JoinColumn(name = "resume_no", nullable = false)
     private Resume resumeNo;
 
-    @Column(name = "portfolio_link")
+    @Column(name = "portfolio_link", length = 200)
     private String portfolioLink;
 
 }

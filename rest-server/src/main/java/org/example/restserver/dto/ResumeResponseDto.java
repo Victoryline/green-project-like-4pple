@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.restserver.entity.JobSeeker;
 
 import java.util.List;
 
@@ -22,15 +23,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ResumeRequestDto {
+public class ResumeResponseDto {
+
+    private String resumeNo;
 
     private String username;
 
-    private String caption;
+    private String title;
 
     private String image;
 
-    private int resumeNo;
+    private JobSeekerUserResponseDto user;
 
     //희망 조건
     private String wishArea;
@@ -38,9 +41,9 @@ public class ResumeRequestDto {
     private String wishTime;
     private String workCode;
     //학력
-    private List<EducationRequestDto> educations;
+    private EducationRequestDto educations;
     //병역
-    private List<MilitaryRequestDto> military;
+    private MilitaryRequestDto military;
     //경력
     private List<ActivityRequestDto> activities;
     //자격증

@@ -1,0 +1,370 @@
+.profile-img {
+    position: relative;  /* 부모 div에서의 중앙 정렬을 위해 상대적인 위치 설정 */
+}
+
+#imagePreview {
+    display: none; /* 기본적으로 숨김 */
+    max-width: 100%;  /* 이미지 크기 조절 */
+    max-height: 200px; /* 최대 높이 */
+    margin: 0 auto; /* 부모 div 내에서 중앙 정렬 */
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 20%;
+    right: 10%;
+    width: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* 기본적인 모든 브라우저 */
+
+}
+
+.sidebar h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 10px 0;
+}
+
+.content-regist {
+    flex: 1;
+    /*margin-right: 300px;*/
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-regist h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+.section input, .section select, .section textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.section-body{
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.add-button {
+    color: #28a745;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.add-button::before {
+    content: '+';
+    margin-right: 5px;
+    font-size: 18px;
+}
+.checkbox-item{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
+.toggle{
+    margin-right: 5px;
+}
+
+.info{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas: 'a a a a'
+                        'b b b b'
+                        'c c d d';
+}
+.name{
+    grid-area: a;
+}
+.email{
+    grid-area: b;
+}
+.birth{
+    grid-area: c;
+}
+.phone{
+    grid-area: d;
+}
+
+.del-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.del-button:hover {
+    background-color: #c0392b;
+}
+
+.del-button i {
+    font-size: 16px;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    margin-top: 10px;
+    bottom: 20px;         /* 사이드바의 맨 아래에서 20px 떨어지게 위치 */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;  /* 버튼들을 수평 중앙에 배치 */
+    gap: 20px;                /* 버튼들 간의 간격 조정 */
+    z-index: 999;             /* 버튼들이 다른 내용 위에 나타나게 하기 */
+}
+
+/* 추가 스타일 (버튼 스타일링) */
+.submit-button, .reset-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover, .reset-button:hover {
+    background-color: #0056b3;
+}
+
+.reset-button {
+    background-color: #6c757d;
+}
+
+.reset-button:hover {
+    background-color: #5a6268;
+}
+
+
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width:600px;
+    margin: 5px;
+}
+.skill {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #add8e6; /* 연한 초록색 배경 */
+    text-align: center;
+    margin: 5px;
+}
+.skill .remove {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
+#availableSkills {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.available-skill {
+    cursor: pointer;
+    /*display: inline-block;*/
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4f5d4;
+    /*text-align: center;*/
+    margin: 5px;
+} /* 연한 초록색
+
+
+
+/* 기본 정보 컨테이너 */
+.profile-container {
+    display: flex;        /* 수평으로 배치 */
+    align-items: center;  /* 수직 중앙 정렬 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 20px;            /* 왼쪽과 오른쪽 사이 간격 */
+    margin-top: 20px;
+}
+
+/* 프로필 이미지 왼쪽 영역 */
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 세로로 중앙 정렬 */
+    justify-content: center; /* 프로필 사진을 세로로 중앙 정렬 */
+}
+
+/* 프로필 사진 컨테이너 */
+.profile-photo {
+    position: relative; /* 연필 아이콘을 오른쪽 상단에 고정하기 위해 relative 설정 */
+    width: 100px;  /* 프로필 사진의 크기 */
+    height: 100px; /* 프로필 사진의 크기 */
+    border-radius: 50%; /* 프로필 사진을 원형으로 만들기 위해 */
+}
+
+/* 프로필 사진 */
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* 연필 아이콘을 프로필 사진의 오른쪽 상단에 배치 */
+.edit-icon {
+    position: absolute;
+    bottom: 105px;  /* 상단에서 5px 떨어진 위치 */
+    right: 3px; /* 오른쪽에서 5px 떨어진 위치 */
+    cursor: pointer; /* 마우스 커서가 아이콘에 올라가면 클릭 가능하게 보이도록 */
+    background-color: rgba(255, 255, 255, 0.6); /* 배경색을 살짝 투명하게 */
+    padding: 5px; /* 아이콘 주변에 여백 */
+    border-radius: 50%; /* 원형 모양으로 */
+}
+
+/* 연필 아이콘의 크기 */
+.pencil {
+    width: 20px;
+    height: 20px;
+}
+
+/* 프로필 사진 파일 입력 필드 숨기기 */
+#profileImageInput {
+    display: none; /* 파일 입력 필드는 숨겨둔다 */
+}
+
+/* 기본 정보 오른쪽 영역 */
+.profile-right {
+    flex: 1;               /* 오른쪽 영역을 가변 크기로 설정 */
+    margin-top: 20px;
+}
+
+/* 각 폼 항목 스타일 */
+.form-group {
+    display: flex;         /* 가로로 배치 */
+    justify-content: flex-start;  /* 내용이 왼쪽으로 정렬되도록 */
+    align-items: center;   /* 수평 중앙 정렬 */
+    margin-bottom: 15px;   /* 아래쪽 마진 */
+    font-family: 'Arial', sans-serif; /* 고급스러운 글꼴 */
+    color: #333; /* 어두운 색으로 텍스트 강조 */
+}
+
+/* 이름과 생일을 같은 줄에 배치 */
+.form-group .info-item {
+    display: flex; /* 가로로 나열 */
+    margin-right: 20px; /* 두 항목 사이 간격 */
+    align-items: center;
+}
+
+/* 레이블 스타일 */
+.form-group label {
+    font-weight: bold;
+    color: #5a5a5a;
+    font-size: 14px;
+    margin-right: 10px;  /* 라벨과 값 사이의 간격 */
+    width: 80px;  /* 레이블의 고정 폭 */
+}
+
+/* 값 항목 */
+.form-group div {
+    font-size: 16px;
+    font-weight: 500;
+    color: #4a90e2; /* 파란색 강조 */
+}
+
+/* 폼 항목 사이의 구분선 */
+.form-group:after {
+    content: '';
+    display: block;
+    margin-top: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    align-items: flex-end;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
