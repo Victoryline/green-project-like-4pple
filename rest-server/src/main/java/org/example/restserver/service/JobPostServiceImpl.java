@@ -9,12 +9,14 @@ import org.example.restserver.repository.CompanyRepository;
 import org.example.restserver.repository.JobPostRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class JobPostServiceImpl implements JobPostService {
 
     private final JobPostRepository jobPostRepository;
@@ -104,11 +106,13 @@ public class JobPostServiceImpl implements JobPostService {
 
 
     public JobPostDto getJobPostDetailById(Integer jobpostno) {
+        System.out.println(jobpostno+"sdfsdfsdfsdf");
         JobPost jobPost = jobPostRepository.findById(jobpostno)
                 .orElse(null);
-        System.out.println(jobPost+"sdfsdfsdfsdf");
+
 
         JobPostDto jobPostDto = new JobPostDto();
+        jobPostDto.setJobPostNo(jobPost.getJobPostNo());
         jobPostDto.setUsername(jobPost.getCompany().getUsername());
         jobPostDto.setTitle(jobPost.getTitle());
         jobPostDto.setWorkCode(jobPost.getWorkCode());
@@ -147,9 +151,21 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
     public void modify(JobPostDto jobPostDto) {
+        System.out.println(jobPostDto + "수정수정 디티오 디티오 ");
+
+        // username이 null이거나 빈 값인지 확인
+        if (jobPostDto.getUsername() == null || jobPostDto.getUsername().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty");
+        }
+
+        // Company 객체 찾기
+        Company company = companyRepository.findById(jobPostDto.getUsername())
+                .orElseThrow(() -> new IllegalArgumentException("Company not found"));
+
         // JobPost 엔티티 생성 - Builder 패턴 사용
-        // 디티오에서 받아온값 엔티티에 넣을때  빌더 사용
         JobPost jobPost = new JobPost();
+
+        jobPost.setUsername(jobPostDto.getUsername());
         jobPost.setJobPostNo(jobPostDto.getJobPostNo());
         jobPost.setTitle(jobPostDto.getTitle());
         jobPost.setWorkCode(jobPostDto.getWorkCode());
@@ -169,11 +185,13 @@ public class JobPostServiceImpl implements JobPostService {
         jobPost.setManagerPhone(jobPostDto.getManagerPhone());
         jobPost.setManagerEmail(jobPostDto.getManagerEmail());
         jobPost.setEndYn('N');
+        jobPost.setCompany(company);
 
         // JobPost 저장
         jobPostRepository.save(jobPost);
         int jobPostNo = jobPost.getJobPostNo();
 
+        // Benefit 처리
         BenefitId benefitId = new BenefitId();
         benefitId.setBenefitContent(jobPostDto.getContent());
         benefitId.setJobPostNo(jobPostNo);
@@ -184,7 +202,7 @@ public class JobPostServiceImpl implements JobPostService {
 
         benefitRepository.save(benefit);
 
-
+        // JobPostSkills 처리
         if (jobPostDto.getJobPostSkills() != null && !jobPostDto.getJobPostSkills().isEmpty()) {
             // skillCode가 null 또는 빈 리스트가 아닐 경우 처리
             for (String skillCodeStr : jobPostDto.getJobPostSkills()) {
@@ -211,12 +229,16 @@ public class JobPostServiceImpl implements JobPostService {
                 jobPostSkillRepository.flush();
 
                 jobPostSkillRepository.save(jobPostSkill);
-
             }
         } else {
             System.out.println("No skill codes provided.");
         }
-        System.out.println("수정수정수정 서비스 "+   jobPostDto);
+
+        System.out.println("수정수정수정 서비스 " + jobPostDto);
     }
 
+    public void delete(Integer jobPostNo) {
+        System.out.println("삭제삭wp" + jobPostNo);
+        jobPostRepository.deleteById(jobPostNo);
+    }
 }

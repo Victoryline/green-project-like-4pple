@@ -128,8 +128,9 @@
 
         <input type="hidden" name="username" th:value="${session.user.username}">
         <input type="hidden" name="jobPostNo" th:value="${jobPost.jobPostNo}">
-
+        <p th:text="${jobPost.jobPostNo}">ㅇㅇㅇㅇ</p>
         <input type="submit" value="공고 수정" onclick="updatePost(event)">
+        <input type="button" value="공고 삭제" onclick="deletePost(event)">
       </form>
     </div>
   </div>
@@ -206,7 +207,8 @@
       jobPostData["startDate"] = jobPostData["startDate"] || null;
       jobPostData["endDate"] = jobPostData["endDate"] || null;
     }
-
+    const username = document.querySelector("input[name='username']").value;
+    jobPostData["username"] = username;
     console.log(jobPostData);
     console.log(jobPostData["skills"]);
     api.put('/api/v1/job-post/updateForm', jobPostData, {
@@ -224,6 +226,26 @@
           });
   }
 
+  function deletePost(event){
+    console.log("sdfsdfsdf");
+    event.preventDefault();
+    const jobpostNo = document.querySelector("input[name='jobPostNo']").value;
+
+
+    console.log("삭제할 공고 번호:", jobpostNo); // jobPostNo 로그 출력
+
+
+    api.delete(`/api/v1/job-post/deleteForm/${jobpostNo}`, {
+    })
+          .then(response => {
+            alert("공고가 성공적으로 삭제되었습니다.");
+            window.location.href = "/job-post/list";
+          })
+          .catch(error => {
+            console.error("공고 삭제 실패:", error);
+            alert("공고 삭제에 실패했습니다. 다시 시도해주세요.");
+          });
+  }
 
 </script>
 </body>

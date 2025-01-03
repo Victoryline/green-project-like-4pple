@@ -38,7 +38,7 @@ public class JobPostController {
     @GetMapping("/detail/{jobpostno}")
     public ResponseEntity<JobPostDto> getJobPostDetail(@PathVariable Integer jobpostno) {
         JobPostDto jobPostDto = jobPostService.getJobPostDetailById(jobpostno);
-        System.out.println("jobPostDto: " + jobPostDto);
+        System.out.println("jobPostDto: !!!!!!!!!!!!삭제 " + jobPostDto);
         if (jobPostDto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -54,7 +54,13 @@ public class JobPostController {
         return ResponseEntity.ok("수정 성공");
     }
 
+    @DeleteMapping("/deleteForm/{jobPostNo}")
+    public ResponseEntity<?> deleteform(@PathVariable Integer jobPostNo) {
+        System.out.println("삭제 번호 : "+jobPostNo);
 
+        jobPostService.delete(jobPostNo);
+        return ResponseEntity.ok("삭제 성공");
+    }
 
 
 }

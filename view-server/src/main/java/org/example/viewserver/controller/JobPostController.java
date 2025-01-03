@@ -51,9 +51,7 @@ public class JobPostController {
     @GetMapping("/update-form/{jobpostno}")
     public String showJobPostDetails(@PathVariable Integer jobpostno, Model model) {
         JobPostDto jobPostDto = jobpostService.getJobPostDetail(jobpostno);
-        if (jobPostDto == null) {
-            return "error/404";  // 예시로 404 에러 페이지로 리다이렉트
-        }
+        System.out.println(jobPostDto.getJobPostNo() +"삭제를 위한 넘버 ㅇㅇㅇㅇ");
         List<GubunDto> workTypeList = gubunService.getGubunList("WORK_TYPE");
         List<GubunDto> jobRankList = gubunService.getGubunList("JOB_RANK");
         List<GubunDto> workList = gubunService.getGubunList("WORK");
