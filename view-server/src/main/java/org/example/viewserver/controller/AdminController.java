@@ -31,10 +31,13 @@ public class AdminController {
         return "admin/user-management";
     }
 
-    @GetMapping("/post-management")
+    @GetMapping("/board-management")
     public String boardManagement(Model model) {
-        model.addAttribute("communities", webClientManager.get("/api/v1/users/role-user?role=ROLE_JOB_SEEKER").getBody());
-        model.addAttribute("comments", webClientManager.get("/api/v1/users/role-user?role=ROLE_COMPANY").getBody());
-        return "admin/post-management";
+        model.addAttribute("communities", webClientManager.get("/api/v1/boards/management/community").getBody());
+        model.addAttribute("comments", webClientManager.get("/api/v1/boards/management/comment").getBody());
+
+        System.out.println(webClientManager.get("/api/v1/boards/management/community").getBody());
+        System.out.println(webClientManager.get("/api/v1/boards/management/comment").getBody());
+        return "admin/board-management";
     }
 }

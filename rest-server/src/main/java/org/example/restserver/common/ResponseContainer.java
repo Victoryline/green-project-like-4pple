@@ -10,6 +10,7 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 
 @RestControllerAdvice
@@ -37,6 +38,8 @@ public class ResponseContainer implements ResponseBodyAdvice<Object> {
         if (statusCode >= 400) {
             return new ApiResponse<>("ERROR", body);
         }
+
+        if(body instanceof SseEmitter) return body;
 
 //         기본적으로 SUCCESS 처리
         return new ApiResponse<>("SUCCESS", body);
