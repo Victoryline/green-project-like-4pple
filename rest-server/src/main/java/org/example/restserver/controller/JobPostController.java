@@ -1,7 +1,6 @@
 package org.example.restserver.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Update;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.service.JobPostServiceImpl;
@@ -38,7 +37,7 @@ public class JobPostController {
     @GetMapping("/detail/{jobpostno}")
     public ResponseEntity<JobPostDto> getJobPostDetail(@PathVariable Integer jobpostno) {
         JobPostDto jobPostDto = jobPostService.getJobPostDetailById(jobpostno);
-        System.out.println("jobPostDto: !!!!!!!!!!!!삭제 " + jobPostDto);
+        System.out.println("jobPostDto: " + jobPostDto);
         if (jobPostDto == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }

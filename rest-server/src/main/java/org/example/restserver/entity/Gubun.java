@@ -15,4 +15,5 @@ public class Gubun {
 
     @Column(length = 50)
     private String name; // 'name' 컬럼
+
 }

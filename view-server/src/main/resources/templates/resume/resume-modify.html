@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="/static/resume/css/modify.css">
+
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="sidebar">
+            <h3>항목편집</h3>
+            <ul>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle" src="/static/images/checked-icon.png" id="basic-info-toggle">
+                        <label class="label" for="basic-info-toggle"><a href="#basic-info-section">기본정보</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img class="toggle" src="/static/images/checked-icon.png" id="wish-toggle">
+                        <label class="label" for="wish-toggle"><a href="#wish-section">희망조건</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img data-div-id="education-section" class="toggle" src="/static/images/unchecked-icon.png" id="educations-toggle">
+                        <label class="label" for="educations-toggle"><a href="#education-section">학력</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img data-div-id="military-section" class="toggle" src="/static/images/unchecked-icon.png" id="military-toggle">
+                        <label class="label" for="military-toggle"><a href="#military-section">병역</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img th:data-div-id="experience-section" class="toggle" src="/static/images/unchecked-icon.png" id="activities-toggle">
+                        <label class="label" for="activities-toggle"><a href="#experience-section">경력</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img data-div-id="license-section" class="toggle" src="/static/images/unchecked-icon.png" id="licenses-toggle">
+                        <label class="label" for="licenses-toggle"><a href="#license-section">자격증</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img data-div-id="skills-section" class="toggle" src="/static/images/unchecked-icon.png" id="skills-toggle">
+                        <label class="label" for="skills-toggle"><a href="#skills-section">기술스택</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img data-div-id="projects-section" class="toggle" src="/static/images/unchecked-icon.png" id="portfolios-toggle">
+                        <label class="label" for="portfolios-toggle"><a href="#projects-section">프로젝트</a></label>
+                    </div>
+                </li>
+                <li class="checkbox">
+                    <div class="checkbox-item">
+                        <img data-div-id="introduce-section" class="toggle" src="/static/images/unchecked-icon.png" id="introduces-toggle">
+                        <label class="label" for="introduces-toggle"><a href="#introduce-section">자소서</a></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <form id="resume-form" class="resume-form">
+            <input type="hidden" class="input-group" name="resumeNo" id="resumeNo" th:value="${resumeNo}">
+            <input type="hidden" class="input-group" name="username" id="username">
+            <div class="content-regist">
+                <!-- 기본정보 섹션은 항상 표시됨 -->
+                <div id="basic-info-section" class="section">
+                    <div class="section-header">
+                        <h3>제목</h3>
+                    </div>
+                    <div class="section-body">
+                        <label class="label">제목</label>
+                        <input type="text" name="caption" class="info-item input-group" readonly >
+                    </div>
+                    <div class="profile-container">
+                        <div class="profile-left">
+                            <div class="profile-photo">
+                                <!-- 프로필 사진 -->
+                                <img src="" class="profile-img" id="profilePreview" alt="프로필 사진">
+                                <!-- 연필 아이콘 -->
+                                <label class="edit-icon label">
+                                    <img class="pencil" alt="연필 아이콘" src="/static/images/pencil-icon.png">
+                                </label>
+                                <!-- 파일 입력 필드 -->
+                                <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        <div class="profile-right">
+                            <h3>기본 정보</h3>
+                            <div class="form-group">
+                                <div class="info-item">
+                                    <label class="label">이름</label>
+                                    <input type="text" name="name" class="info-item input-group" readonly>
+                                </div>
+                                <div class="info-item">
+                                    <label class="label">생일</label>
+                                    <input type="text" name="birth" class="info-item input-group" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="label">이메일</label>
+                                <input type="text" name="email" class="info-item input-group" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="label">전화번호</label>
+                                <input type="text" name="phone" class="info-item input-group" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="wish-section" style="display: none;">
+                        <div class="section-header">
+                            <h3>희망 조건</h3>
+                        </div>
+                        <div class="section-body">
+                            <label class="label">희망근무 지역</label>
+                            <input class="input-group" type="text" name="wishArea" placeholder="지역명 입력">
+                            <label class="label">희망급여 (*만원)</label>
+                            <input class="input-group" type="text" name="wishSalary" placeholder="희망연봉 입력">
+                            <label class="label">희망근무 시간</label>
+                            <input class="input-group" type="text" name="wishTime" placeholder="00:00 - 24:00 형식으로 입력">
+                            <label class="label" for="workCode">희망직무</label>
+                            <select name="workCode" id="workCode">
+                                <option value="">희망직무를 선택해주세요</option>
+                                <option value="BACKEND_DEVELOPER">백엔드 개발자</option>
+                                <option value="DB_DESIGNER">DB 설계자</option>
+                                <option value="FRONTEND_DEVELOPER">프론트엔드 개발자</option>
+                                <option value="PUBLISHER">퍼블리셔</option>
+                                <option value="SECURITY_DEVELOPER">보안 개발자</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- 다른 항목들은 토글로 보이거나 숨겨짐 -->
+                <div id="education-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h3>학력</h3>
+<!--                        <span class="add-button edu">학력 추가</span>-->
+                    </div>
+                    <div class="section-body" data-div-id="education-section">
+                        <label class="label" for="educationCode">학력 선택</label>
+                        <select name="educationCode" id="educationCode">
+                            <option value="">학력을 선택해주세요</option>
+                            <option value="PHD">박사</option>
+                            <option value="MASTER">석사</option>
+                            <option value="BACHELOR">대학교 졸업</option>
+                            <option value="ASSOCIATE">전문대 졸업</option>
+                            <option value="HIGH_SCHOOL">고등학교 졸업</option>
+                            <option value="MIDDLE_SCHOOL">중학교 졸업</option>
+                        </select>
+                        <label class="label">입학 연도</label>
+                        <input class="input-group" type="text" name="enterDate" placeholder="YYYY.MM">
+                        <label class="label">졸업 연도</label>
+                        <input class="input-group" type="text" name="graduateDate" placeholder="YYYY.MM">
+                        <label class="label">학교명</label>
+                        <input class="input-group" type="text" name="schoolName" placeholder="학교명을 입력해주세요">
+                        <label class="label">학과명</label>
+                        <input class="input-group" type="text" name="specialty" placeholder="학과명을 입력해주세요">
+                    </div>
+                </div>
+
+                <div id="military-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h3>병역</h3>
+                    </div>
+                    <div class="section-body" data-div-id="military-section">
+                        <label class="label" for="militaryCode">군별</label>
+                        <select name="militaryCode" id="militaryCode">
+                            <option value="">군별을 선택해주세요</option>
+                            <option value="DEFENSE_INDUSTRY">전역</option>
+                            <option value="DISCHARGED">면제</option>
+                            <option value="EXEMPT">방위산업체</option>
+                            <option value="PUBLIC_SERVICE">공익</option>
+                        </select>
+                        <label class="label">입대일</label>
+                        <input class="input-group" type="text" name="enlistDate" placeholder="YYYY-MM-DD">
+                        <label class="label">전역일</label>
+                        <input class="input-group" type="text" name="releaseDate" placeholder="YYYY-MM-DD">
+                    </div>
+                </div>
+
+                <div id="experience-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h3>경력 및 활동</h3>
+                        <span class="add-button exp">경력 및 활동 추가</span>
+                    </div>
+                    <div class="section-body" data-div-id="experience-section">
+                        <label class="label" for="activityType">활동 유형</label>
+                        <select name="activityType" id="activityType">
+                            <option value="">활동 유형을 선택해주세요</option>
+                            <option value="JOB_CAREEAR">직무 관련 경력</option>
+                            <option value="JOB_ACT">직무 관련 활동</option>
+                            <option value="SOCIAL_ACT">사회 경험 활동</option>
+                        </select>
+                        <label class="label">회사/활동기관명</label>
+                        <input class="input-group" type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
+                        <label class="label">회사/활동기관 주요 내용</label>
+                        <textarea name="activityContent" placeholder="회사/활동기관 주요 내용 입력"></textarea>
+                        <label class="label">입사/시작 연월</label>
+                        <input class="input-group" type="text" name="startDate" placeholder="YYYY-MM">
+                        <label class="label">퇴사/종료 연월</label>
+                        <input class="input-group" type="text" name="endDate" placeholder="YYYY-MM">
+                    </div>
+                </div>
+
+                <div id="license-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h3>자격증</h3>
+                        <span class="add-button license">자격증 추가</span>
+                    </div>
+                    <div class="section-body" data-div-id="license-section">
+                        <label class="label">자격증명</label>
+                        <input class="input-group" type="text" name="licenseName" placeholder="자격증명 입력">
+                        <label class="label">합격일</label>
+                        <input class="input-group" type="text" name="passDate" placeholder="YYYY-MM-DD">
+                        <label class="label">발행처</label>
+                        <input class="input-group" type="text" name="licenseCenterName" placeholder="발행기관 이름">
+                    </div>
+                </div>
+
+                <div id="skills-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h3>기술스택</h3>
+<!--                        <span class="add-button skill">기술스택 추가</span>-->
+                    </div>
+                    <div class="section-body" data-div-id="skills-section">
+                        <div id="availableSkills">
+
+                        </div>
+                        <div id="selectedSkills">
+
+                        </div>
+<!--                        <textarea name="skillCode" placeholder="기술스택 입력"></textarea>-->
+                    </div>
+                </div>
+
+                <div id="projects-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h3>포트폴리오</h3>
+                        <span class="add-button project">포트폴리오 추가</span>
+                    </div>
+                    <div class="section-body" data-div-id="projects-section">
+                        <label class="label">포트폴리오명</label>
+                        <input class="input-group" type="text" name="portfolioFilename" placeholder="프로젝트명 입력">
+                        <label class="label">주소</label>
+                        <input class="input-group" type="text" name="portfolioLink" placeholder="프로젝트 주소">
+                    </div>
+                </div>
+
+                <div id="introduce-section" class="section" style="display: none;" >
+                    <div class="section-header">
+                        <h3>자소서</h3>
+                        <span class="add-button introduce">자소서 추가</span>
+                    </div>
+                    <div class="section-body">
+                        <div id="introduce-items-container">
+                            <div class="introduce-item" data-id="1" data-div-id="introduce-section">
+                                <input class="input-group" type="hidden" name="ord" value="1">
+                                <input class="input-group" type="text" name="title" placeholder="자소서 소제목을 입력해주세요">
+                                <textarea name="content" placeholder="자소서 내용 입력"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-container">
+                    <button type="button" onclick="registForm(event)" class="submit-button">수정하기</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
+<script src="/static/resume/js/modify.js"></script>
+<script src="/static/javascript/utils/axios.js"></script>
+<script src="/static/javascript/utils/imageUtil.js"></script>
+<script src="/static/javascript/utils/sessionUserUtil.js"></script>
+<script>
+
+    window.onload = function() {
+        loadResumeData();
+        loadSkills();
+    }
+
+    const resumeNo = document.getElementById("resumeNo").value;
+
+    function isBase64(str) {
+        // Base64 문자열 패턴 확인 (정규 표현식)
+        const base64Regex = /^[A-Za-z0-9+/=]+$/;
+        return base64Regex.test(str);
+    }
+
+    // axios를 사용하여 데이터를 받아오기 위한 함수
+    function loadResumeData() {
+        console.log("수정본 요청");
+        api.get(`/api/v1/resume/select/${resumeNo}`)  // 이 경로는 백엔드 API에 맞게 조정해야 합니다.
+            .then(function (response) {
+                const resume = response.body;
+                initializeSections(resume);
+
+                // 기본 정보 섹션 채우기
+                document.querySelector('input[name="caption"]').value = resume.title || '';
+                document.querySelector('input[name="username"]').value = resume.username || '';
+                document.querySelector('input[name="name"]').value = resume.name || '';
+                document.querySelector('input[name="email"]').value = resume.user.email || '';
+                document.querySelector('input[name="phone"]').value = resume.user.phone || '';
+                document.querySelector('input[name="birth"]').value = resume.user.birth || '';
+
+                // 프로필 이미지 처리
+                const profileImage = resume.image;
+                const profileImageInput = document.getElementById('profilePreview');
+                let img;
+                if(isBase64(profileImage)){
+                    img = loadImage(image);
+                }else {
+                    img = resume.image;
+                }
+                if (img) {
+                    profileImageInput.src = img;
+                }
+
+                // 희망 조건 섹션 채우기
+                if (resume.wishArea) {
+                    document.querySelector('input[name="wishArea"]').value = resume.wishArea;
+                }
+                if (resume.wishSalary) {
+                    document.querySelector('input[name="wishSalary"]').value = resume.wishSalary;
+                }
+                if (resume.wishTime) {
+                    document.querySelector('input[name="wishTime"]').value = resume.wishTime;
+                }
+                if (resume.workCode) {
+                    document.querySelector('select[name="workCode"]').value = resume.workCode;
+                }
+
+                // 학력, 병역, 경력 등 나머지 섹션도 동일한 방식으로 채우기
+                fillEducation(resume.educations);
+                fillMilitary(resume.military);
+                fillExperience(resume.activities);
+                fillLicense(resume.licenses);
+                fillSkills(resume.skills);
+                fillProjects(resume.portfolios);
+                fillIntroduce(resume.introduces);
+
+            })
+            .catch(function (error) {
+                console.error('Error loading resume data:', error);
+            });
+    }
+
+    // 학력 섹션을 채우는 함수
+    function fillEducation(education) {
+        if (education) {
+            document.querySelector('select[name="educationCode"]').value = education.educationCode;
+            document.querySelector('input[name="enterDate"]').value = education.enterDate;
+            document.querySelector('input[name="graduateDate"]').value = education.graduateDate;
+            document.querySelector('input[name="schoolName"]').value = education.schoolName;
+            document.querySelector('input[name="specialty"]').value = education.specialty;
+        }
+    }
+
+    // 병역 섹션을 채우는 함수
+    function fillMilitary(military) {
+        if (military) {
+            document.querySelector('select[name="militaryCode"]').value = military.militaryCode;
+            document.querySelector('input[name="enlistDate"]').value = military.enlistDate;
+            document.querySelector('input[name="releaseDate"]').value = military.releaseDate;
+        }
+    }
+
+    //경력 세션을 체우는 함수
+    function fillExperience(activities) {
+        console.log(activities);
+        if (activities && activities.length > 0) {
+            activities.forEach((experience, index) => {
+                console.log(`Filling experience ${index}:`, experience); // 각 경력 데이터 확인
+
+                // 각 필드에 데이터가 없으면 기본값을 설정
+                document.querySelector(`select[name="activityType"]`).value = experience.activityType; // activityType이 null이면 빈 문자열로 처리
+                document.querySelector(`input[name="activityCenterName"]`).value = experience.activityCenterName; // activityCenterName이 null이면 빈 문자열로 처리
+                document.querySelector(`textarea[name="activityContent"]`).value = experience.activityContent; // activityContent가 null이면 빈 문자열로 처리
+                document.querySelector(`input[name="startDate"]`).value = experience.startDate; // startDate가 null이면 빈 문자열로 처리
+                document.querySelector(`input[name="endDate"]`).value = experience.endDate; // endDate가 null이면 빈 문자열로 처리
+            });
+        }
+    }
+
+    // 자격증 섹션을 채우는 함수
+    function fillLicense(licenseList) {
+        if (licenseList && licenseList.length > 0) {
+            licenseList.forEach((license, index) => {
+                console.log(`Filling license ${index}:`, license); // 각 라이센스 데이터 확인
+                // 자격증 입력 필드들을 동적으로 추가할 수 있습니다.
+                document.querySelector(`input[name="licenseName"]`).value = license.licenseName;
+                document.querySelector(`input[name="passDate"]`).value = license.passDate;
+                document.querySelector(`input[name="licenseCenterName"]`).value = license.licenseCenterName;
+            });
+        }
+    }
+
+    // 기술 스택 섹션을 채우는 함수
+    function fillSkills(skills) {
+        if (skills && skills.length > 0) {
+            skills.forEach((skill) => {
+                const selectedSkills = document.getElementById('selectedSkills');
+                const existingSkill = Array.from(selectedSkills.children).find(
+                    skillDiv => skillDiv.textContent.trim().replace(' X', '') === skills
+                );
+
+                // 이미 선택된 기술인 경우 아무 작업도 하지 않음
+                if (existingSkill) {
+                    return;
+                }
+
+                // 새로운 기술 추가
+                const skillDiv = document.createElement('div');
+                skillDiv.className = 'skill';
+                skillDiv.innerHTML = `skill.skillCode <span class="remove" onclick="removeSkill(this)">X</span>`;
+                selectedSkills.appendChild(skillDiv);
+            });
+        }
+    }
+
+    // 포트폴리오 섹션을 채우는 함수
+    function fillProjects(projects) {
+        if (projects && projects.length > 0) {
+            projects.forEach((project) => {
+                // 포트폴리오 항목을 동적으로 추가할 수 있습니다.
+                document.querySelector('input[name="portfolioFilename"]').value = project.portfolioFilename;
+                document.querySelector('input[name="portfolioLink"]').value = project.portfolioLink;
+            });
+        }
+    }
+
+    // 자소서 섹션을 채우는 함수
+    function fillIntroduce(introduceItems) {
+        if (introduceItems && introduceItems.length > 0) {
+            introduceItems.forEach((item, index) => {
+                const introduceDiv = document.createElement('div');
+                introduceDiv.innerHTML = `
+                <input type="text" name="title" value="${item.title}" placeholder="자소서 소제목을 입력해주세요">
+                <textarea name="content" placeholder="자소서 내용 입력">${item.content}</textarea>
+            `;
+                document.getElementById('introduce-items-container').appendChild(introduceDiv);
+            });
+        }
+    }
+
+    function loadSkills(){
+        api.get('/api/v1/resume')
+            .then(response => {
+                const skills = response.body;
+                console.log(skills);
+                const availableSkills = document.getElementById('availableSkills');
+
+                skills.forEach(skill => {
+                    const skillDiv = document.createElement('div');
+                    skillDiv.className = 'available-skill';
+                    skillDiv.textContent = skill.code;
+                    skillDiv.onclick = () => addSkill(skill.code);
+                    availableSkills.appendChild(skillDiv);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    function addSkill(skillCode) {
+        const selectedSkills = document.getElementById('selectedSkills');
+        const existingSkill = Array.from(selectedSkills.children).find(
+            skillDiv => skillDiv.textContent.trim().replace(' X', '') === skillCode
+        );
+
+        // 이미 선택된 기술인 경우 아무 작업도 하지 않음
+        if (existingSkill) {
+            return;
+        }
+
+        // 새로운 기술 추가
+        const skillDiv = document.createElement('div');
+        skillDiv.className = 'skill';
+        skillDiv.innerHTML = `${skillCode} <span class="remove" onclick="removeSkill(this)">X</span>`;
+        selectedSkills.appendChild(skillDiv);
+    }
+
+    function removeSkill(element){
+        element.parentElement.remove();
+    }
+
+    // form submit
+    function registForm(event) {
+        event.preventDefault(); // form submit 이벤트 preventDefault
+        console.log("Form submission started");
+
+        const formData = {}; // 데이터를 담을 객체 생성
+        const fields = [
+            'username', 'caption',
+            'wishArea', 'wishSalary', 'wishTime', 'workCode'
+        ];
+
+
+        // 필드 값을 JSON 객체에 추가
+        fields.forEach(field => {
+            const input = document.querySelector(`input[name="${field}"]`);
+            const select = document.querySelector(`select[name="${field}"]`);
+            const textarea = document.querySelector(`textarea[name="${field}"]`);
+
+            if (input && input.value !== '') {
+                formData[field] = input.value;
+            } else if (select && select.value !== '') {
+                formData[field] = select.value;
+            } else if (textarea && textarea.value !== '') {
+                formData[field] = textarea.value;
+            }
+        });
+
+        if (document.getElementById("resumeNo").value) {
+            formData["resumeNo"] = document.getElementById("resumeNo").value;
+        }
+
+        let dataSet
+        dataSet = document.querySelectorAll("img.checked");
+        console.log(dataSet);
+        dataSet.forEach(checked => {
+            const divId = checked.getAttribute("data-div-id");
+            console.log(divId);
+            switch (divId) {
+                case 'introduce-section':
+                    const introduceItems = [];
+                    document.querySelectorAll(`div[data-div-id="introduce-section"]`).forEach(itemDiv => {
+                        introduceItems.push({
+                            ord: itemDiv.querySelector('input[name="ord"]').value,
+                            title: itemDiv.querySelector('input[name="title"]').value,
+                            content: itemDiv.querySelector('textarea[name="content"]').value
+                        });
+                    });
+                    formData["introduces"] = introduceItems;
+                    break;
+
+                case 'education-section':
+                    const educations = [];
+                    document.querySelectorAll(`div[data-div-id="education-section"]`).forEach(itemDiv => {
+                        educations.push({
+                            educationCode: itemDiv.querySelector('select[name="educationCode"]').value,
+                            enterDate: itemDiv.querySelector('input[name="enterDate"]').value,
+                            graduateDate: itemDiv.querySelector('input[name="graduateDate"]').value,
+                            schoolName: itemDiv.querySelector('input[name="schoolName"]').value,
+                            specialty: itemDiv.querySelector('input[name="specialty"]').value
+                        });
+                    })
+                    formData["educations"] = educations;
+                    break;
+
+                case 'license-section':
+                    const licenses = [];
+                    document.querySelectorAll(`div[data-div-id="license-section"]`).forEach(itemDiv => {
+                        licenses.push({
+                            licenseName: itemDiv.querySelector('input[name="licenseName"]').value,
+                            passDate: itemDiv.querySelector('input[name="passDate"]').value,
+                            licenseCenterName: itemDiv.querySelector('input[name="licenseCenterName"]').value
+                        });
+                    });
+                    formData["licenses"] = licenses;
+                    break;
+
+                case 'projects-section':
+                    const portfolios = [];
+                    document.querySelectorAll(`div[data-div-id="projects-section"]`).forEach(itemDiv => {
+                        portfolios.push({
+                            portfolioFilename: itemDiv.querySelector('input[name="portfolioFilename"]').value,
+                            portfolioLink: itemDiv.querySelector('input[name="portfolioLink"]').value
+                        });
+                    });
+                    formData["portfolios"] = portfolios;
+                    break;
+
+                case 'experience-section':
+                    const experiences = [];
+                    document.querySelectorAll(`div[data-div-id="experience-section"]`).forEach(itemDiv => {
+                        experiences.push({
+                            activityType: itemDiv.querySelector('select[name="activityType"]').value,
+                            activityCenterName: itemDiv.querySelector('input[name="activityCenterName"]').value,
+                            activityContent: itemDiv.querySelector('textarea[name="activityContent"]').value,
+                            startDate: itemDiv.querySelector('input[name="startDate"]').value,
+                            endDate: itemDiv.querySelector('input[name="endDate"]').value
+                        });
+                    });
+                    formData["activities"] = experiences;
+                    break;
+
+                case 'skills-section':
+                    const skills = [];
+                    document.querySelectorAll('#selectedSkills .skill').forEach(skillDiv => {
+                        skills.push(skillDiv.textContent.trim().slice(0, -1)); // "X" 제거
+                    });
+                    formData["skills"] = skills;
+                    break;
+
+                default:
+                    console.error(`Invalid divId: ${divId}`);
+                    break;
+
+            }
+        })
+
+        // 이미지 파일 처리
+        const fileInput = document.getElementById('profileImageInput');
+        const preview = document.getElementById('profilePreview');
+        if (fileInput && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            fileToBase64(file).then(base64String => {
+                formData.image = base64String;
+
+                // JSON 데이터 전송
+                sendFormData(formData);
+            }).catch(error => {
+                console.error("Error converting file to Base64", error);
+                alert('이미지 변환 중 문제가 발생했습니다.');
+            });
+        } else if (preview && preview.src){
+            formData.image = preview.src;
+            sendFormData(formData);
+        } else {
+            // JSON 데이터 전송
+            sendFormData(formData);
+        }
+    }
+
+    function sendFormData(formData) {
+        console.log(formData);
+        api.put('/api/v1/resume', JSON.stringify(formData))
+            .then(() => {
+                alert('성공적으로 수정하였습니다.');
+                location.href = `/resume/view/${resumeNo}`; // 성공 시 리다이렉트
+            })
+            .catch(err => {
+                console.error("Error saving data", err);
+                alert('저장 실패하였습니다. 다시 시도해주세요.'); // 에러 메시지 출력
+            });
+    }
+
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result.split(',')[1]); // base64 string
+            reader.onerror = error => reject(error);
+        });
+    }
+
+</script>

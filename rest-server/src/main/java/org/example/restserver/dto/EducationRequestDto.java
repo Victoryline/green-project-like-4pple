@@ -25,6 +25,7 @@ import java.util.List;
 public class EducationRequestDto {
 
     private String educationCode;
+    private String codeName;
     private String enterDate;
     private String graduateDate;
     private String schoolName;

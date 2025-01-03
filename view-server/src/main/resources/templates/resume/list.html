@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>이력서 관리</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/static/sidebar/js/side-bar.js"></script>
+  <link rel="stylesheet" href="/static/resume/css/list.css">
+  <script src="../../static/javascript/utils/axios.js"></script>
+  <script src="../../static/javascript/utils/imageUtil.js"></script>
+  <script src="/static/common/javascript/common.js"></script>
+</head>
+<body>
+<div class="container">
+  <!-- 헤더 -->
+  <header th:replace="/layout/header :: headerFragment"></header>
+
+  <!-- 네비게이션 바 -->
+  <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+
+  <div class="main">
+    <!-- 사이드바 -->
+    <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
+
+    <!-- 콘텐츠 -->
+    <div class="content">
+      <input type="hidden" name="username" id="username" th:value="qwer1">
+<!--      <input type="hidden" name="username" id="username" th:value="${username}">-->
+      <div class="content-header">
+        <h1>이력서 관리</h1>
+        <button class="add-resume-btn" onclick="addResume()">새 이력서 작성</button>
+      </div>
+      <div id="resumeList" class="resume-list"></div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
+<script>
+  let resumes = []; // 이력서 데이터를 저장
+  const username = document.getElementById("username").value;
+
+  window.onload = function () {
+    fetchResumes();
+  };
+
+  // 이력서를 가져오는 함수
+  function fetchResumes() {
+    api.get(`/api/v1/resume/list?username=${username}`)
+            .then(response => {
+              resumes = response.body; // 서버에서 데이터 수신
+              renderResumes();
+            })
+            .catch(error => {
+              console.error("이력서 불러오기 실패:", error);
+              alert("이력서 데이터를 불러오지 못했습니다.");
+            });
+  }
+
+  // 이력서를 추가하는 함수
+  function addResume() {
+    if (resumes.length >= 5) {
+      alert("이력서는 최대 5개까지만 작성 가능합니다.");
+      return;
+    }
+    location.href = "/resume/reg";
+  }
+
+  // 대표 이력서를 설정하는 함수
+  function setRepresentative(index) {
+    // 현재 대표 이력서를 찾고 일반 이력서로 바꿉니다.
+    const currentRepIndex = resumes.findIndex(resume => resume.isRepresentative);
+    if (currentRepIndex !== -1) {
+      resumes[currentRepIndex].isRepresentative = false;
+    }
+
+    // 새로운 대표 이력서를 설정하고 목록의 첫 번째로 이동합니다.
+    const newRepresentative = resumes.splice(index, 1)[0]; // 선택된 이력서를 배열에서 제거
+    newRepresentative.isRepresentative = true;
+    resumes.unshift(newRepresentative); // 배열의 첫 번째로 삽입
+
+    // 이력서 목록을 렌더링
+    renderResumes();
+  }
+
+  // 이력서를 삭제하는 함수
+  function deleteResume(index) {
+    if (confirm("이 이력서를 삭제하시겠습니까?")) {
+      api.delete(`/api/v1/resume/${index}`)
+              .then(() => {
+                resumes.splice(index, 1);
+                alert("이력서를 삭제하였습니다.");
+                location.reload();
+              })
+              .catch(error => {
+                console.error("이력서 삭제 실패:", error);
+                alert("이력서를 삭제하지 못했습니다.");
+              });
+    }
+  }
+
+  // 이력서 목록을 렌더링하는 함수
+  function renderResumes() {
+    const resumeList = document.getElementById("resumeList");
+    resumeList.innerHTML = ""; // 기존 목록 제거
+
+    // 대표 이력서 표시
+    const representativeResume = resumes.find(resume => resume.isRepresentative);
+    if (representativeResume) {
+      const repItem = createResumeCard(representativeResume, true);
+      resumeList.appendChild(repItem);
+    }
+
+    // 일반 이력서 표시
+    resumes
+            .filter(resume => !resume.isRepresentative)
+            .forEach((resume, index) => {
+              const resumeItem = createResumeCard(resume, false, index);
+              resumeList.appendChild(resumeItem);
+            });
+  }
+
+  // 이력서 카드를 생성하는 함수
+  function createResumeCard(resume, isRepresentative, index) {
+    const resumeItem = document.createElement("div");
+    resumeItem.className = "resume-item" + (isRepresentative ? " representative" : "");
+
+    resumeItem.innerHTML = `
+      <div>
+        <h2>${isRepresentative ? "🌟 [대표 이력서] " : ""}${resume.title}</h2>
+        <p>희망 지역: ${resume.wishArea}</p>
+        <p>희망 연봉: ${resume.wishSalary}만원</p>
+        <p>희망 근무 시간: ${resume.wishTime}</p>
+        <p>희망 직무: ${resume.workCode}</p>
+      </div>
+      <div>
+        ${!isRepresentative ? `<button onclick="setRepresentative(${index})">대표로 설정</button>` : ""}
+        <button onclick="editResume(${resume.resumeNo})">편집</button>
+        <button onclick="deleteResume(${resume.resumeNo})">삭제</button>
+      </div>
+    `;
+    return resumeItem;
+  }
+
+  // 이력서를 수정하는 함수
+  function editResume(resumeNo) {
+    location.href = `/resume/modify/${resumeNo}`;
+  }
+</script>

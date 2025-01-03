@@ -1,13 +1,11 @@
 package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.restserver.dto.GubunDto;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.entity.*;
-import org.example.restserver.repository.BenefitRepository;
-import org.example.restserver.repository.CompanyRepository;
-import org.example.restserver.repository.JobPostRepository;
-import org.example.restserver.repository.JobPostSkillRepository;
+import org.example.restserver.repository.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +21,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final BenefitRepository benefitRepository;
     private final JobPostSkillRepository jobPostSkillRepository;
     private final CompanyRepository companyRepository;
-
+    private final GubunRepository gubunRepository;
 
     public void register(JobPostDto jobPostDto) {
 
@@ -102,6 +100,19 @@ public class JobPostServiceImpl implements JobPostService {
 
     public List<JobPostResponseDto> getAllJobPostsWithCompany() {
         return jobPostRepository.findActiveJobPostsWithCompanyInfo();
+    }
+
+    public List<GubunDto> getSkills() {
+        // "SKILL" 코드에 해당하는 기술 스택 목록을 가져옵니다
+        List<Gubun> skills = gubunRepository.findAllByIdGubunCode("SKILL");
+        List<GubunDto> skillDtos = new ArrayList<>();
+
+        for (Gubun skill : skills) {
+            GubunDto skillDto = new GubunDto(skill.getId().getGubunCode(), skill.getId().getCode(), skill.getName());
+            skillDtos.add(skillDto);
+        }
+
+        return skillDtos;  // 기술 스택 데이터 반환
     }
 
 

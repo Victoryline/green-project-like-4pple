@@ -30,6 +30,8 @@ public class ResumeRequestDto {
 
     private String image;
 
+    private int resumeNo;
+
     //희망 조건
     private String wishArea;
     private Integer wishSalary;
@@ -38,7 +40,7 @@ public class ResumeRequestDto {
     //학력
     private List<EducationRequestDto> educations;
     //병역
-    private MilitaryRequestDto military;
+    private List<MilitaryRequestDto> military;
     //경력
     private List<ActivityRequestDto> activities;
     //자격증

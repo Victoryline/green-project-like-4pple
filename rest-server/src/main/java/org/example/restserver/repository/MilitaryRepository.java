@@ -1,5 +1,6 @@
 package org.example.restserver.repository;
 
+import org.example.restserver.dto.MilitaryRequestDto;
 import org.example.restserver.entity.Education;
 import org.example.restserver.entity.Military;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 24. 12. 30.        김재홍       최초 생성
  */
 public interface MilitaryRepository extends JpaRepository<Military, Integer> {
+
+    Military findById(int resumNo);
+
 }

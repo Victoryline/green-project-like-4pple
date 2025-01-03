@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class ActivityRequestDto {
 
     private String activityType;
+    private String codeName;
     private String activityCenterName;
     private String activityContent;
     private String startDate;
