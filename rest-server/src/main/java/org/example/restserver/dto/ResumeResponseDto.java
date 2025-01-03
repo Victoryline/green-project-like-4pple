@@ -33,6 +33,8 @@ public class ResumeResponseDto {
 
     private String image;
 
+    private String name;
+
     private JobSeekerUserResponseDto user;
 
     //희망 조건
@@ -40,6 +42,7 @@ public class ResumeResponseDto {
     private Integer wishSalary;
     private String wishTime;
     private String workCode;
+    private String workName;
     //학력
     private EducationRequestDto educations;
     //병역

@@ -54,6 +54,12 @@
         }
     }
 
+    function isBase64(str) {
+        // Base64 문자열 패턴 확인 (정규 표현식)
+        const base64Regex = /^[A-Za-z0-9+/=]+$/;
+        return base64Regex.test(str);
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         const resumeNo = document.getElementById("resumeNo").value;
         console.log(resumeNo);
@@ -62,9 +68,16 @@
                 const resume = response.body;
                 const resumeContainer = document.getElementById("resume-container");
 
-                const image = resumeNo.image;
+                const image = resume.image;
+                let img;
+                if(isBase64(image)){
+                    img = loadImage(image);
+                }else {
+                    img = resume.image;
+                }
 
-                const img = loadImage(image);
+
+                console.log(resume);
 
                 // 기본정보 섹션
                 let content = `
@@ -73,7 +86,7 @@
                                 <h3>제목</h3>
                             </div>
                             <div class="section-body">
-                                <label>제목</label>
+                                <label class="label">제목</label>
                                 <div>${resume.title || '이력서 제목'}</div> <!-- 제목 출력 -->
                             </div>
                             <div class="profile-container">
@@ -88,7 +101,7 @@
                                     <div class="form-group">
                                         <div class="info-item">
                                             <label>이름</label>
-                                            <div>${getName()}</div> <!-- 이름 출력 -->
+                                            <div>${resume.name}</div> <!-- 이름 출력 -->
                                         </div>
                                         <div class="info-item">
                                             <label>생일</label>
@@ -116,16 +129,16 @@
                                 <h3>희망 조건</h3>
                             </div>
                             <div class="section-body">
-                                <label>희망근무 지역</label>
+                                <label class="label">희망근무 지역</label>
                                 <div>${resume.wishArea || '지역명'}</div>
-                                <label>희망급여 (*만원)</label>
+                                <label class="label">희망급여 (*만원)</label>
                                 <div>${resume.wishSalary || '희망급여'}</div>
-                                <label>희망근무 시간</label>
+                                <label class="label">희망근무 시간</label>
                                 <div>${resume.wishTime || '근무 시간'}</div>
-                                <label>희망직무</label>
+                                <label class="label">희망직무</label>
                                 <div>${resume.workCode || '희망직무'}</div>
                             </div>
-                        </div>
+                        </div>s
                     `;
                 }
 
@@ -137,15 +150,15 @@
                                 <h3>학력</h3>
                             </div>
                             <div class="section-body">
-                                <label>학력 선택</label>
-                                <div>${resume.educations.educationCode || '학력'}</div>
-                                <label>입학 연도</label>
+                                <label class="label">학력 선택</label>
+                                <div>${resume.educations.codeName || '학력'}</div>
+                                <label class="label">입학 연도</label>
                                 <div>${resume.educations.enterDate || '입학 연도'}</div>
-                                <label>졸업 연도</label>
+                                <label class="label">졸업 연도</label>
                                 <div>${resume.educations.graduateDate || '졸업 연도'}</div>
-                                <label>학교명</label>
+                                <label class="label">학교명</label>
                                 <div>${resume.educations.schoolName || '학교명'}</div>
-                                <label>학과명</label>
+                                <label class="label">학과명</label>
                                 <div>${resume.educations.specialty || '학과명'}</div>
                             </div>
                         </div>
@@ -160,12 +173,12 @@
                                 <h3>병역</h3>
                             </div>
                             <div class="section-body">
-                                <label>군별</label>
-                                <div>${resume.military.militaryCode || '군별'}</div>
-                                <label>입대일</label>
-                                <div>${resume.military.enlistDate || '입대일'}</div>
-                                <label>전역일</label>
-                                <div>${resume.military.releaseDate || '전역일'}</div>
+                                <label class="label">군별</label>
+                                <div>${resume.military.codeName || '군별'}</div>
+                                <label class="label">입대일</label>
+                                <div class="label">${resume.military.enlistDate || '입대일'}</div>
+                                <label class="label">전역일</label>
+                                <div class="label">${resume.military.releaseDate || '전역일'}</div>
                             </div>
                         </div>
                     `;
@@ -181,15 +194,15 @@
                             <div class="section-body">
                                 ${resume.activities.map(experience => `
                                     <div>
-                                        <label>활동 유형</label>
-                                        <div>${experience.activityType || '활동 유형'}</div>
-                                        <label>회사/활동기관명</label>
+                                        <label class="label">활동 유형</label>
+                                        <div>${experience.codeName || '활동 유형'}</div>
+                                        <label class="label">회사/활동기관명</label>
                                         <div>${experience.activityCenterName || '회사명'}</div>
-                                        <label>회사/활동기관 주요 내용</label>
+                                        <label class="label">회사/활동기관 주요 내용</label>
                                         <div>${experience.activityContent || '주요 내용'}</div>
-                                        <label>입사/시작 연월</label>
+                                        <label class="label">입사/시작 연월</label>
                                         <div>${experience.startDate || '입사일'}</div>
-                                        <label>퇴사/종료 연월</label>
+                                        <label class="label">퇴사/종료 연월</label>
                                         <div>${experience.endDate || '퇴사일'}</div>
                                     </div>
                                 `).join('')}
@@ -208,11 +221,11 @@
                             <div class="section-body">
                                 ${resume.licenses.map(license => `
                                     <div>
-                                        <label>자격증명</label>
+                                        <label class="label">자격증명</label>
                                         <div>${license.licenseName || '자격증명'}</div>
-                                        <label>합격일</label>
+                                        <label class="label">합격일</label>
                                         <div>${license.passDate || '합격일'}</div>
-                                        <label>발행처</label>
+                                        <label class="label">발행처</label>
                                         <div>${license.licenseCenterName || '발행처'}</div>
                                     </div>
                                 `).join('')}
@@ -247,9 +260,9 @@
                             <div class="section-body">
                                 ${resume.portfolios.map(project => `
                                     <div>
-                                        <label>포트폴리오명</label>
+                                        <label class="label">포트폴리오명</label>
                                         <div>${project.portfolioFilename || '프로젝트명'}</div>
-                                        <label>주소</label>
+                                        <label class="label">주소</label>
                                         <div>${project.portfolioLink || '포트폴리오 링크'}</div>
                                     </div>
                                 `).join('')}

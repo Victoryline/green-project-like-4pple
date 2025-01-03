@@ -53,19 +53,28 @@ Object.keys(sections).forEach(toggleId => {
 
 // 이미지 미리보기 함수
 function previewImage(event) {
-    const file = event.target.files[0];
+    const file = event.target.files[0];  // 선택된 파일 가져오기
     const reader = new FileReader();
 
     reader.onload = function () {
-        const imagePreview = document.getElementById('imagePreview');
-        imagePreview.src = reader.result;
+        const imagePreview = document.getElementById('profilePreview');
+        imagePreview.src = reader.result;  // 이미지를 미리보기로 표시
         imagePreview.style.display = 'block'; // 이미지를 보여줌
     };
 
     if (file) {
-        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽음
+        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽어 미리보기
     }
 }
+
+// 파일 입력 요소에 change 이벤트 리스너 추가
+document.getElementById('profileImageInput').addEventListener('change', previewImage);
+
+// 연필 아이콘을 클릭했을 때 파일 입력 필드를 클릭하는 기능 추가
+document.querySelector('.edit-icon').addEventListener('click', function() {
+    document.getElementById('profileImageInput').click();
+});
+
 
 document.querySelector('.license').addEventListener('click', function () {
     const entry = document.createElement('div');
