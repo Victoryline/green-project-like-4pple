@@ -23,7 +23,7 @@
   <div class="content">
     <div class="wrap">
       <form id="applicationForm">
-        <h2>채용 공고 등록</h2> <br>
+        <h2>채용 공고 수정</h2> <br>
 
         <label for="title">공고 제목:</label>
         <input type="text" id="title" name="title" th:value="${jobPost.title}"><br>
@@ -83,13 +83,14 @@
         <input type="number" id="jobSalary" name="jobSalary" th:value="${jobPost.jobSalary}"><br>
 
         <h3>보유스킬</h3>
+        <p th:text="${jobPost.jobPostSkills}"></p>
         <div>
           <th:block th:each="gubun : ${skilList}">
-            <input type="checkbox" id="skill_${gubun.code}" th:name="jobPostSkills" th:value="${gubun.code}"
-                   th:checked="${jobPost.jobPostSkills.contains(gubun.code)}">
+            <input type="checkbox" id="skill_${gubun.code}" th:name="jobPostSkills" th:value="${gubun.code}">
             <label for="skill_${gubun.code}" th:text="${gubun.name}"></label><br>
           </th:block>
         </div>
+
 
         <h3>모집 부분 및 상세내용</h3>
         <label for="content">상세 내용:</label>
@@ -126,12 +127,104 @@
         <input type="checkbox" id="endYn" name="endYn" th:checked="${jobPost.endYn}"><br>
 
         <input type="hidden" name="username" th:value="${session.user.username}">
+        <input type="hidden" name="jobPostNo" th:value="${jobPost.jobPostNo}">
 
-        <input type="submit" value="등록" onclick="regist(event)">
+        <input type="submit" value="공고 수정" onclick="updatePost(event)">
       </form>
     </div>
   </div>
 
   <footer th:replace="/layout/footer :: footerFragment"></footer></div>
+
+<script>
+
+  const temporaryCheckbox = document.querySelector("input[name='temporary']");
+  const startDateInput = document.querySelector("input[name='startDate']");
+  const endDateInput = document.querySelector("input[name='endDate']");
+
+  temporaryCheckbox.addEventListener("change", function () {
+    if (temporaryCheckbox.checked) {
+      startDateInput.disabled = true;
+      endDateInput.disabled = true;
+    } else {
+      startDateInput.disabled = false;
+      endDateInput.disabled = false;
+    }
+  });
+
+  function updatePost(event) {
+    event.preventDefault();
+
+    const applicationForm = document.getElementById("applicationForm");
+    const jobPostData = {};
+    const formElements = applicationForm.elements;
+    let isValid = true;
+
+    for (let element of formElements) {
+      const {name, value, type, checked} = element;
+
+      if (type !== 'checkbox' && name !== 'temporary' && name !== 'endYn' && !value) {
+        alert(`${name}을(를) 입력해주세요.`);
+        isValid = false;
+        break;
+      }
+
+      if (type === 'select-one' && !value) {
+        alert(`${name}을(를) 선택해주세요.`);
+        isValid = false;
+        break;
+      }
+
+      if (type === 'checkbox') {
+        if (name === 'jobPostSkills') {
+          if (!jobPostData[name]) {
+            jobPostData[name] = [];
+          }
+          if (checked) {
+            jobPostData[name].push(value);
+          }
+        } else {
+          jobPostData[name] = checked;
+        }
+      } else {
+        jobPostData[name] = value;
+      }
+    }
+
+    if (!isValid) return;
+
+    if (jobPostData["benefitContent"] !== "") {
+      jobPostData["benefitContent"] = [jobPostData["benefitContent"]];
+    } else {
+      jobPostData["benefitContent"] = [];
+    }
+
+    jobPostData["endYn"] = jobPostData["endYn"] ? 'Y' : 'N';
+    jobPostData["temporary"] = jobPostData["temporary"] || false;
+
+    if (!jobPostData["temporary"]) {
+      jobPostData["startDate"] = jobPostData["startDate"] || null;
+      jobPostData["endDate"] = jobPostData["endDate"] || null;
+    }
+
+    console.log(jobPostData);
+    console.log(jobPostData["skills"]);
+    api.put('/api/v1/job-post/updateForm', jobPostData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+          .then(response => {
+            alert("공고가 성공적으로 수정 되었습니다.");
+            window.location.href = "/job-post/list";
+          })
+          .catch(error => {
+            console.error("공고 등록 실패:", error);
+            alert("공고 수정에 실패했습니다. 다시 시도해주세요.");
+          });
+  }
+
+
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package org.example.restserver.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Update;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.service.JobPostServiceImpl;
@@ -44,9 +45,14 @@ public class JobPostController {
         return ResponseEntity.status(HttpStatus.OK).body(jobPostDto);
     }
 
+    @PutMapping("/updateForm")
+    public ResponseEntity<?> updateForm(@RequestBody JobPostDto jobPost) {
+        System.out.println("수정 여기 옵니꺼");
 
-
-
+        jobPostService.modify(jobPost);
+        System.out.println(jobPost);
+        return ResponseEntity.ok("수정 성공");
+    }
 
 
 

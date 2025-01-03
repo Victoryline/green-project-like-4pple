@@ -24,9 +24,6 @@ public class JobPost {
     @Column(name = "job_post_no")
     private int jobPostNo;
 
-    @Column(name = "username", insertable = false, updatable = false)
-    private String username;
-
     @Column(name = "title", nullable = false, length = 100)
     private String title;
 

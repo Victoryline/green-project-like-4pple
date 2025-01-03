@@ -108,9 +108,8 @@ public class JobPostServiceImpl implements JobPostService {
                 .orElse(null);
         System.out.println(jobPost+"sdfsdfsdfsdf");
 
-
         JobPostDto jobPostDto = new JobPostDto();
-        jobPostDto.setUsername(jobPost.getUsername());
+        jobPostDto.setUsername(jobPost.getCompany().getUsername());
         jobPostDto.setTitle(jobPost.getTitle());
         jobPostDto.setWorkCode(jobPost.getWorkCode());
         jobPostDto.setJobHistory(jobPost.getJobHistory());
@@ -146,4 +145,78 @@ public class JobPostServiceImpl implements JobPostService {
         System.out.println(jobPostDto+ "sdfsdfsdfsdfsdfsdfsd");
         return jobPostDto;
     }
+
+    public void modify(JobPostDto jobPostDto) {
+        // JobPost 엔티티 생성 - Builder 패턴 사용
+        // 디티오에서 받아온값 엔티티에 넣을때  빌더 사용
+        JobPost jobPost = new JobPost();
+        jobPost.setJobPostNo(jobPostDto.getJobPostNo());
+        jobPost.setTitle(jobPostDto.getTitle());
+        jobPost.setWorkCode(jobPostDto.getWorkCode());
+        jobPost.setJobHistory(jobPostDto.getJobHistory());
+        jobPost.setJobSalary(jobPostDto.getJobSalary());
+        jobPost.setEducationCode(jobPostDto.getEducationCode());
+        jobPost.setJobRankCode(jobPostDto.getJobRankCode());
+        jobPost.setWorkTypeCode(jobPostDto.getWorkTypeCode());
+        jobPost.setStartDate(jobPostDto.getStartDate());
+        jobPost.setEndDate(jobPostDto.getEndDate());
+        jobPost.setContent(jobPostDto.getContent());
+        jobPost.setWorkCondition(jobPostDto.getWorkCondition());
+        jobPost.setProcess(jobPostDto.getProcess());
+        jobPost.setMethod(jobPostDto.getMethod());
+        jobPost.setAddNotice(jobPostDto.getAddNotice());
+        jobPost.setManagerName(jobPostDto.getManagerName());
+        jobPost.setManagerPhone(jobPostDto.getManagerPhone());
+        jobPost.setManagerEmail(jobPostDto.getManagerEmail());
+        jobPost.setEndYn('N');
+
+        // JobPost 저장
+        jobPostRepository.save(jobPost);
+        int jobPostNo = jobPost.getJobPostNo();
+
+        BenefitId benefitId = new BenefitId();
+        benefitId.setBenefitContent(jobPostDto.getContent());
+        benefitId.setJobPostNo(jobPostNo);
+
+        Benefit benefit = new Benefit();
+        benefit.setId(benefitId);
+        benefit.setJobPost(jobPost);
+
+        benefitRepository.save(benefit);
+
+
+        if (jobPostDto.getJobPostSkills() != null && !jobPostDto.getJobPostSkills().isEmpty()) {
+            // skillCode가 null 또는 빈 리스트가 아닐 경우 처리
+            for (String skillCodeStr : jobPostDto.getJobPostSkills()) {
+                System.out.println(skillCodeStr + "스킬스킬");
+
+                // JobPostSkill 엔티티 생성 및 저장
+                JobPostSkillId jobPostSkillId = new JobPostSkillId();
+                jobPostSkillId.setJobPostNo(jobPost.getJobPostNo());
+                jobPostSkillId.setSkillCode(skillCodeStr);
+
+                JobPostSkill jobPostSkill = new JobPostSkill();
+                jobPostSkill.setId(jobPostSkillId);
+                jobPostSkill.setJobPost(jobPost);
+
+                // jobPostSkills 리스트가 null인 경우 초기화
+                if (jobPost.getJobPostSkills() == null) {
+                    jobPost.setJobPostSkills(new ArrayList<>());
+                }
+
+                // jobPostSkills 리스트에 추가
+                jobPost.getJobPostSkills().add(jobPostSkill);
+
+                // 저장
+                jobPostSkillRepository.flush();
+
+                jobPostSkillRepository.save(jobPostSkill);
+
+            }
+        } else {
+            System.out.println("No skill codes provided.");
+        }
+        System.out.println("수정수정수정 서비스 "+   jobPostDto);
+    }
+
 }
