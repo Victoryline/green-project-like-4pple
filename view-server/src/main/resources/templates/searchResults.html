@@ -33,8 +33,7 @@
                         <td th:text="${company.name}"></td> <!-- 회사명 -->
                         <td th:text="${company.address}"></td> <!-- 주소 -->
                         <td th:text="${company.birth}"></td> <!-- 설립일 -->
-                        <td th:text="${company.averageScore != null ? company.averageScore : '평점 없음'}"></td>
-                        <!-- 평균 별점 -->
+                        <td th:text="${company.averageScore != null ? company.averageScore : '평점 없음'}"></td> <!-- 평균 별점 -->
                         <td>
                             <button type="button"
                                     th:attr="data-company-name=${company.name}, data-company-id=${company.companyId}"
@@ -114,9 +113,17 @@
                 return;
             }
 
+            const jobSeekerId = getUsername();
+            console.log(jobSeekerId);
+            if (!jobSeekerId) {
+                console.log(jobSeekerId);
+                alert('로그인해주세요.');
+                return;
+            }
+
             api.post('/api/v1/scores/rating', {
                 companyId: selectedCompanyId,
-                jobSeekerId: getUsername(),
+                jobSeekerId: jobSeekerId,
                 score: rating
             })
                 .then(response => {
@@ -124,6 +131,7 @@
                     closeRatingModal();
                 })
                 .catch(error => {
+                    console.error("평점 등록 에러:", error);
                     alert("평점 등록에 실패했습니다.");
                 });
         }
