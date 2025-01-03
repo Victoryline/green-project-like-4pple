@@ -2,10 +2,14 @@ package org.example.viewserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.viewserver.dto.GubunDto;
+
+import org.example.viewserver.dto.JobPostDto;
 import org.example.viewserver.service.GubunService;
+import org.example.viewserver.service.JobpostServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -17,6 +21,8 @@ import java.util.List;
 public class JobPostController {
 
     private final GubunService gubunService;
+    private final JobpostServiceImpl jobpostService;
+
 
     @GetMapping("/regist")
     public String regist(Model model) {
@@ -34,38 +40,21 @@ public class JobPostController {
         // regist-form.html 뷰를 반환합니다.
         return "job-post/regist-form";
     }
-/*
-@GetMapping("/regist")
-public String applicationRegist(Model model) {
-    var careerResponse = apiService.fetchData("/api/gubn/career");
-    var positionResponse = apiService.fetchData("/api/gubn/position");
-    var educationResponse = apiService.fetchData("/api/gubn/education");
-    var employmentResponse = apiService.fetchData("/api/gubn/employment");
-    var stackResponse = apiService.fetchData("/api/gubn/stack");
-    var stack1thResponse = apiService.fetchData("/api/gubn/stack1th");
-    var applicationResponse = apiService.fetchData("/api/gubn/application");
+    @GetMapping("/list")
+    public String list() {
+        return "job-post/list";
+    }
 
-        /*System.out.println(applicationResponse.getBody());
-          System.out.println(positionResponse);
 
-    var careerList =  careerResponse.getBody();
-    var positionList = positionResponse.getBody();
-    var educationList = educationResponse.getBody();
-    var employmentList = employmentResponse.getBody();
-    var stackList = stackResponse.getBody();
-    var stack1thList = stack1thResponse.getBody();
-    var applicationList = applicationResponse.getBody();
 
-    model.addAttribute("careerList", careerList);
-    model.addAttribute("positionList", positionList);
-    model.addAttribute("educationList", educationList);
-    model.addAttribute("employmentList", employmentList);
-    model.addAttribute("stackList", stackList);
-    model.addAttribute("stack1thList", stack1thList);
-    model.addAttribute("applicationList", applicationList);
-
-    return "/jeyeon/application-regist";
-}*/
-
+    @GetMapping("/update-form/{jobpostno}")
+    public String showJobPostDetails(@PathVariable Integer jobpostno, Model model) {
+        JobPostDto jobPostDto = jobpostService.getJobPostDetail(jobpostno);
+        if (jobPostDto == null) {
+            return "error/404";  // 예시로 404 에러 페이지로 리다이렉트
+        }
+        model.addAttribute("jobPost", jobPostDto);
+        return "job-post/update-form";
+    }
 
 }

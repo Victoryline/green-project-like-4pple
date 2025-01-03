@@ -2,6 +2,7 @@ package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
+import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.entity.*;
 import org.example.restserver.repository.BenefitRepository;
 import org.example.restserver.repository.CompanyRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +24,11 @@ public class JobPostServiceImpl implements JobPostService {
 
 
     public void register(JobPostDto jobPostDto) {
-        System.out.println("Job Post No: ");  // 로그 추가
 
+        Company company = companyRepository.findById(jobPostDto.getUsername()).orElse(null);
         // JobPost 엔티티 생성 - Builder 패턴 사용
         JobPost jobPost = JobPost.builder()
-                .username(jobPostDto.getUsername())
+                .company(company)
                 .title(jobPostDto.getTitle())
                 .workCode(jobPostDto.getWorkCode())
                 .jobHistory(jobPostDto.getJobHistory())
@@ -65,7 +65,7 @@ public class JobPostServiceImpl implements JobPostService {
         benefitRepository.save(benefit);
 
 
-        if(jobPostDto.getJobPostSkills() != null && !jobPostDto.getJobPostSkills().isEmpty()) {
+        if (jobPostDto.getJobPostSkills() != null && !jobPostDto.getJobPostSkills().isEmpty()) {
             // skillCode가 null 또는 빈 리스트가 아닐 경우 처리
             for (String skillCodeStr : jobPostDto.getJobPostSkills()) {
                 System.out.println(skillCodeStr + "스킬스킬");
@@ -92,34 +92,58 @@ public class JobPostServiceImpl implements JobPostService {
                 //jobPostSkillRepository.clear(); // 세션 초기화 (캐시 초기화)
                 jobPostSkillRepository.save(jobPostSkill);
             }
-        } else{
+        } else {
             System.out.println("No skill codes provided.");
         }
     }
 
 
-    public List<JobPostDto> getAllJobPostsWithCompany() {
-        // 레포지토리에서 채용공고와 회사 정보 가져오기
-        List<Object[]> results = jobPostRepository.findAllJobPostsWithCompanyInfo();
+    public List<JobPostResponseDto> getAllJobPostsWithCompany() {
+        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
+    }
 
-        // 결과를 DTO로 변환
-        return results.stream().map(result -> {
-            JobPost jobPost = (JobPost) result[0];
-            Company company = (Company) result[1];
-            return new JobPostDto(
-                    jobPost.getJobPostNo(),
-                    jobPost.getTitle(),
-                    jobPost.getJobPostSkills(),
-                    company.getUsername(),
-                    company.getAddress()
-            );
-        }).collect(Collectors.toList());
+
+    public JobPostDto getJobPostDetailById(Integer jobpostno) {
+        JobPost jobPost = jobPostRepository.findById(jobpostno)
+                .orElse(null);
+        System.out.println(jobPost+"sdfsdfsdfsdf");
+
+
+        JobPostDto jobPostDto = new JobPostDto();
+        jobPostDto.setUsername(jobPost.getUsername());
+        jobPostDto.setTitle(jobPost.getTitle());
+        jobPostDto.setWorkCode(jobPost.getWorkCode());
+        jobPostDto.setJobHistory(jobPost.getJobHistory());
+        jobPostDto.setJobSalary(jobPost.getJobSalary());
+        jobPostDto.setEducationCode(jobPost.getEducationCode());
+        jobPostDto.setJobRankCode(jobPost.getJobRankCode());
+        jobPostDto.setWorkTypeCode(jobPost.getWorkTypeCode());
+        jobPostDto.setStartDate(jobPost.getStartDate());
+        jobPostDto.setEndDate(jobPost.getEndDate());
+        jobPostDto.setContent(jobPost.getContent());
+        jobPostDto.setWorkCondition(jobPost.getWorkCondition());
+        jobPostDto.setProcess(jobPost.getProcess());
+        jobPostDto.setMethod(jobPost.getMethod());
+        jobPostDto.setAddNotice(jobPost.getAddNotice());
+        jobPostDto.setManagerName(jobPost.getManagerName());
+        jobPostDto.setManagerPhone(jobPost.getManagerPhone());
+        jobPostDto.setManagerEmail(jobPost.getManagerEmail());
+        jobPostDto.setEndYn(jobPost.getEndYn());
+
+        List<String> skillList = new ArrayList<>();
+        for (JobPostSkill skill : jobPost.getJobPostSkills()) {
+            skillList.add(skill.getId().getSkillCode());  // skillCode를 추가
+        }
+        jobPostDto.setJobPostSkills(skillList);
+
+        // 베네핏 리스트 처리
+        List<String> benefitList = new ArrayList<>();
+        for (Benefit benefit : jobPost.getBenefits()) {
+            // BenefitId에서 benefitContent 가져오기
+            benefitList.add(benefit.getId().getBenefitContent());
+        }
+        jobPostDto.setBenefitContent(benefitList);
+        System.out.println(jobPostDto+ "sdfsdfsdfsdfsdfsdfsd");
+        return jobPostDto;
     }
 }
-
-
-
-
-
-
-

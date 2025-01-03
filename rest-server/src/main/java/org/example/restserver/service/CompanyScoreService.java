@@ -45,6 +45,7 @@ public class CompanyScoreService {
         CompanyScoreId scoreId = new CompanyScoreId();
         scoreId.setCompanyId(companyScoreDto.getCompanyId());
         scoreId.setJobSeekerId(companyScoreDto.getJobSeekerId());
+        System.out.println(companyScoreDto);
 
         CompanyScore companyScore = new CompanyScore();
         companyScore.setId(scoreId);

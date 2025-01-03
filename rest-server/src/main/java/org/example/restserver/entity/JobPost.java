@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
-
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,7 @@ public class JobPost {
     @Column(name = "job_post_no")
     private int jobPostNo;
 
-    @Column(name = "username")
+    @Column(name = "username", insertable = false, updatable = false)
     private String username;
 
     @Column(name = "title", nullable = false, length = 100)
@@ -92,10 +90,12 @@ public class JobPost {
     @OneToMany(mappedBy = "jobPost",  cascade = CascadeType.ALL)
     private List<JobPostSkill> jobPostSkills = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "company")
-//    private List<JobPost> jobPosts;
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.EAGER)  // 지연 로딩 (필요할 때만 로드)
+    @JoinColumn(name = "username") // 외래 키 설정
+    private Company company;
 
-//    @ManyToOne(fetch = FetchType.EAGER)  // 즉시 로딩 (EAGER)
-//    @JoinColumn(name = "username")
-//    private Company companyusername;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "jobPost", cascade = CascadeType.ALL)
+    private List<Benefit> benefits = new ArrayList<>();
 }

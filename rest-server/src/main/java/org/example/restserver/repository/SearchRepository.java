@@ -21,7 +21,7 @@ import java.util.List;
  * 2024-12-31        이동하       최초 생성
  */
 
-public interface SearchRepository extends JpaRepository<User, String> { // Object와 Long은 사용하지 않는 기본 값
+public interface SearchRepository extends JpaRepository<User, String> {
 
     @Query("SELECT new org.example.restserver.dto.JobPostSearchDto(" +
             "j.username, j.title, j.workCode, j.jobHistory, j.educationCode, " +
@@ -30,7 +30,7 @@ public interface SearchRepository extends JpaRepository<User, String> { // Objec
     List<JobPostSearchDto> findJobPostByKeyword(@Param("keyword") String keyword);
 
     @Query("SELECT new org.example.restserver.dto.CompanySearchDto(" +
-            "u.name, c.address, c.birth, " +
+            "u.username, u.name, c.address, c.birth, " +
             "(SELECT AVG(cs.score) FROM CompanyScore cs WHERE cs.id.companyId = u.username)) " +
             "FROM User u LEFT JOIN Company c ON u.username = c.username " +
             "WHERE u.role = 'ROLE_COMPANY' AND u.deleteYn = 'N' AND u.name LIKE %:keyword%")
@@ -43,7 +43,7 @@ public interface SearchRepository extends JpaRepository<User, String> { // Objec
     List<JobPostSearchDto> findAllJobPosts();
 
     @Query("SELECT new org.example.restserver.dto.CompanySearchDto(" +
-            "u.name, c.address, c.birth, " +
+            "u.username, u.name, c.address, c.birth, " +
             "(SELECT AVG(cs.score) FROM CompanyScore cs WHERE cs.id.companyId = u.username)) " +
             "FROM User u LEFT JOIN Company c ON u.username = c.username " +
             "WHERE u.role = 'ROLE_COMPANY' AND u.deleteYn = 'N'")

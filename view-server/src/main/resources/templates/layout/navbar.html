@@ -1,10 +1,28 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <nav class="navbar" th:fragment="navbarFragment">
-    <ul>
-        <li><a href="#">이력서 등록</a></li>
-        <li><a href="#">지원현황</a></li>
-        <li><a href="#">채용리스트</a></li>
+    <!-- 비회원 -->
+    <ul th:if="${session.user == null}">
+        <li><a href="/">홈</a></li>
         <li><a href="#">커뮤니티</a></li>
     </ul>
+
+    <!-- 구직자 -->
+    <ul th:if="${session.user != null and session.user.role == 'ROLE_JOB_SEEKER'}">
+        <li><a href="/">홈</a></li>
+        <li><a href="#">이력서 등록</a></li>
+        <li><a href="#">지원현황</a></li>
+        <li><a href="#">커뮤니티</a></li>
+    </ul>
+
+    <!-- 기업 -->
+    <ul th:if="${session.user != null and session.user.role == 'ROLE_COMPANY'}">
+        <li><a href="/">홈</a></li>
+        <li><a href="#">채용리스트</a></li>
+    </ul>
+
+    <!-- 관리자 -->
+    <ul th:if="${session.user != null and session.user.role == 'ROLE_ADMIN'}">
+        <li><a href="/">홈</a></li>
+        <li><a href="/admin/user-management">사용자 관리</a></li>
+        <li><a href="/admin/board-management">게시물 관리</a></li>
+    </ul>
 </nav>
-</html>

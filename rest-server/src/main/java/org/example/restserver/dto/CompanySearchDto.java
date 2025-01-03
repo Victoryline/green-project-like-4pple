@@ -24,7 +24,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class CompanySearchDto {
-
+    private String companyId;
     private String name;
     private String address;
     private LocalDate birth;

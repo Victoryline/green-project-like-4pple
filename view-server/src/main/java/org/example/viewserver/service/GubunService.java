@@ -3,6 +3,7 @@ package org.example.viewserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.viewserver.dto.GubunDto;
+import org.example.viewserver.dto.JobPostDto;
 import org.example.viewserver.utils.WebClientManager;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,9 +24,5 @@ public class GubunService {
         // 레스트 서버 API 호출
         return gubnList;
     }
-
-
-    //등록
-
 
 }
