@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,8 +28,8 @@ public class JobPostController {
     @GetMapping("/list")
     public List<JobPostResponseDto> getAllJobPostsWithCompany() {
         List<JobPostResponseDto> jobPosts = jobPostService.getAllJobPostsWithCompany();
+
         System.out.println("jobPosts size: " + jobPosts.size());
-        //System.out.println(jobPosts.get(1));
         return jobPosts;
     }
 
@@ -42,13 +41,8 @@ public class JobPostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(jobPostDto);
+
     }
-
-
-
-
-
-
 
 
 }
