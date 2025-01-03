@@ -1,5 +1,6 @@
 package org.example.restserver.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.restserver.dto.*;
@@ -50,6 +51,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final GubunUttil gubunUttil;
 
     @Override
+    @Transactional
     public int postResume(ResumeRequestDto resumeDto) {
 
         log.info(String.valueOf(resumeDto));
@@ -132,6 +134,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    @Transactional
     public JobSeekerUserResponseDto getUserInfo(String username) {
         JobSeekerUserResponseDto jobSeeker = new JobSeekerUserResponseDto();
 
@@ -154,6 +157,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    @Transactional
     public ResumeResponseDto getResumeInfo(int resumeNo) {
 
         ResumeResponseDto resumeResponse = new ResumeResponseDto();
@@ -166,8 +170,9 @@ public class ResumeServiceImpl implements ResumeService {
             List<ActivityRequestDto> activityList = activities.stream()
                     .map(activity -> {
                         ActivityRequestDto dto = modelMapper.map(activity, ActivityRequestDto.class);
-//                        String name = gubunUttil.getCode(activity.getId().getActivityType());
+                        String name = gubunUttil.getCode(activity.getId().getActivityType());
                         dto.setActivityType(activity.getId().getActivityType()); // 추가 필드 설정
+                        dto.setCodeName(name);
                         return dto;
                     })
                     .collect(Collectors.toList());
@@ -183,7 +188,8 @@ public class ResumeServiceImpl implements ResumeService {
             log.info("request : " + educations.getEducationCode());
             if (educations.getEducationCode() != null) {
                 String name = gubunUttil.getCode(educations.getEducationCode());
-                request.setEducationCode(name);
+                request.setEducationCode(educations.getEducationCode());
+                request.setCodeName(name);
             } else {
                 // 값이 없을 때 처리 (예: 기본값을 설정하거나 예외를 던짐)
                 request.setEducationCode("Unknown");
@@ -207,7 +213,6 @@ public class ResumeServiceImpl implements ResumeService {
             resumeResponse.setIntroduces(request);
         }
 
-
         List<License> licenses = licenseRepository.findById_ResumeNo(resumeNo);
         log.info(licenses.toString());
         if (licenses != null) {
@@ -230,7 +235,8 @@ public class ResumeServiceImpl implements ResumeService {
             log.info("2" +military.getMilitaryCode());
             if (military.getMilitaryCode() != null) {
                 String name = gubunUttil.getCode(military.getMilitaryCode());
-                request.setMilitaryCode(name);
+                request.setMilitaryCode(military.getMilitaryCode());
+                request.setCodeName(name);
             } else {
                 // 값이 없을 때 처리 (예: 기본값을 설정하거나 예외를 던짐)
                 request.setMilitaryCode("Unknown");
@@ -277,13 +283,18 @@ public class ResumeServiceImpl implements ResumeService {
             if (resume.getWorkCode() != null) {
 
                 String workCode = gubunUttil.getCode(resume.getWorkCode());
+                resumeResponse.setWorkCode(resume.getWorkCode());
+                resumeResponse.setWorkName(workCode);
 
-                resumeResponse.setWorkCode(workCode);
+
 
             } else {
                 // 값이 없을 때 처리 (예: 기본값을 설정하거나 예외를 던짐)
                 resumeResponse.setWorkCode("Unknown");
             }
+            JobSeekerUserResponseDto jobSeekerUserResponseDto = getUserInfo(resume.getUsername());
+            resumeResponse.setUser(jobSeekerUserResponseDto);
+            resumeResponse.setName(jobSeekerUserResponseDto.getName());
         }
 
         JobSeeker jobSeeker = jobSeekerRepository.findByUsername(resume.getUsername());
@@ -321,9 +332,9 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    @Transactional
     public void deleteResume(int resumeNo) {
 
-        resumeRepository.deleteById(resumeNo);
         activityRepository.deleteById_ResumeNo(resumeNo);
         educationRepository.deleteById(resumeNo);
         introduceRepository.deleteAllById_ResumeNo(resumeNo);
@@ -331,6 +342,7 @@ public class ResumeServiceImpl implements ResumeService {
         militaryRepository.deleteById(resumeNo);
         portfolioRepository.deleteAllById_ResumeNo(resumeNo);
         resumeSkillRepository.deleteAllById_ResumeNo(resumeNo);
+        resumeRepository.deleteById(resumeNo);
 
     }
 

@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class MilitaryRequestDto {
 
     private String militaryCode;
+    private String codeName;
     private String enlistDate;
     private String releaseDate;
 

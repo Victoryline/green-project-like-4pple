@@ -39,7 +39,6 @@ public class Resume {
     @Column(name = "work_code", length = 20)
     private String workCode;
 
-    @ColumnDefault("N")
     @Column(name = "offer_yn")
     private Character offerYn;
 
@@ -58,11 +57,16 @@ public class Resume {
         if (createDate == null) {
             createDate = Instant.now();
         }
+        if(offerYn == null) {
+            offerYn = 'N';
+        }
     }
 
     @PreUpdate
     public void preUpdate() {
         modifyDate = Instant.now();
     }
+
+
 
 }
