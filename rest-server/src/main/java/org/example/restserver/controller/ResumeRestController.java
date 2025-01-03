@@ -42,7 +42,7 @@ public class ResumeRestController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<JobSeekerUserResponseDto> getResumeById(@PathVariable String username) {
+    public ResponseEntity<JobSeekerUserResponseDto> getResumeById(@PathVariable("username") String username) {
         return ResponseEntity.ok(resumeService.getUserInfo(username));
     }
 

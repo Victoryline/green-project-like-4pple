@@ -355,13 +355,13 @@
     align-items: flex-end;
 }
 
-label {
+.label {
     display: block;
     font-size: 14px;
     margin-bottom: 5px;
 }
 
-input {
+.input-group {
     width: 100%;
     padding: 8px;
     font-size: 14px;

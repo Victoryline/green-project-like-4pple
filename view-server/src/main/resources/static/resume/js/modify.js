@@ -91,40 +91,47 @@ function initializeSections(resume) {
 
 // 이미지 미리보기 함수
 function previewImage(event) {
-    const file = event.target.files[0];
+    const file = event.target.files[0];  // 선택된 파일 가져오기
     const reader = new FileReader();
 
     reader.onload = function () {
-        const imagePreview = document.getElementById('imagePreview');
-        imagePreview.src = reader.result;
+        const imagePreview = document.getElementById('profilePreview');
+        imagePreview.src = reader.result;  // 이미지를 미리보기로 표시
         imagePreview.style.display = 'block'; // 이미지를 보여줌
     };
 
     if (file) {
-        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽음
+        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽어 미리보기
     }
 }
 
+// 파일 입력 요소에 change 이벤트 리스너 추가
+document.getElementById('profileImageInput').addEventListener('change', previewImage);
+
+// 연필 아이콘을 클릭했을 때 파일 입력 필드를 클릭하는 기능 추가
+document.querySelector('.edit-icon').addEventListener('click', function() {
+    document.getElementById('profileImageInput').click();
+});
 
 document.querySelector('.exp').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
 
     entry.innerHTML = `
-            <label for="activityType">군별</label>
+            <label class="label" for="activityType">경력</label>
             <select name="activityType" id="activityType">
                 <option value="JOB_CAREEAR">직무 관련 경력</option>
                 <option value="JOB_ACT">직무 관련 활동</option>
                 <option value="SOCIAL_ACT">사회 경험 활동</option>
             </select>
-            <label>회사/활동기관명</label>
-            <input type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
-            <label>회사/활동기관 주요 내용</label>
+            <label class="label">회사/활동기관명</label>
+            <input class="input-group" type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
+            <label class="label">회사/활동기관 주요 내용</label>
             <textarea name="activityContent" placeholder="회사/활동기관 주요 내용 입력"></textarea>
-            <label>입사/시작 연월</label>
-            <input type="text" name="startDate" placeholder="YYYY-MM">
-            <label>퇴사/종료 연월</label>
-            <input type="text" name="endDate" placeholder="YYYY-MM">
+            <label class="label">입사/시작 연월</label>
+            <input class="input-group" type="text" name="startDate" placeholder="YYYY-MM">
+            <label class="label">퇴사/종료 연월</label>
+            <input class="input-group" type="text" name="endDate" placeholder="YYYY-MM">
             <button class="edu-delete-button del-button">
                 <i class="fas fa-trash-alt"></i>삭제
             </button>
@@ -142,12 +149,12 @@ document.querySelector('.license').addEventListener('click', function () {
     entry.classList.add('section-body', 'entry');
 
     entry.innerHTML = `
-            <label>자격증명</label>
-            <input type="text" name="licenseName" placeholder="자격증명 입력">
-            <label>합격일</label>
-            <input type="text" name="passDate" placeholder="YYYY-MM-DD">
-            <label>발행처</label>
-            <input type="text" name="licenseCenterName" placeholder="발행기관 이름">
+            <label class="label">자격증명</label>
+            <input class="input-group" type="text" name="licenseName" placeholder="자격증명 입력">
+            <label class="label">합격일</label>
+            <input class="input-group" type="text" name="passDate" placeholder="YYYY-MM-DD">
+            <label class="label">발행처</label>
+            <input class="input-group" type="text" name="licenseCenterName" placeholder="발행기관 이름">
             <button class="license-delete-button del-button">
                 <i class="fas fa-trash-alt"></i>삭제
             </button>
@@ -165,10 +172,10 @@ document.querySelector('.project').addEventListener('click', function () {
     entry.classList.add('section-body', 'entry');
 
     entry.innerHTML = `
-            <label>포트폴리오명</label>
-            <input type="text" name="portfolioFilename" placeholder="프로젝트명 입력">
-            <label>주소</label>
-            <input type="text" name="portfolioLink" placeholder="프로젝트 주소">
+            <label class="label">포트폴리오명</label>
+            <input class="input-group" type="text" name="portfolioFilename" placeholder="프로젝트명 입력">
+            <label class="label">주소</label>
+            <input class="input-group" type="text" name="portfolioLink" placeholder="프로젝트 주소">
             <button class="project-delete-button del-button">
                 <i class="fas fa-trash-alt"></i>삭제
             </button>
@@ -195,7 +202,7 @@ function addIntroduceItem() {
 
     itemContainer.innerHTML = `
         <input type="hidden" name="ord" value="${introduceItemCount}">
-        <input type="text" name="title" placeholder="자소서 소제목을 입력해주세요">
+        <input class="input-group" type="text" name="title" placeholder="자소서 소제목을 입력해주세요">
         <textarea name="content" placeholder="자소서 내용 입력"></textarea>
         <button type="button" class="delete-button del-button" onclick="deleteIntroduceItem(${introduceItemCount})">삭제</button>
     `;

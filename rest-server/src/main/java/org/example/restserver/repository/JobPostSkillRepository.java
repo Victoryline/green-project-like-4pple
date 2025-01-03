@@ -27,7 +27,8 @@ public interface JobPostSkillRepository extends JpaRepository<JobPostSkill, JobP
             "JOIN Gubun g ON jps.id.skillCode = g.id.code WHERE g.id.gubunCode = 'SKILL' AND g.id.code = :skillCode")
     List<JobPost> findJobPostsBySkillCode(@Param("skillCode") String skillCode);
 
-    @Query("SELECT DISTINCT jp FROM JobPost jp JOIN JobPostSkill jps ON jp.jobPostNo = jps.id.jobPostNo " +
+    @Query("SELECT DISTINCT jp FROM JobPost jp " +
+            "JOIN jp.jobPostSkills jps " +
             "WHERE jps.id.skillCode IN :skillCodes")
     List<JobPost> findJobPostsBySkillCodes(@Param("skillCodes") List<String> skillCodes);
 

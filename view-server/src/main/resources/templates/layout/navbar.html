@@ -8,7 +8,7 @@
     <!-- 구직자 -->
     <ul th:if="${session.user != null and session.user.role == 'ROLE_JOB_SEEKER'}">
         <li><a href="/">홈</a></li>
-        <li><a href="#">이력서 등록</a></li>
+        <li><a href="/resume/reg">이력서 등록</a></li>
         <li><a href="#">지원현황</a></li>
         <li><a href="#">커뮤니티</a></li>
     </ul>

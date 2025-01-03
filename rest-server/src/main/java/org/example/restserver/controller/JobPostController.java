@@ -41,13 +41,8 @@ public class JobPostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(jobPostDto);
+
     }
-
-
-
-
-
-
 
 
 }
