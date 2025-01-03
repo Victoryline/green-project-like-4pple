@@ -29,4 +29,7 @@ public interface GubunRepository extends JpaRepository<Gubun, GubunId> {
     Optional<Gubun> findByGubunCodeAndCode(@Param("gubunCode") String gubunCode, @Param("code") String code);
 
     List<Gubun> findAllByIdGubunCode(String gubunCode);
+
+    @Query("SELECT g FROM Gubun g WHERE g.id.code = :code")
+    Gubun findByCode(String code);
 }
