@@ -21,62 +21,63 @@
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img class="toggle" src="/static/images/checked-icon.png" id="basic-info-toggle">
-                        <label for="basic-info-toggle"><a href="#basic-info-section">기본정보</a></label>
+                        <label class="label" for="basic-info-toggle"><a href="#basic-info-section">기본정보</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img class="toggle" src="/static/images/checked-icon.png" id="wish-toggle">
-                        <label for="wish-toggle"><a href="#wish-section">희망조건</a></label>
+                        <label class="label" for="wish-toggle"><a href="#wish-section">희망조건</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img data-div-id="education-section" class="toggle" src="/static/images/unchecked-icon.png" id="educations-toggle">
-                        <label for="educations-toggle"><a href="#education-section">학력</a></label>
+                        <label class="label" for="educations-toggle"><a href="#education-section">학력</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img data-div-id="military-section" class="toggle" src="/static/images/unchecked-icon.png" id="military-toggle">
-                        <label for="military-toggle"><a href="#military-section">병역</a></label>
+                        <label class="label" for="military-toggle"><a href="#military-section">병역</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img th:data-div-id="experience-section" class="toggle" src="/static/images/unchecked-icon.png" id="activities-toggle">
-                        <label for="activities-toggle"><a href="#experience-section">경력</a></label>
+                        <label class="label" for="activities-toggle"><a href="#experience-section">경력</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img data-div-id="license-section" class="toggle" src="/static/images/unchecked-icon.png" id="licenses-toggle">
-                        <label for="licenses-toggle"><a href="#license-section">자격증</a></label>
+                        <label class="label" for="licenses-toggle"><a href="#license-section">자격증</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img data-div-id="skills-section" class="toggle" src="/static/images/unchecked-icon.png" id="skills-toggle">
-                        <label for="skills-toggle"><a href="#skills-section">기술스택</a></label>
+                        <label class="label" for="skills-toggle"><a href="#skills-section">기술스택</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img data-div-id="projects-section" class="toggle" src="/static/images/unchecked-icon.png" id="portfolios-toggle">
-                        <label for="portfolios-toggle"><a href="#projects-section">프로젝트</a></label>
+                        <label class="label" for="portfolios-toggle"><a href="#projects-section">프로젝트</a></label>
                     </div>
                 </li>
                 <li class="checkbox">
                     <div class="checkbox-item">
                         <img data-div-id="introduce-section" class="toggle" src="/static/images/unchecked-icon.png" id="introduces-toggle">
-                        <label for="introduces-toggle"><a href="#introduce-section">자소서</a></label>
+                        <label class="label" for="introduces-toggle"><a href="#introduce-section">자소서</a></label>
                     </div>
                 </li>
             </ul>
         </div>
 
         <form id="resume-form" class="resume-form">
-            <input type="hidden" name="resumeNo" id="resumeNo" th:value="${resumeNo}">
+            <input type="hidden" class="input-group" name="resumeNo" id="resumeNo" th:value="${resumeNo}">
+            <input type="hidden" class="input-group" name="username" id="username">
             <div class="content-regist">
                 <!-- 기본정보 섹션은 항상 표시됨 -->
                 <div id="basic-info-section" class="section">
@@ -84,41 +85,41 @@
                         <h3>제목</h3>
                     </div>
                     <div class="section-body">
-                        <label>제목</label>
-                        <input type="text" name="caption" class="info-item" readonly >
+                        <label class="label">제목</label>
+                        <input type="text" name="caption" class="info-item input-group" readonly >
                     </div>
                     <div class="profile-container">
                         <div class="profile-left">
                             <div class="profile-photo">
                                 <!-- 프로필 사진 -->
-                                <img src="/static/images/default-profile.png" class="profile-img" id="profilePreview" alt="프로필 사진">
+                                <img src="" class="profile-img" id="profilePreview" alt="프로필 사진">
                                 <!-- 연필 아이콘 -->
-                                <label for="profileImageInput" class="edit-icon">
+                                <label class="edit-icon label">
                                     <img class="pencil" alt="연필 아이콘" src="/static/images/pencil-icon.png">
                                 </label>
                                 <!-- 파일 입력 필드 -->
-                                <input type="file" id="profileImageInput" onclick="previewImage(event)" accept="image/*" style="display: none;">
+                                <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
                             </div>
                         </div>
                         <div class="profile-right">
                             <h3>기본 정보</h3>
                             <div class="form-group">
                                 <div class="info-item">
-                                    <label>이름</label>
-                                    <input type="text" name="username" class="info-item" readonly>
+                                    <label class="label">이름</label>
+                                    <input type="text" name="name" class="info-item input-group" readonly>
                                 </div>
                                 <div class="info-item">
-                                    <label>생일</label>
-                                    <input type="text" name="birth" class="info-item" readonly>
+                                    <label class="label">생일</label>
+                                    <input type="text" name="birth" class="info-item input-group" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label>이메일</label>
-                                <input type="text" name="email" class="info-item" readonly>
+                                <label class="label">이메일</label>
+                                <input type="text" name="email" class="info-item input-group" readonly>
                             </div>
                             <div class="form-group">
-                                <label>전화번호</label>
-                                <input type="text" name="phone" class="info-item" readonly>
+                                <label class="label">전화번호</label>
+                                <input type="text" name="phone" class="info-item input-group" readonly>
                             </div>
                         </div>
                     </div>
@@ -127,13 +128,13 @@
                             <h3>희망 조건</h3>
                         </div>
                         <div class="section-body">
-                            <label>희망근무 지역</label>
-                            <input type="text" name="wishArea" placeholder="지역명 입력">
-                            <label>희망급여 (*만원)</label>
-                            <input type="text" name="wishSalary" placeholder="희망연봉 입력">
-                            <label>희망근무 시간</label>
-                            <input type="text" name="wishTime" placeholder="00:00 - 24:00 형식으로 입력">
-                            <label for="workCode">희망직무</label>
+                            <label class="label">희망근무 지역</label>
+                            <input class="input-group" type="text" name="wishArea" placeholder="지역명 입력">
+                            <label class="label">희망급여 (*만원)</label>
+                            <input class="input-group" type="text" name="wishSalary" placeholder="희망연봉 입력">
+                            <label class="label">희망근무 시간</label>
+                            <input class="input-group" type="text" name="wishTime" placeholder="00:00 - 24:00 형식으로 입력">
+                            <label class="label" for="workCode">희망직무</label>
                             <select name="workCode" id="workCode">
                                 <option value="">희망직무를 선택해주세요</option>
                                 <option value="BACKEND_DEVELOPER">백엔드 개발자</option>
@@ -152,7 +153,7 @@
 <!--                        <span class="add-button edu">학력 추가</span>-->
                     </div>
                     <div class="section-body" data-div-id="education-section">
-                        <label for="educationCode">학력 선택</label>
+                        <label class="label" for="educationCode">학력 선택</label>
                         <select name="educationCode" id="educationCode">
                             <option value="">학력을 선택해주세요</option>
                             <option value="PHD">박사</option>
@@ -162,14 +163,14 @@
                             <option value="HIGH_SCHOOL">고등학교 졸업</option>
                             <option value="MIDDLE_SCHOOL">중학교 졸업</option>
                         </select>
-                        <label>입학 연도</label>
-                        <input type="text" name="enterDate" placeholder="YYYY.MM">
-                        <label>졸업 연도</label>
-                        <input type="text" name="graduateDate" placeholder="YYYY.MM">
-                        <label>학교명</label>
-                        <input type="text" name="schoolName" placeholder="학교명을 입력해주세요">
-                        <label>학과명</label>
-                        <input type="text" name="specialty" placeholder="학과명을 입력해주세요">
+                        <label class="label">입학 연도</label>
+                        <input class="input-group" type="text" name="enterDate" placeholder="YYYY.MM">
+                        <label class="label">졸업 연도</label>
+                        <input class="input-group" type="text" name="graduateDate" placeholder="YYYY.MM">
+                        <label class="label">학교명</label>
+                        <input class="input-group" type="text" name="schoolName" placeholder="학교명을 입력해주세요">
+                        <label class="label">학과명</label>
+                        <input class="input-group" type="text" name="specialty" placeholder="학과명을 입력해주세요">
                     </div>
                 </div>
 
@@ -178,7 +179,7 @@
                         <h3>병역</h3>
                     </div>
                     <div class="section-body" data-div-id="military-section">
-                        <label for="militaryCode">군별</label>
+                        <label class="label" for="militaryCode">군별</label>
                         <select name="militaryCode" id="militaryCode">
                             <option value="">군별을 선택해주세요</option>
                             <option value="DEFENSE_INDUSTRY">전역</option>
@@ -186,10 +187,10 @@
                             <option value="EXEMPT">방위산업체</option>
                             <option value="PUBLIC_SERVICE">공익</option>
                         </select>
-                        <label>입대일</label>
-                        <input type="text" name="enlistDate" placeholder="YYYY-MM-DD">
-                        <label>전역일</label>
-                        <input type="text" name="releaseDate" placeholder="YYYY-MM-DD">
+                        <label class="label">입대일</label>
+                        <input class="input-group" type="text" name="enlistDate" placeholder="YYYY-MM-DD">
+                        <label class="label">전역일</label>
+                        <input class="input-group" type="text" name="releaseDate" placeholder="YYYY-MM-DD">
                     </div>
                 </div>
 
@@ -199,21 +200,21 @@
                         <span class="add-button exp">경력 및 활동 추가</span>
                     </div>
                     <div class="section-body" data-div-id="experience-section">
-                        <label for="activityType">활동 유형</label>
+                        <label class="label" for="activityType">활동 유형</label>
                         <select name="activityType" id="activityType">
                             <option value="">활동 유형을 선택해주세요</option>
                             <option value="JOB_CAREEAR">직무 관련 경력</option>
                             <option value="JOB_ACT">직무 관련 활동</option>
                             <option value="SOCIAL_ACT">사회 경험 활동</option>
                         </select>
-                        <label>회사/활동기관명</label>
-                        <input type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
-                        <label>회사/활동기관 주요 내용</label>
+                        <label class="label">회사/활동기관명</label>
+                        <input class="input-group" type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
+                        <label class="label">회사/활동기관 주요 내용</label>
                         <textarea name="activityContent" placeholder="회사/활동기관 주요 내용 입력"></textarea>
-                        <label>입사/시작 연월</label>
-                        <input type="text" name="startDate" placeholder="YYYY-MM">
-                        <label>퇴사/종료 연월</label>
-                        <input type="text" name="endDate" placeholder="YYYY-MM">
+                        <label class="label">입사/시작 연월</label>
+                        <input class="input-group" type="text" name="startDate" placeholder="YYYY-MM">
+                        <label class="label">퇴사/종료 연월</label>
+                        <input class="input-group" type="text" name="endDate" placeholder="YYYY-MM">
                     </div>
                 </div>
 
@@ -223,12 +224,12 @@
                         <span class="add-button license">자격증 추가</span>
                     </div>
                     <div class="section-body" data-div-id="license-section">
-                        <label>자격증명</label>
-                        <input type="text" name="licenseName" placeholder="자격증명 입력">
-                        <label>합격일</label>
-                        <input type="text" name="passDate" placeholder="YYYY-MM-DD">
-                        <label>발행처</label>
-                        <input type="text" name="licenseCenterName" placeholder="발행기관 이름">
+                        <label class="label">자격증명</label>
+                        <input class="input-group" type="text" name="licenseName" placeholder="자격증명 입력">
+                        <label class="label">합격일</label>
+                        <input class="input-group" type="text" name="passDate" placeholder="YYYY-MM-DD">
+                        <label class="label">발행처</label>
+                        <input class="input-group" type="text" name="licenseCenterName" placeholder="발행기관 이름">
                     </div>
                 </div>
 
@@ -254,10 +255,10 @@
                         <span class="add-button project">포트폴리오 추가</span>
                     </div>
                     <div class="section-body" data-div-id="projects-section">
-                        <label>포트폴리오명</label>
-                        <input type="text" name="portfolioFilename" placeholder="프로젝트명 입력">
-                        <label>주소</label>
-                        <input type="text" name="portfolioLink" placeholder="프로젝트 주소">
+                        <label class="label">포트폴리오명</label>
+                        <input class="input-group" type="text" name="portfolioFilename" placeholder="프로젝트명 입력">
+                        <label class="label">주소</label>
+                        <input class="input-group" type="text" name="portfolioLink" placeholder="프로젝트 주소">
                     </div>
                 </div>
 
@@ -269,8 +270,8 @@
                     <div class="section-body">
                         <div id="introduce-items-container">
                             <div class="introduce-item" data-id="1" data-div-id="introduce-section">
-                                <input type="hidden" name="ord" value="1">
-                                <input type="text" name="title" placeholder="자소서 소제목을 입력해주세요">
+                                <input class="input-group" type="hidden" name="ord" value="1">
+                                <input class="input-group" type="text" name="title" placeholder="자소서 소제목을 입력해주세요">
                                 <textarea name="content" placeholder="자소서 내용 입력"></textarea>
                             </div>
                         </div>
@@ -300,6 +301,12 @@
 
     const resumeNo = document.getElementById("resumeNo").value;
 
+    function isBase64(str) {
+        // Base64 문자열 패턴 확인 (정규 표현식)
+        const base64Regex = /^[A-Za-z0-9+/=]+$/;
+        return base64Regex.test(str);
+    }
+
     // axios를 사용하여 데이터를 받아오기 위한 함수
     function loadResumeData() {
         console.log("수정본 요청");
@@ -310,15 +317,21 @@
 
                 // 기본 정보 섹션 채우기
                 document.querySelector('input[name="caption"]').value = resume.title || '';
-                document.querySelector('input[name="username"]').value = getName() || '';
+                document.querySelector('input[name="username"]').value = resume.username || '';
+                document.querySelector('input[name="name"]').value = resume.name || '';
                 document.querySelector('input[name="email"]').value = resume.user.email || '';
                 document.querySelector('input[name="phone"]').value = resume.user.phone || '';
                 document.querySelector('input[name="birth"]').value = resume.user.birth || '';
 
                 // 프로필 이미지 처리
                 const profileImage = resume.image;
-                const img = loadImage(profileImage);
                 const profileImageInput = document.getElementById('profilePreview');
+                let img;
+                if(isBase64(profileImage)){
+                    img = loadImage(image);
+                }else {
+                    img = resume.image;
+                }
                 if (img) {
                     profileImageInput.src = img;
                 }
@@ -380,11 +393,11 @@
                 console.log(`Filling experience ${index}:`, experience); // 각 경력 데이터 확인
 
                 // 각 필드에 데이터가 없으면 기본값을 설정
-                document.querySelector(`input[name="activityType"]`).value = experience.activityType || ''; // activityType이 null이면 빈 문자열로 처리
-                document.querySelector(`input[name="activityCenterName"]`).value = experience.activityCenterName || ''; // activityCenterName이 null이면 빈 문자열로 처리
-                document.querySelector(`textarea[name="activityContent"]`).value = experience.activityContent || ''; // activityContent가 null이면 빈 문자열로 처리
-                document.querySelector(`input[name="startDate"]`).value = experience.startDate || ''; // startDate가 null이면 빈 문자열로 처리
-                document.querySelector(`input[name="endDate"]`).value = experience.endDate || ''; // endDate가 null이면 빈 문자열로 처리
+                document.querySelector(`select[name="activityType"]`).value = experience.activityType; // activityType이 null이면 빈 문자열로 처리
+                document.querySelector(`input[name="activityCenterName"]`).value = experience.activityCenterName; // activityCenterName이 null이면 빈 문자열로 처리
+                document.querySelector(`textarea[name="activityContent"]`).value = experience.activityContent; // activityContent가 null이면 빈 문자열로 처리
+                document.querySelector(`input[name="startDate"]`).value = experience.startDate; // startDate가 null이면 빈 문자열로 처리
+                document.querySelector(`input[name="endDate"]`).value = experience.endDate; // endDate가 null이면 빈 문자열로 처리
             });
         }
     }
@@ -519,14 +532,14 @@
             }
         });
 
-        if(document.getElementById("resumeNo").value){
+        if (document.getElementById("resumeNo").value) {
             formData["resumeNo"] = document.getElementById("resumeNo").value;
         }
 
         let dataSet
         dataSet = document.querySelectorAll("img.checked");
         console.log(dataSet);
-        dataSet.forEach(checked =>{
+        dataSet.forEach(checked => {
             const divId = checked.getAttribute("data-div-id");
             console.log(divId);
             switch (divId) {
@@ -609,13 +622,12 @@
         })
 
         // 이미지 파일 처리
-        const fileInput = document.getElementById('imageInput');
+        const fileInput = document.getElementById('profileImageInput');
+        const preview = document.getElementById('profilePreview');
         if (fileInput && fileInput.files.length > 0) {
             const file = fileInput.files[0];
             fileToBase64(file).then(base64String => {
                 formData.image = base64String;
-
-
 
                 // JSON 데이터 전송
                 sendFormData(formData);
@@ -623,6 +635,9 @@
                 console.error("Error converting file to Base64", error);
                 alert('이미지 변환 중 문제가 발생했습니다.');
             });
+        } else if (preview && preview.src){
+            formData.image = preview.src;
+            sendFormData(formData);
         } else {
             // JSON 데이터 전송
             sendFormData(formData);

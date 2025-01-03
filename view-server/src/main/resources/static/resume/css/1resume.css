@@ -1,3 +1,52 @@
+.profile-img {
+    position: relative;  /* 부모 div에서의 중앙 정렬을 위해 상대적인 위치 설정 */
+}
+
+#imagePreview {
+    display: none; /* 기본적으로 숨김 */
+    max-width: 100%;  /* 이미지 크기 조절 */
+    max-height: 200px; /* 최대 높이 */
+    margin: 0 auto; /* 부모 div 내에서 중앙 정렬 */
+    border: 1px solid #ccc;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.sidebar {
+    position: fixed;
+    top: 20%;
+    right: 10%;
+    width: auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* 기본적인 모든 브라우저 */
+
+}
+
+.sidebar h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    margin: 10px 0;
+}
+
 .content-regist {
     flex: 1;
     /*margin-right: 300px;*/
@@ -203,101 +252,54 @@
 
 
 
-/* 기본 정보 컨테이너 */
+/*기본정보 */
 .profile-container {
-    display: flex;        /* 수평으로 배치 */
-    align-items: center;  /* 수직 중앙 정렬 */
-    justify-content: flex-start; /* 왼쪽 정렬 */
-    gap: 20px;            /* 왼쪽과 오른쪽 사이 간격 */
-    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-/* 프로필 이미지 왼쪽 영역 */
 .profile-left {
     display: flex;
     flex-direction: column;
-    align-items: center;  /* 세로로 중앙 정렬 */
-    justify-content: center; /* 프로필 사진을 세로로 중앙 정렬 */
-}
-
-/* 프로필 사진 영역 */
-.profile-photo {
-    width: 120px;           /* 이미지 크기 */
-    height: 120px;          /* 이미지 크기 */
-    border-radius: 50%;     /* 원형 이미지 */
-    overflow: hidden;       /* 잘린 부분 숨기기 */
-}
-
-/* 프로필 사진 이미지 */
-.profile-photo img {
-    width: 100%;           /* 부모 영역에 맞게 100% 크기 설정 */
-    height: 100%;          /* 부모 영역에 맞게 100% 크기 설정 */
-    object-fit: cover;     /* 비율을 맞추어 잘림 없이 이미지 채우기 */
-}
-
-/* 기본 정보 오른쪽 영역 */
-.profile-right {
-    flex: 1;               /* 오른쪽 영역을 가변 크기로 설정 */
-    margin-top: 20px;
-}
-
-/* 각 폼 항목 스타일 */
-.form-group {
-    display: flex;         /* 가로로 배치 */
-    justify-content: flex-start;  /* 내용이 왼쪽으로 정렬되도록 */
-    align-items: center;   /* 수평 중앙 정렬 */
-    margin-bottom: 15px;   /* 아래쪽 마진 */
-    font-family: 'Arial', sans-serif; /* 고급스러운 글꼴 */
-    color: #333; /* 어두운 색으로 텍스트 강조 */
-}
-
-/* 이름과 생일을 같은 줄에 배치 */
-.form-group .info-item {
-    display: flex; /* 가로로 나열 */
-    margin-right: 20px; /* 두 항목 사이 간격 */
     align-items: center;
 }
 
-/* 레이블 스타일 */
-.form-group label {
-    font-weight: bold;
-    color: #5a5a5a;
-    font-size: 14px;
-    margin-right: 10px;  /* 라벨과 값 사이의 간격 */
-    width: 80px;  /* 레이블의 고정 폭 */
+.profile-photo {
+    position: relative;
+    width: 100px;
+    height: 100px;
 }
 
-/* 값 항목 */
-.form-group div {
-    font-size: 16px;
-    font-weight: 500;
-    color: #4a90e2; /* 파란색 강조 */
+.profile-photo img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
-/* 폼 항목 사이의 구분선 */
-.form-group:after {
-    content: '';
-    display: block;
+.profile-photo input[type="file"] {
     margin-top: 10px;
-    border-bottom: 1px solid #e0e0e0;
-    width: 100%;
-    align-items: flex-end;
 }
 
-.label {
+.profile-right {
+    flex: 1;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+label {
     display: block;
     font-size: 14px;
     margin-bottom: 5px;
 }
 
-.input-group {
+input {
     width: 100%;
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-}
-
-button{
-    margin-bottom: 10px;
 }

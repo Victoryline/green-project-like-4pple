@@ -2,36 +2,44 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>이력서 관리</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="/static/sidebar/js/side-bar.js"></script>
-  <!--  css 경로 확인하고 사용해주세용 -->
-  <link rel="stylesheet" href="/static/common/css/mypage.css">
+  <link rel="stylesheet" href="/static/resume/css/list.css">
   <script src="../../static/javascript/utils/axios.js"></script>
   <script src="../../static/javascript/utils/imageUtil.js"></script>
+  <script src="/static/common/javascript/common.js"></script>
 </head>
 <body>
 <div class="container">
+  <!-- 헤더 -->
   <header th:replace="/layout/header :: headerFragment"></header>
+
+  <!-- 네비게이션 바 -->
   <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+
   <div class="main">
+    <!-- 사이드바 -->
     <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
+
+    <!-- 콘텐츠 -->
     <div class="content">
-      <!--      <input type="hidden" name="username" id="username" th:value="${session.user.username}">-->
-      <div>
+      <input type="hidden" name="username" id="username" th:value="qwer1">
+<!--      <input type="hidden" name="username" id="username" th:value="${username}">-->
+      <div class="content-header">
         <h1>이력서 관리</h1>
+        <button class="add-resume-btn" onclick="addResume()">새 이력서 작성</button>
       </div>
-      <input type="hidden" id="username" value="qwer1">
-      <button onclick="addResume()">새 이력서 작성</button>
-      <div id="resumeList"></div>
+      <div id="resumeList" class="resume-list"></div>
     </div>
   </div>
+
+  <!-- 푸터 -->
   <footer th:replace="/layout/footer :: footerFragment"></footer>
 </div>
 </body>
 </html>
-<script src="/static/javascript/utils/axios.js"></script>
 <script>
   let resumes = []; // 이력서 데이터를 저장
   const username = document.getElementById("username").value;
@@ -64,19 +72,29 @@
 
   // 대표 이력서를 설정하는 함수
   function setRepresentative(index) {
-    resumes.forEach(resume => resume.isRepresentative = false);
-    resumes[index].isRepresentative = true;
+    // 현재 대표 이력서를 찾고 일반 이력서로 바꿉니다.
+    const currentRepIndex = resumes.findIndex(resume => resume.isRepresentative);
+    if (currentRepIndex !== -1) {
+      resumes[currentRepIndex].isRepresentative = false;
+    }
+
+    // 새로운 대표 이력서를 설정하고 목록의 첫 번째로 이동합니다.
+    const newRepresentative = resumes.splice(index, 1)[0]; // 선택된 이력서를 배열에서 제거
+    newRepresentative.isRepresentative = true;
+    resumes.unshift(newRepresentative); // 배열의 첫 번째로 삽입
+
+    // 이력서 목록을 렌더링
     renderResumes();
   }
 
   // 이력서를 삭제하는 함수
   function deleteResume(index) {
     if (confirm("이 이력서를 삭제하시겠습니까?")) {
-      const id = resumes[index].resumeNo;
       api.delete(`/api/v1/resume/${index}`)
               .then(() => {
                 resumes.splice(index, 1);
-                renderResumes();
+                alert("이력서를 삭제하였습니다.");
+                location.reload();
               })
               .catch(error => {
                 console.error("이력서 삭제 실패:", error);
@@ -117,8 +135,7 @@
         <p>희망 지역: ${resume.wishArea}</p>
         <p>희망 연봉: ${resume.wishSalary}만원</p>
         <p>희망 근무 시간: ${resume.wishTime}</p>
-        <p>직무 코드: ${resume.workCode}</p>
-        <img src="data:image/jpeg;base64,${resume.image}" alt="이력서 이미지" style="width: 100px; height: auto;">
+        <p>희망 직무: ${resume.workCode}</p>
       </div>
       <div>
         ${!isRepresentative ? `<button onclick="setRepresentative(${index})">대표로 설정</button>` : ""}
