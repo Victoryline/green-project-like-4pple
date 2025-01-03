@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class MainController {
     private final SessionUserManager sessionUserManager;
+    private final WebClientManager webClientManager;
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String role, Model model) {
@@ -26,12 +27,24 @@ public class MainController {
     }
 
     @GetMapping
-    public String home() {
+    public String home(Model model) {
         String role = sessionUserManager.getRole();
-        return switch (role) {
-            case "ROLE_ADMIN" -> "admin-main";
-            case "ROLE_COMPANY" -> "company-main";
-            default -> "main";
-        };
+        switch (role) {
+            case "ROLE_ADMIN" -> {
+                return "admin-main";
+            }
+            case "ROLE_COMPANY" -> {
+                var myJobPosts = webClientManager.get("/api/v1/job-post/main/{username}", sessionUserManager.getUsername()).getBody();
+//                System.out.println(popularJobPosts);
+                model.addAttribute("myJobPosts", myJobPosts);
+                return "company-main";
+            }
+            default -> {
+                var popularJobPosts = webClientManager.get("/api/v1/job-post/popular").getBody();
+//                System.out.println(popularJobPosts);
+                model.addAttribute("popularJobPosts", popularJobPosts);
+                return "main";
+            }
+        }
     }
 }

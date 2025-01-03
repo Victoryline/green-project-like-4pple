@@ -1,10 +1,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header class="header" th:fragment="headerFragment">
+    <script src="/static/common/javascript/common.js"></script>
     <div class="logo">
         <img onclick="location.href = '/';" th:src="@{/static/images/logo.png}" alt="Logo">
     </div>
     <div class="header-middle">
-        <form id="searchForm" action="/search" method="get" onsubmit="return validateForm()">
+        <form id="searchForm" action="/search" method="get">
             <select name="type">
                 <option value="company">기업별</option>
                 <option value="job">공고별</option>
@@ -16,27 +17,8 @@
         </form>
     </div>
     <div class="header-right">
-        <a th:if="${user != null and user.role == 'ROLE_JOB_SEEKER'}"
-           th:href="${'/mypage/jobseekerMypage'}">
-            마이페이지
-        </a>
-        <a th:if="${user != null and user.role == 'ROLE_COMPANY'}"
-           th:href="${'/mypage/companyMypage'}">
-            마이페이지
-        </a>
-        <a th:if="${user == null}" th:href="@{/login}">로그인</a>
-        <a th:if="${user != null}" onclick="logout()" href="#">로그아웃</a>
+        <a th:if="${session.user == null}" th:href="@{/login}">로그인</a>
+        <a th:if="${session.user != null}" onclick="logout()" href="#">로그아웃</a>
     </div>
 </header>
-
-<script>
-    function validateForm() {
-        const keyword = document.getElementById("keywordInput").value.trim();
-        if (keyword === "") {
-            alert("검색하고자 하는 키워드를 입력해주세요.");
-            return false;
-        }
-        return true;
-    }
-</script>
 </html>
