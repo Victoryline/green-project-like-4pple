@@ -17,8 +17,16 @@
         </form>
     </div>
     <div class="header-right">
-        <a th:if="${session.user == null}" th:href="@{/login}">로그인</a>
-        <a th:if="${session.user != null}" onclick="logout()" href="#">로그아웃</a>
+        <a th:if="${user != null and user.role == 'ROLE_JOB_SEEKER'}"
+           th:href="${'/mypage/jobseekerMypage'}">
+            마이페이지
+        </a>
+        <a th:if="${user != null and user.role == 'ROLE_COMPANY'}"
+           th:href="${'/mypage/companyMypage'}">
+            마이페이지
+        </a>
+        <a th:if="${user == null}" th:href="@{/login}">로그인</a>
+        <a th:if="${user != null}" onclick="logout()" href="#">로그아웃</a>
     </div>
 </header>
 </html>
