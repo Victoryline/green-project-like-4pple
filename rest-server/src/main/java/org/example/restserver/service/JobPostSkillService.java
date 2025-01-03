@@ -8,7 +8,6 @@ import org.example.restserver.entity.JobPost;
 import org.example.restserver.entity.JobPostSkill;
 import org.example.restserver.repository.GubunRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
