@@ -10,31 +10,36 @@
     <script src="../../static/javascript/utils/axios.js"></script>
     <script src="../../static/javascript/utils/imageUtil.js"></script>
     <script src="../../static/common/javascript/common.js"></script>
-</head>
-<body>
-<div class="container">
+  </head>
+  <body>
+  <div class="container">
     <header th:replace="/layout/header :: headerFragment"></header>
     <nav th:replace="/layout/navbar :: navbarFragment"></nav>
     <div class="content">
 
-        <h2>게시글</h2>
-
-        <ul class="post-list">
-
+        <h2>내 게시물 관리</h2>
+        <ul class="mypost">
+            <th:block
             <li th:each="commnunity : ${communities}" class="post-item" onclick="goToDetailPage(1)">
-                <h3 th:text="${commnunity.title}">제목 1</h3>
-                <p>작성자: [[${commnunity.username}]] | 작성일자: [[${commnunity.createDate}]]</p>
-                <p>댓글수: 5 | 조회수: 100</p>
+                <h3 th:text="${community.title}">제목 1</h3>
+                <h3 th:text="${community.content}">내용 1</h3>
             </li>
         </ul>
+
+
     </div>
+      <script>
+          function goToDetailPage(community_no) {
+            // 예시로 postId에 맞는 상세 페이지로 이동
+              window.location.href = `board/detail?communityNo=${community_no}`;
+          }
+      </script>
+
     <footer th:replace="/layout/footer :: footerFragment"></footer>
-</div>
-<script>
-    function goToDetailPage(community_no) {
-// 예시로 postId에 맞는 상세 페이지로 이동
-        window.location.href = `board/detail?communityNo=${community_no}`;
-    }
-</script>
-</body>
-</html>
+  </div>
+
+
+
+
+  </body>
+  </html>

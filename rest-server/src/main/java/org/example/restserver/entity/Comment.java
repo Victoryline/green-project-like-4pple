@@ -38,4 +38,6 @@ public class Comment {
     @Column(name = "delete_yn")
     private Character deleteYn;
 
+
+
 }

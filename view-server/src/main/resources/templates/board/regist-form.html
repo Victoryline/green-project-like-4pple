@@ -72,7 +72,7 @@
             <h2>게시글 등록</h2><br>
             <input type="text" id="title" name="title" placeholder="   제목"><br>
             <textarea id="content" name="content" placeholder=" 내용"></textarea><br><br>
-            <button type="button" class="Regist" onclick="registBoard()">게시글등록</button>
+            <button type="button" class="regist" onclick="registBoard()">게시글등록</button>
         </div>
     </div>
     <footer th:replace="/layout/footer :: footerFragment"></footer>
@@ -93,7 +93,7 @@
             content: content
         };
 
-        api.post('/api/board/detail', postData)
+        api.post('/api/v1/boards/detail', postData)
             .then(function (response) {
                 alert("게시글이 성공적으로 등록되었습니다.");
 

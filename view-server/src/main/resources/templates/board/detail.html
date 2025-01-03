@@ -4,56 +4,42 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        .comment-box-wrapper {
-
-            max-width: 640px;
-            margin: 30px auto;
-            padding: 20px;
-            border-radius: 10px;
-            background-color:white;
-
-        }
-        .community-box{
-            width: 640px;
-            margin: 30px auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color:white;
+        .post-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
         }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            justify-content: center;
+        .post-info div {
+            margin: 5px 0;
+        }
+
+        .comment-box {
+            margin-top: 20px;
+            display: flex;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
         }
 
-        .comment input {
-            width: 80%;
-            padding: 35px;
-            margin-left: 2px;
-            margin-top: 2px;
+        .comment-box input[type="text"] {
+            width: 100%;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            display: block;
+            margin-right: 10px;
         }
-        .comment button:hover {
-            background-color: #18341F;
-        }
-        .comment button {
+
+        .comment-box button {
             padding: 10px 20px;
-            background-color: #1D8935;
-            color: white;
             border: none;
+            background-color: #4CAF50;
+            color: white;
             border-radius: 5px;
             cursor: pointer;
         }
 
+        .comment-box button:hover {
+            background-color: #45a049;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -65,19 +51,19 @@
 </head>
 <body>
 
-
-
 <section id="community">
     <div class="community-box">
-        <label>제목</label><br>
-        <label>내용</label><br>
-        <label>No.</label><br>
-        <label>조회수</label><br>
-        <label>작성일자</label><br>
-        <label>수정일자</label><br>
+        <p><strong>제목</strong></p>
+        <p><strong>내용</strong></p>
     </div>
-    <div class="comment-box-wrapper">
-        <div class="comment">
+    <div>
+        <p>No.1</p>
+        <p>조회수</p>
+        <p>작성일자</p>
+        <p>수정일자</p>
+    </div>
+    <div class="comment-box">
+        <div class="post-info">
 
             <input type="text" id="commentText" name="comment" placeholder="댓글을 입력하세요:)">
             <button type="button" id="commentButton">등록</button>
@@ -86,44 +72,6 @@
         </div>
     </div>
 </section>
-
-<script>
-    const commentButton = document.getElementById("commentButton");
-    const commentList = document.getElementById("comment-list");
-
-    commentButton.addEventListener("click",function(){
-        const commentText = document.getElementById("commentText").value;
-
-
-
-        if(commentText === " "){
-            return;
-        }
-        commentText.innerText
-
-        const commentItem = document.createElement("div");
-        commentItem.classList.add("comment-item");
-
-        const commentContent = document.createElement("span");
-        commentContent.textContent = commentText;
-
-        const deleteButton = document.createElement("button");
-        deleteButton.classList.add("delte-button");
-        deleteButton.texetContent = "삭제";
-        deleteButton.addEventListener("click",function(){
-            commentList.remove(commentItem);
-        });
-
-        commentItem.appendChild(commentContent);
-        commentItem.appendChild(deleteButton);
-
-        commentList.appendChild(commentItem);
-
-        commentInput.value = "";
-    })
-
-
-</script>
 
 </body>
 </html>
