@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * packageName    : org.example.restserver.dto
@@ -23,7 +21,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PopularJobPostDto {
+public class MainJobPostDto {
     private int jobPostNo;
     private String username;
     private String companyName;

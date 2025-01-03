@@ -1,12 +1,9 @@
 package org.example.restserver.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.restserver.dto.PopularJobPostDto;
+import org.example.restserver.dto.MainJobPostDto;
 import org.example.restserver.repository.JobPostRepository;
-import org.example.restserver.service.JobPostService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,7 +25,12 @@ public class JobPostMainController {
     private final JobPostRepository jobPostRepository;
 
     @GetMapping("/popular")
-    public List<PopularJobPostDto> getPopular() {
+    public List<MainJobPostDto> getPopular() {
         return jobPostRepository.findPopularJobPostsWithCompanyInfo();
+    }
+
+    @GetMapping("/main/{username}")
+    public List<MainJobPostDto> getJobPosts(@PathVariable String username) {
+        return jobPostRepository.findJobPostsWithCompanyInfo(username);
     }
 }

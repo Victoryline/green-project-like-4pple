@@ -34,7 +34,7 @@ public class MainController {
                 return "admin-main";
             }
             case "ROLE_COMPANY" -> {
-                var myJobPosts = webClientManager.get("/api/v1/job-post/popular").getBody();
+                var myJobPosts = webClientManager.get("/api/v1/job-post/main/{username}", sessionUserManager.getUsername()).getBody();
 //                System.out.println(popularJobPosts);
                 model.addAttribute("myJobPosts", myJobPosts);
                 return "company-main";
