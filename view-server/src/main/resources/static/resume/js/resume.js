@@ -67,65 +67,10 @@ function previewImage(event) {
     }
 }
 
-document.querySelector('.edu').addEventListener('click', function () {
-    const entry = document.createElement('div');
-    entry.classList.add('section-body', 'entry');
-
-    entry.innerHTML = `
-            <label>입학 연도</label>
-            <input type="text" name="enterDate" placeholder="YYYY.MM">
-            <label>졸업 연도</label>
-            <input type="text" name="graduateDate" placeholder="YYYY.MM">
-            <label>학교명</label>
-            <input type="text" placeholder="학교명을 입력해주세요">
-            <label>학과명</label>
-            <input type="text" placeholder="학과명을 입력해주세요">
-            <button class="edu-delete-button del-button">
-                <i class="fas fa-trash-alt"></i>삭제
-            </button>
-        `;
-
-    entry.querySelector('.edu-delete-button').addEventListener('click', function () {
-        entry.remove();
-    });
-
-    document.querySelector('#education-section').appendChild(entry);
-});
-
-document.querySelector('.exp').addEventListener('click', function () {
-    const entry = document.createElement('div');
-    entry.classList.add('section-body', 'entry');
-
-    entry.innerHTML = `
-            <label for="activityType">군별</label>
-            <select name="activityType" id="activityType">
-                <option value="JOB_CAREEAR">직무 관련 경력</option>
-                <option value="JOB_ACT">직무 관련 활동</option>
-                <option value="SOCIAL_ACT">사회 경험 활동</option>
-            </select>
-            <label>회사/활동기관명</label>
-            <input type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
-            <label>회사/활동기관 주요 내용</label>
-            <textarea name="activityContent" placeholder="회사/활동기관 주요 내용 입력"></textarea>
-            <label>입사/시작 연월</label>
-            <input type="text" name="startDate" placeholder="YYYY-MM">
-            <label>퇴사/종료 연월</label>
-            <input type="text" name="endDate" placeholder="YYYY-MM">
-            <button class="edu-delete-button del-button">
-                <i class="fas fa-trash-alt"></i>삭제
-            </button>
-        `;
-
-    entry.querySelector('.exp-delete-button').addEventListener('click', function () {
-        entry.remove();
-    });
-
-    document.querySelector('#experience-section').appendChild(entry);
-});
-
 document.querySelector('.license').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
+    entry.dataset.divId = "license-section";
 
     entry.innerHTML = `
             <label>자격증명</label>
@@ -149,7 +94,7 @@ document.querySelector('.license').addEventListener('click', function () {
 document.querySelector('.skill').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
-
+    entry.dataset.divId = "skills-section";
     entry.innerHTML = `
             <textarea name="skillCode" placeholder="기술스택 입력"></textarea>
             <button class="skill-delete-button del-button">
@@ -167,6 +112,7 @@ document.querySelector('.skill').addEventListener('click', function () {
 document.querySelector('.project').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
+    entry.dataset.divId = "projects-section";
 
     entry.innerHTML = `
             <label>포트폴리오명</label>
@@ -196,6 +142,7 @@ function addIntroduceItem() {
     const itemContainer = document.createElement('div');
     itemContainer.classList.add('introduce-item');
     itemContainer.setAttribute('data-id', introduceItemCount); // 고유 ID 설정
+    itemContainer.dataset.divId = "introduce-section";
 
     itemContainer.innerHTML = `
         <input type="hidden" name="ord" value="${introduceItemCount}">

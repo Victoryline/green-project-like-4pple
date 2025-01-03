@@ -4,17 +4,22 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.example.restserver.dto.BoardUserDto;
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.dto.UserResponseDto;
 import org.example.restserver.dto.WeeklyRegisterUsersDto;
+import org.example.restserver.entity.User;
+import org.example.restserver.repository.UserRepository;
 import org.example.restserver.service.UserService;
 import org.example.restserver.utils.ConvertTokenUtil;
 import org.example.restserver.utils.JwtUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : org.example.restserver.controller
@@ -33,6 +38,8 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public UserResponseDto getUser(HttpServletRequest request) {
@@ -42,7 +49,6 @@ public class UserController {
 
         return userService.getUser(username);
     }
-
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody UserRequestDto userRequestDto, HttpServletResponse response) {
@@ -87,5 +93,17 @@ public class UserController {
     @GetMapping("/weekly-register-users-data")
     public List<WeeklyRegisterUsersDto> getWeeklyRegisterUsersData() {
         return userService.getWeeklyRegisterUsers();
+    }
+
+    @GetMapping("/role-user")
+    public List<UserResponseDto> getRoleUser(@RequestParam String role) {
+        return userRepository.findByRoleOrderByDeleteYnAndName(role).stream()
+                .map((user) -> modelMapper.map(user, BoardUserDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @PutMapping("/deleteYn/{username}")
+    public int setDeleteYn(@PathVariable String username, @RequestParam String deleteYn) {
+        return userRepository.updateDeleteYnByUsername(username, deleteYn);
     }
 }

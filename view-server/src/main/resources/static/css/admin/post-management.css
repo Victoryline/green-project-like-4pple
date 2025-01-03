@@ -1,0 +1,85 @@
+.post-management {
+    margin: 20px;
+    text-align: center;
+}
+
+.post-management h1 {
+    margin-bottom: 20px;
+}
+
+.post-management .tabs {
+    display: flex;
+    margin: 0 auto 20px auto;
+    border-bottom: 1px solid #ddd;
+    justify-content: space-around;
+    width: 80%;
+}
+
+.post-management .tab {
+    margin: 0 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 30px;
+    color: #666;
+}
+
+.post-management .tab.active {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #007bff;
+}
+
+.post-management .content {
+    display: none;
+}
+
+.post-management .content.active {
+    display: block;
+}
+
+.post-management table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.post-management th, .post-management td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.post-management th {
+    background-color: #f4f4f4;
+}
+
+/* 게시글과 댓글 테이블 컬럼 비율을 동일하게 설정 */
+.post-management th:nth-child(1),
+.post-management td:nth-child(1) {
+    width: 20%; /* 첫 번째 컬럼 */
+}
+
+.post-management th:nth-child(2),
+.post-management td:nth-child(2) {
+    width: 40%; /* 두 번째 컬럼 */
+}
+
+.post-management th:nth-child(3),
+.post-management td:nth-child(3) {
+    width: 15%; /* 세 번째 컬럼 */
+}
+
+.post-management th:nth-child(4),
+.post-management td:nth-child(4) {
+    width: 15%; /* 네 번째 컬럼 */
+}
+
+.post-management th:nth-child(5),
+.post-management td:nth-child(5) {
+    width: 10%; /* 다섯 번째 컬럼 */
+}
+
+.post-management select {
+    padding: 5px;
+}

@@ -67,9 +67,10 @@
                 console.log();
                 const user = res.body.user;
                 axios.post("/api/v1/session", user)
-                    .then(() => {
+                    .then(async () => {
                         alert("로그인 성공");
-                        sessionStorage.setItem("user", JSON.stringify(user));
+                        await connectSSE(user.username);
+                        sessionStorage.setItem("user", JSON.stringify(user.username));
                         location.href = "/";
                     })
             })
@@ -77,6 +78,18 @@
                 const errorMessage = error.response.data.body.message;
                 alert(errorMessage);
             })
+    }
+
+    function connectSSE(username) {
+        const eventSource = new EventSource(`http://localhost:8080/api/v1/sse/subscribe/${encodeURIComponent(username)}`);
+
+        eventSource.onopen = () => {
+            console.log("SSE 연결 성공!");
+        };
+
+        eventSource.onmessage = (event) => {
+            console.log("받은 메시지:", event.data);
+        };
     }
 </script>
 </body>

@@ -52,6 +52,7 @@ public class JobPostDto {
         //company
         private String companyUsername;
         private String address;
-
+        public JobPostDto(String username, String title, String workCode, Integer jobHistory, Integer jobSalary, String educationCode, String jobRankCode, String workTypeCode, LocalDate startDate, LocalDate endDate, String content, String workCondition, Integer process, String method, String addNotice, String managerName, String managerPhone, String managerEmail, Character endYn) {
+        }
 
 }
