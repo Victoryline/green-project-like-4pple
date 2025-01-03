@@ -33,7 +33,7 @@ import org.springframework.stereotype.Service;
 
         ApiResponse response = webClientManager.get("/api/v1/job-post/detail/{jobpostno}", jobpostno);
         JobPostDto jobPostDto = objectMapper.convertValue(response.getBody(), JobPostDto.class);
-
+        System.out.println("디테일 정보 ㅇㅇㅇㅇ"+jobPostDto );
         return jobPostDto;
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,8 @@ public class JobPostController {
     @GetMapping("/list")
     public List<JobPostResponseDto> getAllJobPostsWithCompany() {
         List<JobPostResponseDto> jobPosts = jobPostService.getAllJobPostsWithCompany();
-
         System.out.println("jobPosts size: " + jobPosts.size());
+        //System.out.println(jobPosts.get(1));
         return jobPosts;
     }
 
@@ -41,7 +42,23 @@ public class JobPostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(jobPostDto);
+    }
 
+    @PutMapping("/updateForm")
+    public ResponseEntity<?> updateForm(@RequestBody JobPostDto jobPost) {
+        System.out.println("수정 여기 옵니꺼");
+
+        jobPostService.modify(jobPost);
+        System.out.println(jobPost);
+        return ResponseEntity.ok("수정 성공");
+    }
+
+    @DeleteMapping("/deleteForm/{jobPostNo}")
+    public ResponseEntity<?> deleteform(@PathVariable Integer jobPostNo) {
+        System.out.println("삭제 번호 : "+jobPostNo);
+
+        jobPostService.delete(jobPostNo);
+        return ResponseEntity.ok("삭제 성공");
     }
 
 
