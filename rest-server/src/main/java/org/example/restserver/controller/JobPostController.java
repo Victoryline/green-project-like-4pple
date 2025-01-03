@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.service.JobPostServiceImpl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,13 +41,8 @@ public class JobPostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return ResponseEntity.status(HttpStatus.OK).body(jobPostDto);
+
     }
-
-
-
-
-
-
 
 
 }

@@ -6,13 +6,14 @@ import org.example.restserver.dto.JobPostDto;
 import org.example.restserver.entity.Gubun;
 import org.example.restserver.entity.JobPost;
 import org.example.restserver.entity.JobPostSkill;
+import org.example.restserver.entity.User;
 import org.example.restserver.repository.GubunRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
+import org.example.restserver.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * packageName    : org.example.restserver.service
@@ -31,13 +32,10 @@ public class JobPostSkillService {
 
     private final JobPostSkillRepository jobPostSkillRepository;
     private final GubunRepository gubunRepository;
+    private final UserRepository userRepository;
 
     public List<JobPost> getJobPostsBySkillCode(String skillCode) {
         return jobPostSkillRepository.findJobPostsBySkillCode(skillCode);
-    }
-
-    public List<JobPost> getJobPostsBySkillCodes(List<String> skillCodes) {
-        return jobPostSkillRepository.findJobPostsBySkillCodes(skillCodes);
     }
 
     public List<GubunDto> getSkills() {
@@ -52,31 +50,17 @@ public class JobPostSkillService {
     }
 
     public List<JobPostDto> getJobPostsBySkills(List<String> skillCodes) {
-        List<JobPost> jobPosts = getJobPostsBySkillCodes(skillCodes);
+        List<JobPost> jobPosts;
+
+        if (skillCodes.isEmpty()) {
+            jobPosts = jobPostSkillRepository.findAllJobPosts();
+        } else {
+            jobPosts = jobPostSkillRepository.findJobPostsBySkillCodes(skillCodes);
+        }
+
         List<JobPostDto> jobPostDtos = new ArrayList<>();
-
         for (JobPost jobPost : jobPosts) {
-            JobPostDto jobPostDto = new JobPostDto();
-
-            jobPostDto.setTitle(jobPost.getTitle());
-
-            if (jobPost.getCompany() != null) {
-                jobPostDto.setUsername(jobPost.getCompany().getUsername());
-                jobPostDto.setAddress(jobPost.getCompany().getAddress());
-            }
-
-            List<String> matchedSkills = new ArrayList<>();
-            for (JobPostSkill skill : jobPost.getJobPostSkills()) {
-                if (skillCodes.contains(skill.getId().getSkillCode())) {
-                    matchedSkills.add(skill.getId().getSkillCode());
-                }
-            }
-            jobPostDto.setJobPostSkills(matchedSkills);
-
-            // 경력
-            jobPostDto.setJobHistory(jobPost.getJobHistory());
-
-            jobPostDtos.add(jobPostDto);
+            jobPostDtos.add(convertToDto(jobPost));
         }
 
         return jobPostDtos;
@@ -84,20 +68,39 @@ public class JobPostSkillService {
 
     public List<JobPostDto> getAllJobPosts() {
         List<JobPost> jobPosts = jobPostSkillRepository.findAllJobPosts();
-        return jobPosts.stream().map(this::convertToDto).collect(Collectors.toList());
+        List<JobPostDto> jobPostDtos = new ArrayList<>();
+        for (JobPost jobPost : jobPosts) {
+            jobPostDtos.add(convertToDto(jobPost));
+        }
+        return jobPostDtos;
     }
 
     private JobPostDto convertToDto(JobPost jobPost) {
         JobPostDto dto = new JobPostDto();
         dto.setTitle(jobPost.getTitle());
-        dto.setUsername(jobPost.getCompany() != null ? jobPost.getCompany().getUsername() : null);
-        dto.setAddress(jobPost.getCompany() != null ? jobPost.getCompany().getAddress() : null);
+
+        // User 테이블에서 name 조회
+        String companyName = "회사명 없음";
+        if (jobPost.getCompany() != null) {
+            String username = jobPost.getCompany().getUsername();
+            if (username != null) {
+                User user = userRepository.findById(username).orElse(null);
+                if (user != null) {
+                    companyName = user.getName();
+                }
+            }
+        }
+        dto.setUsername(companyName);
+
+        dto.setAddress(jobPost.getCompany() != null ? jobPost.getCompany().getAddress() : "주소 없음");
         dto.setJobHistory(jobPost.getJobHistory());
-        dto.setJobPostSkills(
-                jobPost.getJobPostSkills().stream()
-                        .map(skill -> skill.getId().getSkillCode())
-                        .collect(Collectors.toList())
-        );
+
+        List<String> skillList = new ArrayList<>();
+        for (JobPostSkill skill : jobPost.getJobPostSkills()) {
+            skillList.add(skill.getId().getSkillCode());
+        }
+        dto.setJobPostSkills(skillList);
+
         return dto;
     }
 }

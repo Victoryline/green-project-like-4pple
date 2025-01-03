@@ -42,16 +42,9 @@ public class JobSkillPostController {
         return ResponseEntity.ok(jobPosts);
     }
 
-    @PostMapping("/skills/match")
-    public ResponseEntity<List<JobPost>> getJobPostsBySkills(@RequestBody List<String> skillCodes) {
-        List<JobPost> jobPosts = jobPostSkillService.getJobPostsBySkillCodes(skillCodes);
-        return ResponseEntity.ok(jobPosts);
-    }
-
     @GetMapping("/filter")
-    public ResponseEntity<List<JobPostDto>> getFilteredJobPosts(@RequestParam List<String> skills) {
+    public ResponseEntity<List<JobPostDto>> filterJobPosts(@RequestParam List<String> skills) {
         List<JobPostDto> filteredPosts = jobPostSkillService.getJobPostsBySkills(skills);
-        System.out.println("Filtered Posts: " + filteredPosts);
         return ResponseEntity.ok(filteredPosts);
     }
 
