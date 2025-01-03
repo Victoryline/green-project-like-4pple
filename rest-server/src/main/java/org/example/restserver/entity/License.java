@@ -23,4 +23,13 @@ public class License {
     @Column(name = "pass_date", nullable = false, length = 6)
     private String passDate;
 
+    @Override
+    public String toString() {
+        return "License{" +
+                "id=" + id + ", " + // 복합 키 (LicenseId)
+                "resumeNo=" + (resumeNo != null ? resumeNo.getId() : "null") + ", " + // Resume 엔티티와의 연관 (id로 출력)
+                "licenseCenterName='" + licenseCenterName + '\'' + ", " + // 자격증 센터 이름
+                "passDate='" + passDate + '\'' + // 자격증 합격일
+                '}';
+    }
 }

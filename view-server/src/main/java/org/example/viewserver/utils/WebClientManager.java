@@ -20,9 +20,9 @@ public class WebClientManager {
     }
 
     // GET 요청
-    public ApiResponse get(String endpoint) {
+    public ApiResponse get(String endpoint, Object... uriVariables) {
         return webClient.get()
-                .uri(endpoint)
+                .uri(endpoint, uriVariables) // PathVariable 처리
                 .header("Authorization", "Bearer " + tokenManager.getTokenByCookie())
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> {

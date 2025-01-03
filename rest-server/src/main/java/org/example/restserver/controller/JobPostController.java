@@ -38,4 +38,21 @@ public class JobPostController {
         return jobPosts;
     }
 
+    @GetMapping("/detail/{jobpostno}")
+    public ResponseEntity<JobPostDto> getJobPostDetail(@PathVariable Integer jobpostno) {
+        JobPostDto jobPostDto = jobPostService.getJobPostDetailById(jobpostno);
+        System.out.println("jobPostDto: " + jobPostDto);
+        if (jobPostDto == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(jobPostDto);
+    }
+
+
+
+
+
+
+
+
 }

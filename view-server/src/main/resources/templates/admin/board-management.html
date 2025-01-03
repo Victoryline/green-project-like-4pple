@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 관리</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+    <link rel="stylesheet" href="../../static/css/admin/post-management.css">
+    <script src="../../static/javascript/admin/post-management.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="post-management">
+            <h1>게시물 관리</h1>
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('communities')"
+                     th:text="'게시글 (' + ${communities.size()} +')'"></div>
+                <div class="tab" onclick="showTab('comments')" th:text="'댓글 (' + ${comments.size()} +')'"></div>
+            </div>
+
+            <div id="communities" class="content active">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>게시물 ID</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>등록일시</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="community : ${communities}">
+                        <td th:text="${community.id}"></td>
+                        <td th:text="${community.title}"></td>
+                        <td th:text="${community.username}"></td>
+                        <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(community.createDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
+                        <td>
+                            <select data-type="community" th:data-id="${community.id}" class="status-select"
+                                    th:disabled="${community.deleteYn == 'Y'}">
+                                <option th:selected="${community.deleteYn == 'N'}" value="N">활성화</option>
+                                <option th:selected="${community.deleteYn == 'H'}" value="H">비활성화</option>
+                                <option th:selected="${community.deleteYn == 'Y'}" value="Y">삭제</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="comments" class="content">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>댓글 ID</th>
+                        <th>내용</th>
+                        <th>작성자</th>
+                        <th>등록일시</th>
+                        <th>상태</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comment : ${comments}">
+                        <td th:text="${comment.id}"></td>
+                        <td th:text="${comment.content}"></td>
+                        <td th:text="${comment.username}"></td>
+                        <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(comment.createDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
+                        <td>
+                            <select data-type="comment" th:data-id="${comment.id}" class="status-select"
+                                    th:disabled="${comment.deleteYn == 'Y'}">
+                                <option th:selected="${comment.deleteYn == 'N'}" value="N">활성화</option>
+                                <option th:selected="${comment.deleteYn == 'H'}" value="H">비활성화</option>
+                                <option th:selected="${comment.deleteYn == 'Y'}" value="Y">삭제</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

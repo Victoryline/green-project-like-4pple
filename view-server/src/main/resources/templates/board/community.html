@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+
+        <h2>게시글</h2>
+
+        <ul class="post-list">
+            <!-- 게시글 항목들 -->
+            <li th:each="commnunity : ${communities}" class="post-item" onclick="goToDetailPage(1)">
+                <h3 th:text="${commnunity.title}">제목 1</h3>
+                <p>작성자: [[${commnunity.username}]] | 작성일자: [[${commnunity.createDate}]]</p>
+                <p>댓글수: 5 | 조회수: 100</p>
+            </li>
+        </ul>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+<script>
+    function goToDetailPage(postId) {
+// 예시로 postId에 맞는 상세 페이지로 이동
+        window.location.href = `detail.html?postId=${postId}`;
+    }
+</script>
+</body>
+</html>

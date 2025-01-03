@@ -76,6 +76,7 @@
         </div>
 
         <form id="resume-form" class="resume-form">
+<!--            <input type="hidden" name="username" th:value="${session.user.username}">-->
             <input type="hidden" name="username" value="qwer1">
             <div class="content-regist">
                 <!-- 기본정보 섹션은 항상 표시됨 -->
@@ -147,7 +148,7 @@
                 <div id="education-section" class="section" style="display: none;">
                     <div class="section-header">
                         <h3>학력</h3>
-                        <span class="add-button edu">학력 추가</span>
+<!--                        <span class="add-button edu">학력 추가</span>-->
                     </div>
                     <div class="section-body" data-div-id="education-section">
                         <label for="educationCode">학력 선택</label>
@@ -361,6 +362,8 @@
             }
         });
 
+        formData["resumeNo"] = null;
+
         let dataSet
         dataSet = document.querySelectorAll("img.checked");
         console.log(dataSet);
@@ -438,6 +441,20 @@
                     });
                     formData["skills"] = skills;
                     break;
+
+                case 'military-section':
+                    const military = [];
+                    document.querySelectorAll(`div[data-div-id="military-section"]`).forEach(itemDiv => {
+                        military.push({
+                            militaryCode: itemDiv.querySelector('select[name="militaryCode"]').value,
+                            enlistDate: itemDiv.querySelector('input[name="enlistDate"]').value,
+                            releaseDate: itemDiv.querySelector('input[name="releaseDate"]').value
+                        });
+                    });
+                    formData["military"] = military;
+                    break;
+
+                case 'achievements-section':
 
                 default:
                     console.error(`Invalid divId: ${divId}`);
