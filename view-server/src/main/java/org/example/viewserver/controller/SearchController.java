@@ -26,7 +26,7 @@ public class SearchController {
 
     @GetMapping("/search")
     public String searchResults(@RequestParam("type") String type, @RequestParam("keyword") String keyword,
-            Model model) {
+                                Model model) {
 
         if ((keyword == null || keyword.trim().isEmpty()) && "job".equals(type)) {
             return "job-post/list";
@@ -38,7 +38,7 @@ public class SearchController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("type", type);
 
-            return "searchResults";
+        return "searchResults";
 
     }
 }

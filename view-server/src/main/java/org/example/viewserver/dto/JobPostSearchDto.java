@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * packageName    : org.example.restserver.dto
@@ -24,13 +24,16 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 public class JobPostSearchDto {
-
     private String title;
     private String workCode;
-    private LocalDateTime jobHistory;
+    private String jobHistory;
     private String educationCode;
     private String jobRankCode;
     private String workTypeCode;
-    private LocalDateTime endDate;
-
+    private String endDate;
+    private String profileImage;
+    private String companyName;
+    private String jobPostSkills;
+    private String address;
+    private String username;
 }
