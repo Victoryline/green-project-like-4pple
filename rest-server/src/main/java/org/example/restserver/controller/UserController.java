@@ -8,13 +8,11 @@ import org.example.restserver.dto.BoardUserDto;
 import org.example.restserver.dto.UserRequestDto;
 import org.example.restserver.dto.UserResponseDto;
 import org.example.restserver.dto.WeeklyRegisterUsersDto;
-import org.example.restserver.entity.User;
 import org.example.restserver.repository.UserRepository;
 import org.example.restserver.service.UserService;
 import org.example.restserver.utils.ConvertTokenUtil;
 import org.example.restserver.utils.JwtUtil;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -102,7 +100,7 @@ public class UserController {
                 .collect(Collectors.toList());
     }
 
-    @PutMapping("/deleteYn/{username}")
+    @PutMapping("/delete-yn/{username}")
     public int setDeleteYn(@PathVariable String username, @RequestParam String deleteYn) {
         return userRepository.updateDeleteYnByUsername(username, deleteYn);
     }

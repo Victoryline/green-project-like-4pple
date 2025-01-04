@@ -49,7 +49,7 @@
         <h2 class="section-title">이번주 인기 포지션</h2>
         <div class="card-grid">
             <div class="card" th:each="jobPost : ${popularJobPosts}">
-                <img src="../static/images/logo.png" alt="포지션 이미지">
+                <img th:src="${@imageUtility.loadImage(jobPost.profileImage)}" alt="포지션 이미지">
                 <div class="card-content">
                     <div class="card-footer">
                         <span th:text="${jobPost.day}" class="d-day"></span>
@@ -60,7 +60,8 @@
                         <li th:each="skill, skillStatus : ${@stringUtility.split(jobPost.jobPostSkills, ',')}"
                             th:text="${skill + (!skillStatus.last ? ' ·' : '')}"></li>
                     </ul>
-                    <p class="card-meta"><span th:text="${jobPost.address}"></span><br><span th:text="${jobPost.jobHistory == 0 ? '신입' : '경력 ' + jobPost.jobHistory + '년'}"></span></p>
+                    <p class="card-meta"><span th:text="${jobPost.address}"></span><br><span
+                            th:text="${jobPost.jobHistory == 0 ? '신입' : '경력 ' + jobPost.jobHistory + '년'}"></span></p>
                 </div>
             </div>
         </div>
