@@ -72,7 +72,10 @@
                 <input style="margin-top: 5px" type="text" id="addressDetail" class="edit-input"
                        th:value="${user.addressDetail}" placeholder="상세주소를 입력해주세요.">
             </div>
-            <button type="button" class="edit-btn-submit" onclick="updateProfile()">수정</button>
+            <div class="button-container">
+                <button type="button" class="edit-btn-submit" onclick="update()">수정 완료</button>
+                <button type="button" onclick="secession()">탈퇴</button>
+            </div>
         </div>
     </div>
     <footer th:replace="/layout/footer :: footerFragment"></footer>

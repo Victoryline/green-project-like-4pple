@@ -3,6 +3,7 @@ package org.example.viewserver.utils;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.example.viewserver.dto.SessionUserDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,5 +32,9 @@ public class SessionUserManager {
 
     private boolean isNullUser() {
         return session.getAttribute("user") == null;
+    }
+
+    public void removeUser() {
+        session.removeAttribute("user");
     }
 }
