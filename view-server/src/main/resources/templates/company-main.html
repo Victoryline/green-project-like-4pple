@@ -28,7 +28,14 @@
                         <li th:each="skill, skillStatus : ${@stringUtility.split(jobPost.jobPostSkills, ',')}"
                             th:text="${skill + (!skillStatus.last ? ' ·' : '')}"></li>
                     </ul>
-                    <p class="card-meta"><span th:text="${jobPost.address}"></span><br><span th:text="${jobPost.jobHistory == 0 ? '신입' : '경력 ' + jobPost.jobHistory + '년'}"></span></p>
+                    <p class="card-meta"><span th:text="${jobPost.address}"></span><br><span
+                            th:text="${jobPost.jobHistory == 0 ? '신입' : '경력 ' + jobPost.jobHistory + '년'}"></span></p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-history"
+                            th:attr="onclick=|location.href='/apply-resumes?jobPostNo=' + ${jobPost.jobPostNo}|">
+                        지원 이력 현황
+                    </button>
                 </div>
             </div>
         </div>

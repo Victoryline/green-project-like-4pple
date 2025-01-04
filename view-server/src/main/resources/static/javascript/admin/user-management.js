@@ -29,7 +29,7 @@ $(function () {
             } else {
                 if (confirm("정말 " + selectTest + "처리 하시겠습니까?")) {
                     const username = this.getAttribute('data-username');
-                    api.put(`/api/v1/users/deleteYn/${encodeURIComponent(username)}?deleteYn=${encodeURIComponent(selectVal)}`)
+                    api.put(`/api/v1/users/delete-yn/${encodeURIComponent(username)}?deleteYn=${encodeURIComponent(selectVal)}`)
                         .then(res => {
                             if (res.body == 1) {
                                 alert(selectTest + '처리되었습니다.');

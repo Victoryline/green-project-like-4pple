@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../../static/css/job-post/apply-resume-list.css">
+    <script src="../../static/javascript/job-post/apply-resume-list.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="applicant-status" th:data-job-post-no="${jobPostNo}">
+            <h1 class="applicant-status-title" th:text="${'지원 현황(' + applyResumes.size() + ')'}"></h1>
+
+            <table class="applicant-status-table" border="1"
+                   cellpadding="10">
+                <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>나이</th>
+                    <th>성별</th>
+                    <th>제목</th>
+                    <th>지원일시</th>
+                    <th th:if="${applyResumes.size() > 0 and session.user != null and session.user.username == applyResumes.get(0).companyId}">
+                        합/불 여부
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="applyResume : ${applyResumes}">
+                    <td th:text="${applyResume.name}"></td>
+                    <td th:text="${applyResume.age}"></td>
+                    <td th:text="${applyResume.gender}"></td>
+                    <td th:text="${applyResume.title}"></td>
+                    <td th:text="${#temporals.format(T(java.time.ZonedDateTime).parse(applyResume.applyResumeDate), 'yyyy.MM.dd HH:mm:ss')}"></td>
+                    <td th:if="${session.user != null and session.user.username == applyResume.companyId}">
+                        <select th:data-resume-no="${applyResume.resumeNo}" class="applicant-status-select">
+                            <option value="H" th:selected="${applyResume.passYn == 'H'}">대기</option>
+                            <option value="Y" th:selected="${applyResume.passYn == 'Y'}">합격</option>
+                            <option value="N" th:selected="${applyResume.passYn == 'N'}">불합격</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="charts" id="chartData" th:data-age-json="${ageData}" th:data-gender-json="${genderData}">
+                <div>
+                    <h3>나이대별 차트</h3>
+                    <canvas id="ageChart"></canvas>
+                </div>
+                <div>
+                    <h3>성별 비율 차트</h3>
+                    <canvas id="genderChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

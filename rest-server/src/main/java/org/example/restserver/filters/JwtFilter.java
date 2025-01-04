@@ -39,13 +39,12 @@ public class JwtFilter extends OncePerRequestFilter {
                     .orElse(null);
         }
 
-//      필요없어서 지웠습니당
-//        if (token == null) {
-//            String header = request.getHeader("Authorization");
-//            if (header != null && header.startsWith("Bearer ")) {
-//                token = header.substring(7);
-//            }
-//        }
+        if (token == null) {
+            String header = request.getHeader("Authorization");
+            if (header != null && header.startsWith("Bearer ")) {
+                token = header.substring(7);
+            }
+        }
 
 //        System.out.println(token);
         if (token != null && jwtUtil.validateToken(token) != null) {

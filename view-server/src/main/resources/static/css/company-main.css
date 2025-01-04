@@ -89,3 +89,28 @@
 .skill-list li{
     margin-right: 5px;
 }
+
+.card-actions {
+    margin: 10px;
+    text-align: center;
+}
+
+.btn-history {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.btn-history:hover {
+    background-color: #0056b3;
+}
+
+.btn-history:focus {
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}

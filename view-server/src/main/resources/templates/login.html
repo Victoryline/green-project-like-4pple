@@ -50,6 +50,11 @@
             $(this).addClass('active');
             activeData = $(this).data("role");
         });
+        $('#username, #password').on('keydown', function (event) {
+            if (event.key === 'Enter' || event.which === 13) {
+                login();
+            }
+        });
     })
 
     function goRegister() {
