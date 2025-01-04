@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class JobPostServiceImpl implements JobPostService {
     private final JobPostSkillRepository jobPostSkillRepository;
     private final CompanyRepository companyRepository;
     private final GubunRepository gubunRepository;
+    private final UserRepository userRepository;
 
     public void register(JobPostDto jobPostDto) {
 
@@ -98,8 +100,51 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
 
+//    public List<JobPostResponseDto> getAllJobPostsWithCompany() {
+//        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
+//    }
+
     public List<JobPostResponseDto> getAllJobPostsWithCompany() {
-        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
+        List<JobPost> jobPosts = jobPostRepository.findAll();
+        List<JobPostResponseDto> responseDtos = new ArrayList<>();
+
+        for (JobPost jobPost : jobPosts) {
+            // 기업 프로필 이미지 처리
+            byte[] profileImageBytes = null;
+            if (jobPost.getCompany().getProfileImage() != null) {
+                profileImageBytes = jobPost.getCompany().getProfileImage();
+            }
+
+            // User 정보 가져오기
+            String username = jobPost.getCompany().getUsername(); // JobPost와 연결된 username
+            User user = userRepository.findById(username)
+                    .orElseThrow(() -> new RuntimeException("User not found for username: " + username));
+
+            // User의 name과 address 사용
+            String name = user.getName();
+            String skills = jobPost.getJobPostSkills().stream()
+                    .map(skill -> skill.getId().getSkillCode()) // SkillCode만 추출
+                    .collect(Collectors.joining(", "));
+
+            responseDtos.add(new JobPostResponseDto(
+                    jobPost.getJobPostNo(),
+                    username,
+                    name,
+                    jobPost.getTitle(),
+                    jobPost.getWorkCode(),
+                    jobPost.getJobHistory(),
+                    jobPost.getJobSalary(),
+                    jobPost.getStartDate(),
+                    jobPost.getEndDate(),
+                    jobPost.getWorkCondition(),
+                    jobPost.getEndYn(),
+                    skills,
+                    jobPost.getCompany().getAddress(),
+                    profileImageBytes
+            ));
+        }
+
+        return responseDtos;
     }
 
     public List<GubunDto> getSkills() {
@@ -252,4 +297,5 @@ public class JobPostServiceImpl implements JobPostService {
         System.out.println("삭제삭wp" + jobPostNo);
         jobPostRepository.deleteById(jobPostNo);
     }
+
 }

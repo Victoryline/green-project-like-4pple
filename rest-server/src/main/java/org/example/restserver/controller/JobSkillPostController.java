@@ -3,6 +3,7 @@ package org.example.restserver.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.GubunDto;
 import org.example.restserver.dto.JobPostDto;
+import org.example.restserver.dto.JobPostResponseDto;
 import org.example.restserver.entity.JobPost;
 import org.example.restserver.service.JobPostSkillService;
 import org.springframework.http.ResponseEntity;
@@ -36,21 +37,20 @@ public class JobSkillPostController {
     }
 
     @GetMapping("/skill/{skillCode}")
-    public ResponseEntity<List<JobPost>> getJobPostsBySkill(@PathVariable String skillCode) {
-        List<JobPost> jobPosts = jobPostSkillService.getJobPostsBySkillCode(skillCode);
-        //System.out.println(jobPosts);
+    public ResponseEntity<List<JobPostResponseDto>> getJobPostsBySkill(@PathVariable String skillCode) {
+        List<JobPostResponseDto> jobPosts = jobPostSkillService.getJobPostsBySkillCode(skillCode);
         return ResponseEntity.ok(jobPosts);
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<List<JobPostDto>> filterJobPosts(@RequestParam List<String> skills) {
-        List<JobPostDto> filteredPosts = jobPostSkillService.getJobPostsBySkills(skills);
+    public ResponseEntity<List<JobPostResponseDto>> filterJobPosts(@RequestParam List<String> skills) {
+        List<JobPostResponseDto> filteredPosts = jobPostSkillService.getJobPostsBySkills(skills);
         return ResponseEntity.ok(filteredPosts);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<JobPostDto>> getAllJobPosts() {
-        List<JobPostDto> allPosts = jobPostSkillService.getAllJobPosts();
+    public ResponseEntity<List<JobPostResponseDto>> getAllJobPosts() {
+        List<JobPostResponseDto> allPosts = jobPostSkillService.getAllJobPosts();
         return ResponseEntity.ok(allPosts);
     }
 }
