@@ -17,7 +17,7 @@
         <h2 class="section-title">현재 나의 채용중인 공고</h2>
         <div class="card-grid">
             <div class="card" th:each="jobPost : ${myJobPosts}">
-                <img src="../static/images/logo.png" alt="포지션 이미지">
+                <img th:src="${@imageUtility.loadImage(jobPost.profileImage)}" alt="포지션 이미지">
                 <div class="card-content">
                     <div class="card-footer">
                         <span th:text="${jobPost.day}" class="d-day"></span>
