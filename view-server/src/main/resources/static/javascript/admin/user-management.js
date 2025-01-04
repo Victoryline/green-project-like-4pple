@@ -33,16 +33,7 @@ $(function () {
                         .then(res => {
                             if (res.body == 1) {
                                 alert(selectTest + '처리되었습니다.');
-                                // 알림 메시지 전송
-                                api.post(`/api/v1/sse/send/${encodeURIComponent(username)}`, {
-                                    message: `${selectTest} 처리가 완료되었습니다.`
-                                }).then(() => {
-                                    console.log("알림 메시지 전송 완료");
-                                })
-                                .catch(error => {
-                                    console.error("알림 메시지 전송 실패:", error);
-                                });
-                                // location.reload();
+                                location.reload();
                             } else {
                                 alert("처리 실패");
                                 $(this).val(previousValue);
