@@ -69,7 +69,7 @@
                 axios.post("/api/v1/session", user)
                     .then(async () => {
                         alert("로그인 성공");
-                        sessionStorage.setItem("user", JSON.stringify(user.username));
+                        sessionStorage.setItem("user", JSON.stringify(user));
                         location.href = "/";
                     })
             })

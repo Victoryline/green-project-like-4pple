@@ -29,33 +29,19 @@ import java.util.List;
 public class CompanyScoreController {
 
     private final CompanyScoreService companyScoreService;
-    private final JwtUtil jwtUtil;
 
-    @GetMapping("/{companyId}")
-    public ResponseEntity<List<CompanyScore>> getCompanyScore(@PathVariable("companyId") String companyId) {
-        List<CompanyScore> companyScores = companyScoreService.getCompanyScores(companyId);
+    @GetMapping("/{username}")
+    public ResponseEntity<List<CompanyScore>> getCompanyScore(@PathVariable("username") String username) {
+        List<CompanyScore> companyScores = companyScoreService.getCompanyScores(username);
         return ResponseEntity.ok(companyScores);
     }
 
     @PostMapping("/rating")
-    public ResponseEntity<?> addCompanyScore(
-            @RequestBody CompanyScoreDto companyScoreDto,
-            HttpServletRequest request) {
-//        String token = request.getHeader("Authorization");
-//        if (token == null || !token.startsWith("Bearer ")) {
-//            return ResponseEntity.status(403).body("구직자만 등록할 수 있습니다.");
-//        }
-//
-//        String userRole = jwtUtil.getUserRole(token.substring(7));
-//        if (!"ROLE_JOB_SEEKER".equals(userRole)) {
-//            return ResponseEntity.status(403).body("구직자만 등록할 수 있습니다.");
-//        }
-
-        if (companyScoreDto.getScore() < 1 || companyScoreDto.getScore() > 5) {
-            return ResponseEntity.status(400).body("평점은 1~5 사이의 값이어야 합니다.");
+    public ResponseEntity<String> addCompanyScore(@RequestBody CompanyScoreDto scoreDto) {
+        if (scoreDto.getJobSeekerId() == null) {
+            throw new IllegalArgumentException("Job seeker ID is required.");
         }
-
-        companyScoreService.addScore(companyScoreDto);
-        return ResponseEntity.ok("등록되었습니다.");
+        companyScoreService.addScore(scoreDto);
+        return ResponseEntity.ok("평점이 성공적으로 등록되었습니다.");
     }
 }
