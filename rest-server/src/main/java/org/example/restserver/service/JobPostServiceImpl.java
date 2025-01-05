@@ -100,65 +100,10 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
 
-//    public List<JobPostResponseDto> getAllJobPostsWithCompany() {
-//        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
-//    }
-
     public List<JobPostResponseDto> getAllJobPostsWithCompany() {
-        List<JobPost> jobPosts = jobPostRepository.findAll();
-        List<JobPostResponseDto> responseDtos = new ArrayList<>();
+        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
+   }
 
-        for (JobPost jobPost : jobPosts) {
-            // 기업 프로필 이미지 처리
-            byte[] profileImageBytes = null;
-            if (jobPost.getCompany().getProfileImage() != null) {
-                profileImageBytes = jobPost.getCompany().getProfileImage();
-            }
-
-            // User 정보 가져오기
-            String username = jobPost.getCompany().getUsername(); // JobPost와 연결된 username
-            User user = userRepository.findById(username)
-                    .orElseThrow(() -> new RuntimeException("User not found for username: " + username));
-
-            // User의 name과 address 사용
-            String name = user.getName();
-            String skills = jobPost.getJobPostSkills().stream()
-                    .map(skill -> skill.getId().getSkillCode()) // SkillCode만 추출
-                    .collect(Collectors.joining(", "));
-
-            responseDtos.add(new JobPostResponseDto(
-                    jobPost.getJobPostNo(),
-                    username,
-                    name,
-                    jobPost.getTitle(),
-                    jobPost.getWorkCode(),
-                    jobPost.getJobHistory(),
-                    jobPost.getJobSalary(),
-                    jobPost.getStartDate(),
-                    jobPost.getEndDate(),
-                    jobPost.getWorkCondition(),
-                    jobPost.getEndYn(),
-                    skills,
-                    jobPost.getCompany().getAddress(),
-                    profileImageBytes
-            ));
-        }
-
-        return responseDtos;
-    }
-
-    public List<GubunDto> getSkills() {
-        // "SKILL" 코드에 해당하는 기술 스택 목록을 가져옵니다
-        List<Gubun> skills = gubunRepository.findAllByIdGubunCode("SKILL");
-        List<GubunDto> skillDtos = new ArrayList<>();
-
-        for (Gubun skill : skills) {
-            GubunDto skillDto = new GubunDto(skill.getId().getGubunCode(), skill.getId().getCode(), skill.getName());
-            skillDtos.add(skillDto);
-        }
-
-        return skillDtos;  // 기술 스택 데이터 반환
-    }
 
 
     public JobPostDto getJobPostDetailById(Integer jobpostno) {

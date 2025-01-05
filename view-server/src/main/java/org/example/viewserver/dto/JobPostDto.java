@@ -25,7 +25,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JobPostDto {
-
+    private int jobPostNo;
     private String username;
     private String title;
     private String workCode;
