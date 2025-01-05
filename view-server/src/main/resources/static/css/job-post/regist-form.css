@@ -92,10 +92,11 @@
     align-items: center;
 }
 
-.skill-container input[type="checkbox"] {
-    margin-right
 
+.skill-container input[type="checkbox"] {
+    margin-right: 5px;
 }
+
 /* Content Section */
 .content input[type="text"],
 .method input[type="text"],
