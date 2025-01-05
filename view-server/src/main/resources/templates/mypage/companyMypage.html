@@ -88,6 +88,19 @@
             border-radius: 15px;
             font-size: 12px;
         }
+        .btn{
+            margin-left: 600px;
+            padding: 10px;
+            background-color:#355239;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 150px;
+            text-align: center;
+            align-content: center;
+        }
     </style>
 </head>
 <body>
@@ -97,8 +110,11 @@
     <div class="main">
         <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
         <div class="content">
+            <div class="section-title">내가 올린 공고
+                <h3 class="btn">
+                    <a href="/job-post/regist">채용 공고 등록 하기</a>
+                </h3>
 
-            <h2 class="section-title">내가 올린 공고</h2>
             <div class="card-grid" id="job-post-container">
 
             </div>
