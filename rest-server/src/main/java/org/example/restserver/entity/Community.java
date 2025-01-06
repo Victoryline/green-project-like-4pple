@@ -1,17 +1,22 @@
 package org.example.restserver.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.io.Serializable;
 import java.time.Instant;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "tbl_community")
 public class Community {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "community_no", nullable = false)
@@ -45,6 +50,9 @@ public class Community {
     @Column(name = "delete_yn")
     private Character deleteYn;
 
+
+
+
     @PrePersist
     public void onPrePersist() {
         if (this.createDate == null) {
@@ -53,12 +61,17 @@ public class Community {
         if (this.deleteYn == null) {
             this.deleteYn = 'N';
         }
+        if(this.viewCnt == null){
+            this.viewCnt = 0;
+        }
     }
 
     @PreUpdate
     public void onPreUpdate() {
         if (this.modifyDate == null) {
             this.modifyDate = Instant.now();
+
+
         }
     }
 
