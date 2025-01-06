@@ -35,6 +35,8 @@ public class ResumeResponseDto {
 
     private String name;
 
+    private String isPrimary;
+
     private JobSeekerUserResponseDto user;
 
     //희망 조건
@@ -43,6 +45,7 @@ public class ResumeResponseDto {
     private String wishTime;
     private String workCode;
     private String workName;
+
     //학력
     private EducationRequestDto educations;
     //병역

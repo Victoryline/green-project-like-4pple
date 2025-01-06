@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('sidebar-toggle');
     const sidebar = document.querySelector('.menu');
 
-    toggleButton.addEventListener('click', () => {
+    sidebar.addEventListener('click', () => {
         sidebar.classList.toggle('active');
     });
 });

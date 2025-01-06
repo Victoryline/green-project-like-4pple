@@ -52,6 +52,9 @@ public class Resume {
     @Column(name = "job_history")
     private Integer jobHistory;
 
+    @Column(name = "is_primary")
+    private String isPrimary;
+
     @PrePersist
     public void prePersist() {
         if (createDate == null) {

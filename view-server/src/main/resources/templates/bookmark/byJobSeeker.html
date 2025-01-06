@@ -8,6 +8,7 @@
     <script src="/static/sidebar/js/side-bar.js"></script>
     <!--  css 경로 확인하고 사용해주세용 -->
     <link rel="stylesheet" href="/static/common/css/mypage.css">
+    <link rel="stylesheet" href="/static/css/job-seeker/bookmarkList.css">
     <script src="../../static/javascript/utils/axios.js"></script>
     <script src="../../static/javascript/utils/imageUtil.js"></script>
 </head>
@@ -18,10 +19,77 @@
     <div class="main">
         <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
         <div class="content">
-            <h1>구직자가 기업을 관심 등록 한 페이지임</h1>
+            <input type="hidden" name="username", id="username" th:value="${session.user.username}">
+            <div class="card-header">
+                <h1>관심 등록한 기업 목록</h1>
+            </div>
+            <div class="card-contain">
+                <div class="bookmark-list" id="bookmark-list">
+
+                </div>
+            </div>
         </div>
     </div>
-    <footer th:replace="/layout/footer :: footerFragment"></footer>
 </div>
+<footer th:replace="/layout/footer :: footerFragment"></footer>
 </body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const bookmarkList = document.getElementById('bookmark-list');
+        const seeker = document.getElementById('username').value;
+        let username;
+
+
+        // API 호출로 북마크 데이터를 가져옵니다.
+        api.get(`/api/v1/bookmark/list?seeker=${seeker}`)
+            .then(response => {
+
+                const bookmarks = response.body; // 북마크 데이터 배열
+                if (bookmarks.length === 0) {
+                    bookmarkList.innerHTML = '<p>등록된 관심 기업이 없습니다.</p>';
+                    return;
+                }
+
+                bookmarks.forEach(company => {
+                    const img = company.companyImgae;
+                    const image = loadImage(img);
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.innerHTML = `
+                    <img src="${image || 'https://via.placeholder.com/100'}" alt="${company.name}">
+                    <button class="bookmark-btn" onclick="removeBookmark('${company.companyName}')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="북마크 해제">
+                    </button>
+                    <h2>${company.companyName}</h2>
+                    <p>${company.companyAddress || '주소 정보 없음'}</p>
+                    <a href="/company/${company.companyName}" target="_blank">기업 상세 보기</a>
+                    <input type="hidden" name="companyname" id="company" value="${company.companyName}">
+
+                `;
+                    bookmarkList.appendChild(card);
+                });
+                username = document.getElementById('company').value;
+            })
+            .catch(error => {
+                console.error('Error fetching bookmarks:', error);
+                bookmarkList.innerHTML = '<p>관심 기업 목록을 불러오는 중 오류가 발생했습니다.</p>';
+            });
+    });
+
+    // 북마크 해제 함수
+    function removeBookmark(companyId) {
+        const seeker = document.getElementById('username').value;
+        let username = document.getElementById('company').value;
+        api.delete(`/api/v1/bookmark/delete?seeker=${seeker}&username=${username}`)
+            .then(() => {
+                alert('북마크가 해제되었습니다.');
+                location.reload(); // 새로고침하여 목록 갱신
+            })
+            .catch(error => {
+                console.error('Error removing bookmark:', error);
+                alert('북마크 해제에 실패했습니다.');
+            });
+    }
+
+</script>

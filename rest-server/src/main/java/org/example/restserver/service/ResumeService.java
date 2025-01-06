@@ -28,4 +28,6 @@ public interface ResumeService {
     List<ResumeResponseDto> getAllResumes(String username);
 
     void deleteResume(int resumeNo);
+
+    void setPrimaryResume(String username, int resumeNo);
 }

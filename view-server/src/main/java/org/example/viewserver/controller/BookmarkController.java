@@ -37,6 +37,8 @@ public class BookmarkController {
 
     @GetMapping("/byJobSeeker")
     public String byJobSeeker() {
+
+
         return "bookmark/byJobSeeker";
     }
 }

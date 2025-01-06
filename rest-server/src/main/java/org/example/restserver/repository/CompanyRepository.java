@@ -1,6 +1,7 @@
 package org.example.restserver.repository;
 
 import org.apache.ibatis.annotations.Param;
+import org.example.restserver.dto.CompanyResponseDto;
 import org.example.restserver.dto.CompanySearchDto;
 import org.example.restserver.entity.Company;
 import org.example.restserver.entity.JobSeeker;
@@ -25,5 +26,5 @@ import java.util.List;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, String> {
 
-
+    Company findByUsername(String username);
 }

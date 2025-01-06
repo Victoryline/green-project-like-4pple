@@ -1,9 +1,6 @@
 package org.example.restserver.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +16,12 @@ public class Like {
 
     @Column(name = "like_date", nullable = false)
     private Instant likeDate;
+
+    @PrePersist
+    public void prePersist() {
+        if (likeDate == null) {
+            likeDate = Instant.now();
+        }
+    }
 
 }
