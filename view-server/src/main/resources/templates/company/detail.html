@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="/static/css/company/detail.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content">
+        <div class="contain">
+            <input type="hidden" name="username" id="username" th:value="${username}">
+            <th:block th:if="${session.user != null}">
+                <input type="hidden" name="seeker" id="seeker" th:value="${session.user.username}">
+            </th:block>
+
+            <div class="con-header">
+                <div>
+                    <h1 id="company-name">기업 이름</h1>
+                </div>
+                <div>
+                    <button id="bookmark-btn" class="bookmark-btn">
+                        <img id="bookmark-icon" src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="북마크">
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>기업 정보</h3>
+                <div class="company-info">
+                    <img id="profile-image" src="https://via.placeholder.com/100" alt="회사 로고">
+                    <div>
+                        <p><strong>사업자등록번호:</strong> <span id="business-number"></span></p>
+                        <p><strong>대표주소:</strong> <span id="address"></span>, <span id="address-detail"></span></p>
+                        <p><strong>우편번호:</strong> <span id="zonecode"></span></p>
+                        <p><strong>대표번호:</strong> <span id="contact"></span></p>
+                        <p><strong>홈페이지:</strong> <a href="#" id="website" target="_blank">홈페이지 링크</a></p>
+                        <p><strong>이메일:</strong> <span id="email"></span></p>
+                        <p><strong>창립일:</strong> <span id="birth"></span></p>
+                        <p><strong>직원 수:</strong> <span id="employee"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card company-intro">
+                <h3>회사 소개</h3>
+                <p id="info">정보 없음</p>
+            </div>
+
+            <div class="card job-listings">
+                <h3>채용 공고</h3>
+                <div id="job-listings-container">
+                    <!-- 채용 공고 목록이 여기에 동적으로 추가됩니다. -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
+<script>
+    const username = document.getElementById('username').value;
+    const sk = document.getElementById('seeker');
+
+    let seeker;
+
+    if(sk && sk.value){
+        seeker = sk.value;
+    }
+
+    console.log(username);
+    document.addEventListener('DOMContentLoaded', () => {
+        let isBookmarked = false; // 초기 북마크 상태
+        // updateBookmarkIcon();
+
+        const updateBookmarkIcon = () => {
+            console.log('isBookmarked');
+            const bookmarkIcon = document.getElementById('bookmark-icon');
+            if (isBookmarked) {
+                bookmarkIcon.src = "https://cdn-icons-png.flaticon.com/512/833/833472.png"; // 채워진 하트 아이콘
+                bookmarkIcon.parentElement.classList.add('bookmark-active');
+            } else {
+                bookmarkIcon.src = "https://cdn-icons-png.flaticon.com/512/833/833300.png"; // 빈 하트 아이콘
+                bookmarkIcon.parentElement.classList.remove('bookmark-active');
+            }
+        };
+
+        api.get(`/api/v1/company/detail/${username}`)
+            .then(response => {
+                const data = response.body;
+
+                const img = data.image;
+
+                const image = loadImage(img);
+
+                document.getElementById('company-name').textContent = data.name || '정보 없음';
+                document.getElementById('business-number').textContent = data.businessNumber || '정보 없음';
+                document.getElementById('address').textContent = data.address || '정보 없음';
+                document.getElementById('address-detail').textContent = data.address_detail || '';
+                document.getElementById('zonecode').textContent = data.zonecode || '정보 없음';
+                document.getElementById('contact').textContent = data.contact || '정보 없음';
+                document.getElementById('website').href = data.website || '#';
+                document.getElementById('website').textContent = data.website || '정보 없음';
+                document.getElementById('email').textContent = data.email || '정보 없음';
+                document.getElementById('birth').textContent = data.birth || '정보 없음';
+                document.getElementById('employee').textContent = data.employee || '정보 없음';
+                document.getElementById('info').textContent = data.info || '정보 없음';
+                // console.log(image);
+                document.getElementById('profile-image').src = `${image}` || 'https://via.placeholder.com/100';
+            })
+            .catch(error => {
+                console.error('Error fetching company info:', error);
+                alert('기업 정보를 불러오는데 실패했습니다.');
+            });
+
+        document.getElementById('bookmark-btn').addEventListener('click', () => {
+            console.log('if' + isBookmarked);
+            console.log('else' + seeker);
+            if (isBookmarked) {
+                api.delete(`/api/v1/bookmark/delete?seeker=${seeker}&username=${username}`)
+                    .then(() => {
+                        isBookmarked = false;
+                        updateBookmarkIcon();
+                        alert('북마크가 제거되었습니다.');
+                    })
+                    .catch(error => {
+                        console.error('Error removing bookmark:', error);
+                        alert('북마크 제거에 실패했습니다.');
+                    });
+            } else {
+                api.post(`/api/v1/bookmark/save`, { seeker, username })
+                    .then(() => {
+                        isBookmarked = true;
+                        updateBookmarkIcon();
+                        alert('북마크가 추가되었습니다.');
+                    })
+                    .catch(error => {
+                        console.error('Error adding bookmark:', error);
+                        alert('북마크 추가에 실패했습니다.');
+                    });
+            }
+        });
+
+
+        api.get(`/api/v1/bookmark/status?seeker=${seeker}&username=${username}`)
+            .then(response => {
+                isBookmarked = response.body;
+                updateBookmarkIcon();
+            })
+            .catch(error => {
+                console.error('Error fetching bookmark status:', error);
+            });
+
+
+
+        api.get(`/api/v1/job-post/main/${username}`)
+            .then(response => {
+                const jobs = response.body;
+                const container = document.getElementById('job-listings-container');
+                if (jobs.length === 0) {
+                    container.innerHTML = '<p>현재 채용 중인 공고가 없습니다.</p>';
+                } else {
+                    jobs.forEach(job => {
+                        const jobElement = document.createElement('div');
+                        jobElement.classList.add('job-listing');
+                        jobElement.innerHTML = `
+                                <h3>${job.title}</h3>
+                                <p>채용 직무 : ${job.workCode}</p>
+                                <a href="/job-post/update-form/${job.jobPostNo}">자세히 보기</a>
+                            `;
+                        container.appendChild(jobElement);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching job listings:', error);
+                alert('채용 공고를 불러오는데 실패했습니다.');
+            });
+    });
+</script>

@@ -15,7 +15,7 @@
   </header>
   <main>
     <div class="content">
-      <input type="hidden" id="username" value="qwer1">
+      <input type="hidden" id="username" th:value="${session.user.username}">
       <button onclick="addResume()">새 이력서 작성</button>
       <div id="resumeList"></div>
     </div>
@@ -52,12 +52,7 @@
     location.href = "/resume/reg";
   }
 
-  // 대표 이력서를 설정하는 함수
-  function setRepresentative(index) {
-    resumes.forEach(resume => resume.isRepresentative = false);
-    resumes[index].isRepresentative = true;
-    renderResumes();
-  }
+
 
   // 이력서를 삭제하는 함수
   function deleteResume(index) {

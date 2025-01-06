@@ -278,6 +278,7 @@ public class ResumeServiceImpl implements ResumeService {
             resumeResponse.setWishArea(resume.getWishArea());
             resumeResponse.setWishSalary(resume.getWishSalary());
             resumeResponse.setWishTime(resume.getWishTime());
+            resumeResponse.setIsPrimary(resume.getIsPrimary());
 //            String workCode = gubunUttil.getCode(resume.getWorkCode());
             log.info("1" + resume.getWorkCode());
             if (resume.getWorkCode() != null) {
@@ -309,7 +310,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeResponseDto> getAllResumes(String username) {
 
-        List<Resume> resumeList = resumeRepository.findAllByUsername(username);
+        List<Resume> resumeList = resumeRepository.findAllByUserOrderByPrimaryAndDate(username);
         List<ResumeResponseDto> request = new ArrayList<>();
         if (resumeList != null) {
             for (Resume resume : resumeList) {
@@ -344,6 +345,16 @@ public class ResumeServiceImpl implements ResumeService {
         resumeSkillRepository.deleteAllById_ResumeNo(resumeNo);
         resumeRepository.deleteById(resumeNo);
 
+    }
+
+    @Transactional
+    @Override
+    public void setPrimaryResume(String username, int resumeNo) {
+        // 1. 모든 이력서를 대표 이력서에서 제외
+        resumeRepository.resetPrimaryResume(username);
+
+        // 2. 선택한 이력서를 대표 이력서로 설정
+        resumeRepository.setPrimaryResume(resumeNo);
     }
 
 }

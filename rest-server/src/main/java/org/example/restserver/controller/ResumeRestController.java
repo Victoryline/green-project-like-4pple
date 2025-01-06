@@ -9,6 +9,7 @@ import org.example.restserver.dto.ResumeRequestDto;
 import org.example.restserver.dto.ResumeResponseDto;
 import org.example.restserver.service.GubunService;
 import org.example.restserver.service.ResumeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -76,6 +77,19 @@ public class ResumeRestController {
     public ResponseEntity<Void> deleteResume(@PathVariable("resumeNo") int resumeNo) {
         resumeService.deleteResume(resumeNo);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/primary")
+    public ResponseEntity<String> setPrimaryResume(
+            @RequestParam String username,
+            @RequestParam int resumeNo) {
+        try {
+            resumeService.setPrimaryResume(username, resumeNo);
+            return ResponseEntity.ok("대표 이력서가 설정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("대표 이력서 설정에 실패했습니다.");
+        }
     }
 
 }

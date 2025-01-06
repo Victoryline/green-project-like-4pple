@@ -70,23 +70,6 @@
     location.href = "/resume/reg";
   }
 
-  // 대표 이력서를 설정하는 함수
-  function setRepresentative(index) {
-    // 현재 대표 이력서를 찾고 일반 이력서로 바꿉니다.
-    const currentRepIndex = resumes.findIndex(resume => resume.isRepresentative);
-    if (currentRepIndex !== -1) {
-      resumes[currentRepIndex].isRepresentative = false;
-    }
-
-    // 새로운 대표 이력서를 설정하고 목록의 첫 번째로 이동합니다.
-    const newRepresentative = resumes.splice(index, 1)[0]; // 선택된 이력서를 배열에서 제거
-    newRepresentative.isRepresentative = true;
-    resumes.unshift(newRepresentative); // 배열의 첫 번째로 삽입
-
-    // 이력서 목록을 렌더링
-    renderResumes();
-  }
-
   // 이력서를 삭제하는 함수
   function deleteResume(index) {
     if (confirm("이 이력서를 삭제하시겠습니까?")) {
@@ -108,17 +91,8 @@
     const resumeList = document.getElementById("resumeList");
     resumeList.innerHTML = ""; // 기존 목록 제거
 
-    // 대표 이력서 표시
-    const representativeResume = resumes.find(resume => resume.isRepresentative);
-    if (representativeResume) {
-      const repItem = createResumeCard(representativeResume, true);
-      resumeList.appendChild(repItem);
-    }
-
-    // 일반 이력서 표시
-    resumes
-            .filter(resume => !resume.isRepresentative)
-            .forEach((resume, index) => {
+    //  이력서 표시
+    resumes.forEach((resume, index) => {
               const resumeItem = createResumeCard(resume, false, index);
               resumeList.appendChild(resumeItem);
             });
@@ -131,21 +105,35 @@
 
     resumeItem.innerHTML = `
       <div>
-        <h2>${isRepresentative ? "🌟 [대표 이력서] " : ""}${resume.title}</h2>
+        <h2>${resume.isPrimary==="Y" ? "🌟 [대표 이력서] " : ""}${resume.title}</h2>
         <p>희망 지역: ${resume.wishArea}</p>
         <p>희망 연봉: ${resume.wishSalary}만원</p>
         <p>희망 근무 시간: ${resume.wishTime}</p>
         <p>희망 직무: ${resume.workCode}</p>
       </div>
       <div>
-        ${!isRepresentative ? `<button onclick="setRepresentative(${index})">대표로 설정</button>` : ""}
+        ${resume.isPrimary === "N" ? `<button onclick="setRepresentative(${resume.resumeNo})">대표로 설정</button>` : ""}
         <button onclick="editResume(${resume.resumeNo})">편집</button>
         <button onclick="deleteResume(${resume.resumeNo})">삭제</button>
       </div>
     `;
     return resumeItem;
   }
+  // 대표 이력서를 설정하는 함수
+  function setRepresentative(index) {
+    const username = document.getElementById("username").value;
 
+    api.post(`/api/v1/resume/primary?username=${username}&resumeNo=${index}`)
+            .then(response => {
+              alert(response.body);
+              location.reload(); // 목록 새로고침
+            })
+            .catch(error => {
+              console.error('대표 이력서 설정 실패:', error);
+              alert('대표 이력서 설정에 실패했습니다.');
+            });
+
+  }
   // 이력서를 수정하는 함수
   function editResume(resumeNo) {
     location.href = `/resume/modify/${resumeNo}`;
