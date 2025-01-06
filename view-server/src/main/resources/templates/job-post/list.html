@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/static/sidebar/js/side-bar.js"></script>
     <link rel="stylesheet" href="../../static/common/css/common.css">
-    <!--  css 경로 확인하고 사용해주세용 -->
     <link rel="stylesheet" href="/static/common/css/mypage.css">
     <script src="../../static/javascript/utils/axios.js"></script>
     <script src="../../static/javascript/utils/imageUtil.js"></script>
@@ -15,9 +14,13 @@
         .content {
             width: 60%;
             margin: 0 auto;
+            padding: 50px;
+
+        }
+        .main{
+            display: flex;s
         }
         .section-title {
-            display: flex;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
@@ -112,34 +115,33 @@
         <div class="sidebar" th:replace="/layout/sidebar :: sidebarFragment"></div>
         <div class="content">
             <div class="section-title">내가 올린 공고
-            <h3 class="btn">
-                <a href="/job-post/regist">채용 공고 등록 하기</a>
-            </h3>
-            </div>
-            <div class="card-grid" id="job-post-container">
-                <!-- 동적으로 생성될 카드 -->
+                <h3 class="btn">
+                    <a href="/job-post/regist">채용 공고 등록 하기</a>
+                </h3>
+
+                <div class="card-grid" id="job-post-container">
+
+                </div>
             </div>
         </div>
-        <footer th:replace="/layout/footer :: footerFragment"></footer>
     </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+    <script>
+        window.onload = function getList() {
+            api.get('/api/v1/job-post/list')
+                .then(response => {
+                    console.log("가져오기 성공");
+                    const jobPosts = response.body;
+                    const jobPostContainer = document.getElementById("job-post-container");
 
-</div>
-<script>
-    window.onload = function getList() {
-        api.get('/api/v1/job-post/list')
-            .then(response => {
-                console.log("가져오기 성공");
-                const jobPosts = response.body;
-                const jobPostContainer = document.getElementById("job-post-container");
-
-                jobPosts.forEach(jobPost => {
-                    const img  =jobPost.profileImage;
-                    const image = loadImage(img);
-                    // jobPost.jobPostSkills가 문자열인 경우 배열로 변환하여 처리
-                    const jobPostSkills = Array.isArray(jobPost.jobPostSkills) ? jobPost.jobPostSkills
-                        : jobPost.jobPostSkills ? jobPost.jobPostSkills.split(',') : [];
-                    console.log("리스트 넘버 ㅇㅇㅇ "+jobPost.jobPostNo);
-                    const cardContent = `
+                    jobPosts.forEach(jobPost => {
+                        const img  =jobPost.profileImage;
+                        const image = loadImage(img);
+                        // jobPost.jobPostSkills가 문자열인 경우 배열로 변환하여 처리
+                        const jobPostSkills = Array.isArray(jobPost.jobPostSkills) ? jobPost.jobPostSkills
+                            : jobPost.jobPostSkills ? jobPost.jobPostSkills.split(',') : [];
+                        console.log("리스트 넘버 ㅇㅇㅇ "+jobPost.jobPostNo);
+                        const cardContent = `
                         <div class="card_wrap">
                             <img src="${image}" alt="포지션 이미지">
                         </div>
@@ -156,14 +158,14 @@
                         </div>
 
                 `;
-                    jobPostContainer.innerHTML += `<div class="card">${cardContent}</div>`;
+                        jobPostContainer.innerHTML += `<div class="card">${cardContent}</div>`;
+                    });
+                })
+                .catch(error => {
+                    console.error("데이터를 가져오지 못했습니다:", error);
                 });
-            })
-            .catch(error => {
-                console.error("데이터를 가져오지 못했습니다:", error);
-            });
-    }
-</script>
+        }
+    </script>
 </body>
 </html>
 

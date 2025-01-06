@@ -155,22 +155,23 @@
     margin-left: 10px;
 }
 
-/* Submit Button */
-input[type="submit"] {
+/* 공고 수정 및 삭제 버튼 공통 스타일 */
+input[type="submit"], input[type="button"] {
     background-color: #1D8935;
     color: white;
     border: none;
     border-radius: 4px;
-    padding: 10px 20px;
+    padding: 12px 24px; /* 표준 규격에 맞는 여백 */
     font-size: 16px;
     cursor: pointer;
-    margin-top: 50px;
-    display: block;
-    width: 40%;
-    height: 50px;
-    margin: 0 auto
+    display: inline-block; /* 버튼을 나란히 배치 */
+    width: 30%; /* 두 버튼이 나란히 배치될 수 있도록 비율을 설정 */
+    height: 50px; /* 버튼 높이 통일 */
+    margin: 0 1%; /* 버튼 간격을 1%로 설정 */
+    box-sizing: border-box; /* padding, border가 width와 height에 포함되도록 설정 */
 }
 
-input[type="submit"]:hover {
+/* hover 시 색상 변경 */
+input[type="submit"]:hover, input[type="button"]:hover {
     background-color: #45a049;
 }

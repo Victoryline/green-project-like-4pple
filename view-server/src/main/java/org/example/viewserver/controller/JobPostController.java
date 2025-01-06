@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -55,10 +56,19 @@ public class JobPostController {
     @GetMapping("/update-form/{jobpostno}")
     public String showJobPostDetails(@PathVariable Integer jobpostno, Model model) {
         JobPostDto jobPostDto = jobpostService.getJobPostDetail(jobpostno);
-        if (jobPostDto == null) {
-            return "error/404";  // 예시로 404 에러 페이지로 리다이렉트
-        }
+        System.out.println(jobPostDto.getJobPostNo() +"삭제를 위한 넘버 ㅇㅇㅇㅇ");
+        List<GubunDto> workTypeList = gubunService.getGubunList("WORK_TYPE");
+        List<GubunDto> jobRankList = gubunService.getGubunList("JOB_RANK");
+        List<GubunDto> workList = gubunService.getGubunList("WORK");
+        List<GubunDto> educationCodeList = gubunService.getGubunList("EDUCATION");
+        List<GubunDto> skilList = gubunService.getGubunList("SKILL");
+        model.addAttribute("workList", workList);
+        model.addAttribute("workTypeList", workTypeList);
+        model.addAttribute("jobRankList", jobRankList);
+        model.addAttribute("educationCodeList", educationCodeList);
+        model.addAttribute("skilList", skilList);
         model.addAttribute("jobPost", jobPostDto);
+
         return "job-post/update-form";
     }
 
