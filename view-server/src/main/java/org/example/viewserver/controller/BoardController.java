@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/board")
@@ -21,6 +18,7 @@ public class BoardController {
     @GetMapping("/community")
     public String community(Model model) {
         model.addAttribute("communities", webClientManager.get("/api/v1/boards").getBody());
+        System.out.printf("communities: %s\n", webClientManager.get("/api/v1/boards").getBody());
         return "/board/community";
     }
 
@@ -29,9 +27,19 @@ public class BoardController {
         return "/board/regist-form";
     }
 
+
     @GetMapping("/detail")
-    public String detail() {
+    public String detail(@RequestParam("communityNo") int communityNo, Model model) {
+        model.addAttribute("community", webClientManager.get("/api/v1/boards/detail?id=" + communityNo).getBody());
+
+
         return "/board/detail";
+
+    }
+
+    @GetMapping("/mypost")
+    public String mypost() {
+        return "/mypost";
     }
 
 }

@@ -1,10 +1,12 @@
 package org.example.restserver.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.example.restserver.dto.CommunityDto;
 import org.example.restserver.entity.Comment;
 import org.example.restserver.entity.Community;
 import org.example.restserver.repository.CommentRepository;
 import org.example.restserver.repository.CommunityRepository;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,16 +24,35 @@ public class BoardController {
         return communityRepository.findByDeleteYn('N');
     }
 
-    @GetMapping("/detail")
-    public String detail() {
 
-        return "/board/detail";
+
+    @PostMapping("/regist")
+    public int register(@RequestBody CommunityDto communityDto) {
+
+        try {
+            Community community = Community.builder()
+                    .username(communityDto.getUsername())
+                    .title(communityDto.getTitle())
+                    .content(communityDto.getContent())
+                    .build();
+
+            communityRepository.save(community);
+
+            return 1;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
-    @GetMapping("/community")
-    public String community() {
+    @GetMapping("/detail")
+    public Community detail(@RequestParam int id) {
+        return communityRepository.findById(id).orElse(null);
+    }
 
-        return "/board/community";
+    @GetMapping("/mypost")
+    public Community mypost(@RequestParam String username) {
+
+        return communityRepository.findAllByUsername(username).stream().findFirst().orElse(null);
     }
 
     @GetMapping("/management/community")
