@@ -25,8 +25,10 @@ public class SearchController {
     private final WebClientManager webClientManager;
 
     @GetMapping("/search")
-    public String searchResults(@RequestParam("type") String type, @RequestParam("keyword") String keyword,
+    public String searchResults(@RequestParam(value = "type", required = false) String type, @RequestParam(value = "keyword", required = false) String keyword,
                                 Model model) {
+
+        if(type == null) type = "job";
 
         if ((keyword == null || keyword.trim().isEmpty()) && "job".equals(type)) {
             return "job-post/list1";

@@ -55,7 +55,7 @@
                     <div class="card-footer">
                         <span th:text="${jobPost.day}" class="d-day"></span>
                     </div>
-                    <h3 class="card-company-name light" th:text="${jobPost.companyName}">카카오톡</h3>
+                    <a th:href="@{/company/{username}(username=${jobPost.username})}"><h3 class="card-company-name light" th:text="${jobPost.companyName}">카카오톡</h3></a>
                     <h3 class="card-title" th:text="${jobPost.title}">Java 백엔드 주니어 개발자</h3>
                     <ul class="skill-list" th:if="${jobPost.jobPostSkills != null}">
                         <li th:each="skill, skillStatus : ${@stringUtility.split(jobPost.jobPostSkills, ',')}"
@@ -63,6 +63,12 @@
                     </ul>
                     <p class="card-meta"><span th:text="${jobPost.address}"></span><br><span
                             th:text="${jobPost.jobHistory == 0 ? '신입' : '경력 ' + jobPost.jobHistory + '년'}"></span></p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-history"
+                            th:attr="onclick=|location.href='/apply-resumes?jobPostNo=' + ${jobPost.jobPostNo}|">
+                        지원 이력 현황
+                    </button>
                 </div>
             </div>
         </div>

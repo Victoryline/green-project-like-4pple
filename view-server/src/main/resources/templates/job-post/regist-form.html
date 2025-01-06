@@ -240,7 +240,8 @@
         })
             .then(response => {
                 alert("공고가 성공적으로 등록되었습니다.");
-                applicationForm.reset();
+                location.href="/job-post/list";
+                // applicationForm.reset();
             })
             .catch(error => {
                 console.error("공고 등록 실패:", error);

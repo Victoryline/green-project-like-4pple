@@ -170,7 +170,7 @@
                 </thead>
                 <tbody>
                 <tr th:each="company : ${results}">
-                    <td th:text="${company.name}"></td> <!-- 회사명 -->
+                    <td><a th:href="@{/company/{username}(username=${company.companyId})}" th:text="${company.name}"></a></td> <!-- 회사명 -->
                     <td th:text="${company.address}"></td> <!-- 주소 -->
                     <td th:text="${company.birth}"></td> <!-- 설립일 -->
                     <td th:text="${company.averageScore != null ? company.averageScore : '평점 없음'}"></td>

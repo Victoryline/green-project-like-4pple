@@ -27,8 +27,8 @@ public class JobPostController {
     }
 
     @GetMapping("/list")
-    public List<JobPostResponseDto> getAllJobPostsWithCompany() {
-        List<JobPostResponseDto> jobPosts = jobPostService.getAllJobPostsWithCompany();
+    public List<JobPostResponseDto> getAllJobPostsWithCompany(@RequestParam String username) {
+        List<JobPostResponseDto> jobPosts = jobPostService.getAllJobPostsWithCompany(username);
         System.out.println("jobPosts size: " + jobPosts.size());
         //System.out.println(jobPosts.get(1));
         return jobPosts;

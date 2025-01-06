@@ -100,8 +100,8 @@ public class JobPostServiceImpl implements JobPostService {
     }
 
 
-    public List<JobPostResponseDto> getAllJobPostsWithCompany() {
-        return jobPostRepository.findActiveJobPostsWithCompanyInfo();
+    public List<JobPostResponseDto> getAllJobPostsWithCompany(String username) {
+        return jobPostRepository.findActiveJobPostsWithCompanyInfo(username);
    }
 
 
