@@ -314,3 +314,20 @@
     font-size: 18px;
 }
 
+.del-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.del-button:hover {
+    background-color: #c0392b;
+}

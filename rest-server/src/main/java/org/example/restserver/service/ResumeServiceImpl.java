@@ -152,6 +152,7 @@ public class ResumeServiceImpl implements ResumeService {
         jobSeeker.setEmail(seeker.getEmail());
         jobSeeker.setPhone(seeker.getPhone());
         jobSeeker.setAddress(address.trim());
+        jobSeeker.setBirth(String.valueOf(seeker.getBirth()));
 
         return jobSeeker;
     }
