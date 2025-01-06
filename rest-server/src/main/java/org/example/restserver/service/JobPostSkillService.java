@@ -3,17 +3,17 @@ package org.example.restserver.service;
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.GubunDto;
 import org.example.restserver.dto.JobPostResponseDto;
-import org.example.restserver.entity.Gubun;
-import org.example.restserver.entity.JobPost;
-import org.example.restserver.entity.JobPostSkill;
-import org.example.restserver.entity.User;
+import org.example.restserver.dto.JobPostSkillResponseDto;
+import org.example.restserver.entity.*;
 import org.example.restserver.repository.GubunRepository;
+import org.example.restserver.repository.JobPostRepository;
 import org.example.restserver.repository.JobPostSkillRepository;
 import org.example.restserver.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : org.example.restserver.service
@@ -30,90 +30,67 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JobPostSkillService {
 
+    private final JobPostRepository jobPostRepository;
     private final JobPostSkillRepository jobPostSkillRepository;
     private final GubunRepository gubunRepository;
     private final UserRepository userRepository;
 
-    public List<JobPostResponseDto> getJobPostsBySkillCode(String skillCode) {
-        List<JobPost> jobPosts = jobPostSkillRepository.findJobPostsBySkillCode(skillCode);
-        return convertToResponseDtoList(jobPosts);
-    }
-
     public List<GubunDto> getSkills() {
-        List<Gubun> skills = gubunRepository.findAllByIdGubunCode("SKILL");
-        List<GubunDto> skillDtos = new ArrayList<>();
-
-        for (Gubun skill : skills) {
-            GubunDto skillDto = new GubunDto(skill.getId().getGubunCode(), skill.getId().getCode(), skill.getName());
-            skillDtos.add(skillDto);
-        }
-        return skillDtos;
+        return gubunRepository.findAllByIdGubunCode("SKILL").stream()
+                .map(skill -> new GubunDto(skill.getId().getGubunCode(), skill.getId().getCode(), skill.getName()))
+                .toList();
     }
 
-    public List<JobPostResponseDto> getJobPostsBySkills(List<String> skillCodes) {
-        List<JobPost> jobPosts;
-
-        if (skillCodes.isEmpty()) {
-            jobPosts = jobPostSkillRepository.findAllJobPosts();
-        } else {
-            jobPosts = jobPostSkillRepository.findJobPostsBySkillCodes(skillCodes);
-        }
-
-        return convertToResponseDtoList(jobPosts);
+    public List<JobPostSkillResponseDto> getJobPostsBySkillCode(String skillCode) {
+        List<JobPostSkill> jobPostSkills = jobPostSkillRepository.findJobPostSkillsBySkillCode(skillCode);
+        return convertToSkillResponseDtoList(jobPostSkills);
     }
 
-    public List<JobPostResponseDto> getAllJobPosts() {
-        List<JobPost> jobPosts = jobPostSkillRepository.findAllJobPosts();
-        return convertToResponseDtoList(jobPosts);
+    public List<JobPostSkillResponseDto> filterJobPostsBySkills(List<String> skillCodes) {
+        List<JobPostSkill> filteredJobPostSkills = jobPostSkillRepository.findJobPostSkillsBySkillCodes(skillCodes);
+        return convertToSkillResponseDtoList(filteredJobPostSkills);
     }
 
-    private List<JobPostResponseDto> convertToResponseDtoList(List<JobPost> jobPosts) {
-        List<JobPostResponseDto> responseDtos = new ArrayList<>();
+    public JobPostSkillResponseDto getDetailById(Integer id) {
+        JobPost jobPost = jobPostRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 채용 공고를 찾을 수 없습니다. ID: " + id));
 
-        for (JobPost jobPost : jobPosts) {
-            // User에서 이름 가져오기
-            String name = "회사명 없음";
-            if (jobPost.getCompany() != null && jobPost.getCompany().getUsername() != null) {
-                User user = userRepository.findById(jobPost.getCompany().getUsername()).orElse(null);
-                if (user != null) {
-                    name = user.getName();
-                }
-            }
+        return new JobPostSkillResponseDto(jobPost);
+    }
 
-            // Company에서 주소 가져오기
-            String address = jobPost.getCompany() != null ? jobPost.getCompany().getAddress() : "주소 없음";
+    public List<JobPostSkillResponseDto> getAllJobPosts() {
+        List<JobPostSkill> jobPostSkills = jobPostSkillRepository.findAllJobPosts();
+        List<JobPostSkillResponseDto> responseDtos = new ArrayList<>();
 
-            // 기술 스택 처리
-            List<String> skillList = new ArrayList<>();
-            for (JobPostSkill skill : jobPost.getJobPostSkills()) {
-                skillList.add(skill.getId().getSkillCode());
-            }
-
-            // 프로필 이미지 처리
-            byte[] profileImageBytes = null;
-            if (jobPost.getCompany() != null && jobPost.getCompany().getProfileImage() != null) {
-                profileImageBytes = jobPost.getCompany().getProfileImage();
-            }
-
-            // JobPostResponseDto 생성 및 추가
-            responseDtos.add(new JobPostResponseDto(
-                    jobPost.getJobPostNo(),
-                    jobPost.getCompany() != null ? jobPost.getCompany().getUsername() : null,
-                    name,
-                    jobPost.getTitle(),
-                    jobPost.getWorkCode(),
-                    jobPost.getJobHistory(),
-                    jobPost.getJobSalary(),
-                    jobPost.getStartDate(),
-                    jobPost.getEndDate(),
-                    jobPost.getWorkCondition(),
-                    jobPost.getEndYn(),
-                    String.join(", ", skillList), // 기술 스택을 쉼표로 연결
-                    address,
-                    profileImageBytes
-            ));
+        for (JobPostSkill jobPostSkill : jobPostSkills) {
+            String companyName = getCompanyName(jobPostSkill);
+            responseDtos.add(new JobPostSkillResponseDto(jobPostSkill, companyName));
         }
 
         return responseDtos;
+    }
+
+
+    private List<JobPostSkillResponseDto> convertToSkillResponseDtoList(List<JobPostSkill> jobPostSkills) {
+        List<JobPostSkillResponseDto> responseDtos = new ArrayList<>();
+
+        for (JobPostSkill jobPostSkill : jobPostSkills) {
+            String companyName = getCompanyName(jobPostSkill);
+            responseDtos.add(new JobPostSkillResponseDto(jobPostSkill, companyName));
+        }
+
+        return responseDtos;
+    }
+
+
+    private String getCompanyName(JobPostSkill jobPostSkill) {
+        if (jobPostSkill.getJobPost() != null && jobPostSkill.getJobPost().getCompany() != null) {
+            String username = jobPostSkill.getJobPost().getCompany().getUsername();
+            User user = userRepository.findById(username).orElse(null);
+            if (user != null) {
+                return user.getName();
+            }
+        }
+        return "회사명 없음";
     }
 }

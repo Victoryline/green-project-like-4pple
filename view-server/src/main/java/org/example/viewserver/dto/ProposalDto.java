@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 @Data
 public class ProposalDto {
 
-    private int proposalNo; // 제안서 번호
-    private String companyId; // 회사명
-    private String userId; // 구직자 명
-    private String title; // 제안서 제목
-    private String content; // 제안서 내용
-    private LocalDateTime sendTime; // 제안서 보낸 시간
-    private LocalDateTime readTime; // 제안서 읽은 시간
-    private String phone; // 회사 담당자 번호
-    private String email; // 회사 담당자 이메일
+    private int proposalNo;
+    private String companyId;
+    private String userId;
+    private String title;
+    private String content;
+    private LocalDateTime sendTime;
+    private LocalDateTime readTime;
+    private String phone;
+    private String email;
 }

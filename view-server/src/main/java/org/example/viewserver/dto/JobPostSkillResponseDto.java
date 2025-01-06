@@ -1,25 +1,26 @@
-package org.example.restserver.dto;
+package org.example.viewserver.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.restserver.entity.CompanyScore;
 
 /**
  * packageName    : org.example.restserver.dto
- * fileName       : CompanyScoreResponse
+ * fileName       : JobPostSkillResponseDto
  * author         : 이동하
- * date           : 2025-01-03
+ * date           : 2025-01-05
  * description    :
  * ===========================================================
  * DATE              AUTHOR             NOTE
  * -----------------------------------------------------------
- * 2025-01-03        이동하       최초 생성
+ * 2025-01-05        이동하       최초 생성
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyScoreResponseDto {
-    private boolean success;
-    private Double averageScore;
+public class JobPostSkillResponseDto {
+    private Integer jobPostNo;
+    private String skillCode;
+
 }

@@ -2,12 +2,14 @@ package org.example.restserver.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.restserver.dto.CompanyScoreDto;
+import org.example.restserver.dto.CompanyScoreResponseDto;
 import org.example.restserver.entity.CompanyScore;
 import org.example.restserver.entity.CompanyScoreId;
 import org.example.restserver.repository.CompanyScoreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * packageName    : org.example.restserver.service

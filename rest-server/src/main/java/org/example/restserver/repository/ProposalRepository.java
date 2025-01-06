@@ -24,13 +24,12 @@ import java.util.List;
 @Repository
 public interface ProposalRepository extends JpaRepository<Proposal, Integer> {
 
-    //기업이 북마크한 구직자 조회
     @Query("SELECT l.id.jobSeekerId FROM Like l WHERE l.id.companyId = :companyId AND l.id.likeType = 'C'")
     List<String> findBookmarkedJobSeeker(@Param("companyId") String companyId);
-    //북마크한 전체 구직자의 이력서 조회
+
     @Query("SELECT r FROM Resume r WHERE r.username IN :userIds")
     List<Resume> findResume(@Param("userIds") List<String> userIds);
-    //하나의 이력서 상세정보 조회
+
     @Query("SELECT r FROM Resume r WHERE r.id = :resumeId")
     Resume findResumeDetail(@Param("resumeId") Integer resumeId);
 }

@@ -6,7 +6,6 @@ import org.example.restserver.dto.CompanySearchDto;
 import org.example.restserver.dto.JobPostSearchDto;
 import org.example.restserver.service.CompanyScoreService;
 import org.example.restserver.service.SearchService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +41,7 @@ public class SearchController {
             List<CompanySearchDto> companies = searchService.searchCompanies(keyword);
             return ResponseEntity.ok(companies);
         } else if ("job".equals(type)) {
-            List<JobPostSearchDto> jobPosts = searchService.searchJobPosts(keyword);
+            List<JobPostSearchDto> jobPosts = searchService.searchJobPostsByKeyword(keyword);
             return ResponseEntity.ok(jobPosts);
         } else {
             return ResponseEntity.badRequest().body("유효하지 않은 검색 타입입니다.");
