@@ -9,7 +9,6 @@
     <script src="../static/javascript/utils/axios.js"></script>
     <script src="../static/javascript/utils/sessionUserUtil.js"></script>
     <style>
-        /* 페이지 전체 스타일 */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f4f9;
@@ -113,12 +112,20 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-right: 10px;
+            width: 100%;
+            /*margin-right: 10px;*/
         }
 
         #ratingModal button:first-of-type {
             background-color: #4CAF50;
             color: white;
+        }
+
+        #button-container{
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-between;
         }
 
         #ratingModal button:last-of-type {
@@ -195,13 +202,13 @@
                 </thead>
                 <tbody>
                 <tr th:each="job : ${results}">
-                    <td th:text="${job.title}"></td> <!-- 공고 제목 -->
-                    <td th:text="${job.workCode}"></td> <!-- 근무 형태 -->
-                    <td th:text="${job.jobHistory}"></td> <!-- 경력 -->
-                    <td th:text="${job.educationCode}"></td> <!-- 학력 -->
-                    <td th:text="${job.jobRankCode}"></td> <!-- 직급/직책 -->
-                    <td th:text="${job.workTypeCode}"></td> <!-- 근무 형태 -->
-                    <td th:text="${job.endDate}"></td> <!-- 마감일자 -->
+                    <td th:text="${job.title}"></td>
+                    <td th:text="${job.skills}"></td>
+                    <td th:text="${job.jobHistory}"></td>
+                    <td th:text="${job.educationCode}"></td>
+                    <td th:text="${job.jobRankCode}"></td>
+                    <td th:text="${job.workTypeCode}"></td>
+                    <td th:text="${job.endDate == null ? '상시' : job.endDate}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -216,8 +223,10 @@
             <h3 id="modalCompanyName">회사 이름</h3>
             <p>평점을 입력해주세요 (1 ~ 5):</p>
             <input type="number" id="ratingInput" min="1" max="5" oninput="validateRating()">
-            <button onclick="submitRating()">등록</button>
-            <button onclick="closeRatingModal()">취소</button>
+            <div id="button-container">
+                <button onclick="submitRating()">등록</button>
+                <button onclick="closeRatingModal()">취소</button>
+            </div>
         </div>
     </div>
     <footer th:replace="/layout/footer :: footerFragment"></footer>
@@ -227,14 +236,12 @@
     let selectedCompanyId = null;
 
     function handleOpenRatingModal(button) {
-        // 로그인 여부 확인
-        const user = getSessionUser(); // 세션 스토리지에서 유저 정보 가져오기
+        const user = getSessionUser();
         if (!user) {
             alert("로그인이 필요합니다!!!");
-            return; // 로그인하지 않은 경우 모달 열리지 않음
+            return;
         }
 
-        // 로그인된 경우 모달 열기
         const companyName = button.getAttribute('data-company-name');
         const companyId = button.getAttribute('data-company-id');
 
@@ -255,7 +262,6 @@
             return;
         }
 
-        // 평점 등록 API 호출
         api.post('/api/v1/scores/rating', {
             companyId: selectedCompanyId,
             jobSeekerId: getUsername(),
@@ -263,8 +269,8 @@
         })
             .then(response => {
                 alert("평점이 성공적으로 등록되었습니다.");
-                updateCompanyRating(selectedCompanyId); // 평점 업데이트 호출
-                closeRatingModal(); // 모달 닫기
+                updateCompanyRating(selectedCompanyId);
+                closeRatingModal();
             })
             .catch(error => {
                 alert("평점 등록에 실패했습니다.");

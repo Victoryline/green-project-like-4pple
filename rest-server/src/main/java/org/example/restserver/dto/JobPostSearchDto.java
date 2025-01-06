@@ -25,12 +25,14 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 public class JobPostSearchDto {
-
-    private String title;         // 공고 제목
-    private String companyName;   // 회사명
-    private String skills;        // 기술 스택
-    private String companyAddress; // 회사 주소
-    private Integer jobHistory;
-    private byte[] profileImage;
-
+    private String title;           // 공고 제목
+    private String companyName;     // 회사명
+    private String skills;          // 기술 스택
+    private String companyAddress;  // 회사 주소
+    private Integer jobHistory;     // 경력
+    private String educationCode;   // 학력 코드
+    private String jobRankCode;     // 직급 코드
+    private String workTypeCode;    // 근무 형태 코드
+    private String profileImage;    // 프로필 이미지 (Base64 문자열)
+    private LocalDate endDate;      // 마감일자
 }

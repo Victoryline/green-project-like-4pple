@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,19 +32,30 @@ public class SearchService {
 
     private final SearchRepository searchRepository;
 
-    public List<JobPostSearchDto> searchJobPosts(String keyword) {
-        List<Object[]> results = searchRepository.findJobPostByKeywordNative(keyword);
-        return results.stream()
+    public List<JobPostSearchDto> searchJobPostsByKeyword(String keyword) {
+        return searchRepository.findJobPostByKeywordNative(keyword).stream()
                 .map(result -> JobPostSearchDto.builder()
-                        .title((String) result[0])
-                        .companyName((String) result[1])
-                        .skills((String) result[2])
-                        .companyAddress((String) result[3])
-                        .jobHistory((Integer) result[4])
-                        .profileImage(result[5] != null ? (byte[]) result[5] : null)
-                        .build())
+                        .title((String) result[0])          // 공고 제목
+                        .companyName((String) result[1])    // 회사명
+                        .skills((String) result[2])         // 기술 스택
+                        .companyAddress((String) result[3]) // 회사 주소
+                        .jobHistory((Integer) result[4])    // 경력
+                        .educationCode((String) result[5])  // 학력 코드
+                        .jobRankCode((String) result[6])    // 직급 코드
+                        .workTypeCode((String) result[7])   // 근무 형태 코드
+                        .profileImage(
+                                result[8] != null
+                                        ? Base64.getEncoder().encodeToString((byte[]) result[8])
+                                        : null)                         // 프로필 이미지 (Base64 인코딩)
+                        .endDate(result[9] != null
+                                ? ((java.sql.Timestamp) result[9]).toLocalDateTime().toLocalDate()
+                                : null)                         // 마감일자
+                        .build()
+                )
                 .collect(Collectors.toList());
     }
+
+
 
     public List<CompanySearchDto> searchCompanies(String keyword) {
         List<Object[]> results = searchRepository.findCompanyByKeywordNative(keyword);
