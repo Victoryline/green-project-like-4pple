@@ -18,6 +18,7 @@ public class BoardController {
     @GetMapping("/community")
     public String community(Model model) {
         model.addAttribute("communities", webClientManager.get("/api/v1/boards").getBody());
+        System.out.printf("communities: %s\n", webClientManager.get("/api/v1/boards").getBody());
         return "/board/community";
     }
 

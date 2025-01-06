@@ -19,6 +19,8 @@ public class BoardController {
         return communityRepository.findByDeleteYn('N');
     }
 
+
+
     @PostMapping("/regist")
     public int register(@RequestBody CommunityDto communityDto) {
 
