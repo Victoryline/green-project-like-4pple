@@ -1,0 +1,70 @@
+.card-header {
+    padding: 20px 0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.card-contain {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 280px; /* 카드 크기를 약간 줄임 */
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.card img {
+    width: 80px; /* 이미지 크기 조정 */
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-size: 1.25rem; /* 폰트 크기 약간 축소 */
+    margin: 10px 0;
+}
+
+.card p {
+    margin: 10px 0;
+    color: #555;
+    font-size: 0.9rem; /* 주소 텍스트 크기 축소 */
+}
+
+.bookmark-btn {
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.bookmark-btn img {
+    width: 20px; /* 북마크 이미지 크기 축소 */
+    height: 20px;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 12px;
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.card a:hover {
+    background: #0056b3;
+}

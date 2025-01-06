@@ -2,12 +2,10 @@ package org.example.viewserver.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.viewserver.utils.WebClientManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * packageName    : org.example.viewserver.controller
@@ -27,8 +25,15 @@ public class SearchController {
     private final WebClientManager webClientManager;
 
     @GetMapping("/search")
-    public String searchResults(@RequestParam("type") String type, @RequestParam("keyword") String keyword,
-            Model model) {
+    public String searchResults(@RequestParam(value = "type", required = false) String type, @RequestParam(value = "keyword", required = false) String keyword,
+                                Model model) {
+
+        if(type == null) type = "job";
+
+        if ((keyword == null || keyword.trim().isEmpty()) && "job".equals(type)) {
+            return "job-post/list1";
+        }
+
         var searchData = webClientManager.get("/api/v1/search?type=" + type + "&keyword=" + keyword).getBody();
         System.out.println(searchData);
         model.addAttribute("results", searchData);
@@ -36,5 +41,6 @@ public class SearchController {
         model.addAttribute("type", type);
 
         return "searchResults";
+
     }
 }

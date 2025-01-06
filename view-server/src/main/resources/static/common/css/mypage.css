@@ -199,13 +199,13 @@ a:visited {
     justify-content: start;
 }
 .main {
-    flex: 1; /* 남는 공간을 채워서 푸터를 하단으로 밀어냄 */
+    display :flex; /* 남는 공간을 채워서 푸터를 하단으로 밀어냄 */
     width: 70%;
     margin: 0 auto;
     min-width: 1270px;  /* 최소 크기 지정 */
 }
 .content{
-    /*width: 68%;*/
+    width: 68%;
     margin: 0 auto;
 }
 .menu {

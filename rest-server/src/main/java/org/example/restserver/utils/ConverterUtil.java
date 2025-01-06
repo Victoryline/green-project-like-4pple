@@ -94,7 +94,7 @@ public class ConverterUtil {
         Potfolio portfolioEntity = new Potfolio();
         PotfolioId portfolioId = new PotfolioId();
 
-        portfolioId.setPotfolioFilename(portfolio.getPortfolioFilename());
+        portfolioId.setPortfolioFilename(portfolio.getPortfolioFilename());
 
         portfolioEntity.setResumeNo(res);
         portfolioEntity.setId(portfolioId);

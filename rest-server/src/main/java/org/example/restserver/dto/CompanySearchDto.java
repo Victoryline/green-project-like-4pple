@@ -28,6 +28,6 @@ public class CompanySearchDto {
     private String name;
     private String address;
     private LocalDate birth;
-    private Double averageScore; // 기업 별점
+    private Double averageScore;
 
 }

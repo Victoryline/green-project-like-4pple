@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="../../static/common/css/common.css">
+  <link rel="stylesheet" href="../../static/css/job-post/update-form.css">
+  <script src="../../static/javascript/utils/axios.js"></script>
+  <script src="../../static/javascript/utils/imageUtil.js"></script>
+  <script src="../../static/common/javascript/common.js"></script>
+  <style>
+    .wrap{
+      text-align: center;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header th:replace="/layout/header :: headerFragment"></header>
+  <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+  <div class="wrap">
+    <form id="applicationForm">
+      <h2>채용 공고 수정</h2>
+
+      <div class="title">
+        <label for="title">공고 제목:</label>
+        <input type="text" id="title" name="title" th:value="${jobPost.title}">
+      </div>
+
+      <h3>담당자 정보</h3>
+      <div class="userinfo">
+        <label for="managerName">담당자 명:</label>
+        <input type="text" id="managerName" name="managerName" th:value="${jobPost.managerName}">
+
+        <label for="managerPhone">담당자 전화번호:</label>
+        <input type="text" id="managerPhone" name="managerPhone" th:value="${jobPost.managerPhone}">
+
+        <label for="managerEmail">담당자 이메일:</label>
+        <input type="text" id="managerEmail" name="managerEmail" th:value="${jobPost.managerEmail}">
+      </div>
+
+      <h3>근무형태</h3>
+      <div class="work-type">
+        <label for="workTypeCode">근무형태:</label>
+        <select id="workTypeCode" name="workTypeCode">
+          <th:block th:each="gubun : ${workTypeList}">
+            <option th:value="${gubun.name}" th:text="${gubun.name}" th:selected="${gubun.name == jobPost.workTypeCode}"></option>
+          </th:block>
+        </select>
+      </div>
+
+      <h3>직책 / 직급</h3>
+      <div class="job-rank">
+        <label for="jobRankCode">직책/직급:</label>
+        <select id="jobRankCode" name="jobRankCode">
+          <th:block th:each="gubun : ${jobRankList}">
+            <option th:value="${gubun.name}" th:text="${gubun.name}" th:selected="${gubun.name == jobPost.jobRankCode}"></option>
+          </th:block>
+        </select>
+      </div>
+
+      <h3>직무</h3>
+      <div class="work-code">
+        <label for="workCode">직무:</label>
+        <select id="workCode" name="workCode">
+          <th:block th:each="gubun : ${workList}">
+            <option th:value="${gubun.name}" th:text="${gubun.name}" th:selected="${gubun.name == jobPost.workCode}"></option>
+          </th:block>
+        </select>
+      </div>
+
+      <h3>경력</h3>
+      <div class="job-history">
+        <label for="jobHistory">경력 (년):</label>
+        <input type="number" id="jobHistory" name="jobHistory" th:value="${jobPost.jobHistory}">
+      </div>
+
+      <h3>희망학력</h3>
+      <div class="education-code">
+        <label for="educationCode">희망학력:</label>
+        <select id="educationCode" name="educationCode">
+          <th:block th:each="gubun : ${educationCodeList}">
+            <option th:value="${gubun.name}" th:text="${gubun.name}" th:selected="${gubun.name == jobPost.educationCode}"></option>
+          </th:block>
+        </select>
+      </div>
+
+      <h3>연봉 (*천만원)</h3>
+      <div class="job-salary">
+        <label for="jobSalary">연봉:</label>
+        <input type="number" id="jobSalary" name="jobSalary" th:value="${jobPost.jobSalary}">
+      </div>
+
+      <h3>보유스킬</h3>
+      <div class="skill-container">
+        <p th:text="${jobPost.jobPostSkills}"></p>
+        <th:block th:each="gubun : ${skilList}">
+          <div>
+            <input type="checkbox" id="skill_${gubun.code}" th:name="jobPostSkills" th:value="${gubun.code}">
+            <label for="skill_${gubun.code}" th:text="${gubun.name}"></label>
+          </div>
+        </th:block>
+      </div>
+
+      <h3>모집 부분 및 상세내용</h3>
+      <div class="content">
+        <label for="content">상세 내용:</label>
+        <input type="text" id="content" name="content" th:value="${jobPost.content}">
+      </div>
+
+      <h3>전형 절차</h3>
+      <div class="process">
+        <label for="process">전형 절차:</label>
+        <input type="number" id="process" name="process" th:value="${jobPost.process}">
+      </div>
+
+      <h3>접수 방법</h3>
+      <div class="method">
+        <label for="method">접수 방법:</label>
+        <input type="text" id="method" name="method" th:value="${jobPost.method}">
+      </div>
+
+      <h3>유의사항</h3>
+      <div class="add-notice">
+        <label for="addNotice">유의 사항:</label>
+        <input type="text" id="addNotice" name="addNotice" th:value="${jobPost.addNotice}">
+      </div>
+
+      <h3>복리 후생</h3>
+      <div class="benefit-content">
+        <label for="benefitContent">복리 후생 내용:</label>
+        <input type="text" id="benefitContent" name="benefitContent" th:value="${jobPost.benefitContent}">
+      </div>
+
+      <h3>공고 시작일 / 마감일</h3>
+      <div class="dates">
+        <label for="startDate">시작일:</label>
+        <input type="date" id="startDate" name="startDate" th:value="${jobPost.startDate}">
+        <label for="endDate">마감일:</label>
+        <input type="date" id="endDate" name="endDate" th:value="${jobPost.endDate}">
+      </div>
+
+      <h3>상시 모집</h3>
+      <div class="temporary">
+        <label for="temporary">상시 모집:</label>
+        <input type="checkbox" id="temporary" name="temporary">
+      </div>
+
+      <h3>마감</h3>
+      <div class="end-yn">
+        <label for="endYn">공고 마감:</label>
+        <input type="checkbox" id="endYn" name="endYn" th:checked="${jobPost.endYn}">
+      </div>
+
+      <input type="hidden" name="username" th:value="${session.user.username}">
+      <input type="hidden" name="jobPostNo" th:value="${jobPost.jobPostNo}">
+      <p th:text="${jobPost.jobPostNo}">공고 번호 입니다^^ </p>
+
+      <div class="form-actions">
+        <input type="submit" value="공고 수정" onclick="updatePost(event)">
+        <input type="button" value="공고 삭제" onclick="deletePost(event)">
+      </div>
+    </form>
+  </div>
+
+  <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+
+  <footer th:replace="/layout/footer :: footerFragment"></footer></div>
+
+<script>
+
+  const temporaryCheckbox = document.querySelector("input[name='temporary']");
+  const startDateInput = document.querySelector("input[name='startDate']");
+  const endDateInput = document.querySelector("input[name='endDate']");
+
+  temporaryCheckbox.addEventListener("change", function () {
+    if (temporaryCheckbox.checked) {
+      startDateInput.disabled = true;
+      endDateInput.disabled = true;
+    } else {
+      startDateInput.disabled = false;
+      endDateInput.disabled = false;
+    }
+  });
+
+  function updatePost(event) {
+    event.preventDefault();
+
+    const applicationForm = document.getElementById("applicationForm");
+    const jobPostData = {};
+    const formElements = applicationForm.elements;
+    let isValid = true;
+
+    for (let element of formElements) {
+      const {name, value, type, checked} = element;
+
+      if (type !== 'checkbox' && name !== 'temporary' && name !== 'endYn' && !value) {
+        alert(`${name}을(를) 입력해주세요.`);
+        isValid = false;
+        break;
+      }
+
+      if (type === 'select-one' && !value) {
+        alert(`${name}을(를) 선택해주세요.`);
+        isValid = false;
+        break;
+      }
+
+      if (type === 'checkbox') {
+        if (name === 'jobPostSkills') {
+          if (!jobPostData[name]) {
+            jobPostData[name] = [];
+          }
+          if (checked) {
+            jobPostData[name].push(value);
+          }
+        } else {
+          jobPostData[name] = checked;
+        }
+      } else {
+        jobPostData[name] = value;
+      }
+    }
+
+    if (!isValid) return;
+
+    if (jobPostData["benefitContent"] !== "") {
+      jobPostData["benefitContent"] = [jobPostData["benefitContent"]];
+    } else {
+      jobPostData["benefitContent"] = [];
+    }
+
+    jobPostData["endYn"] = jobPostData["endYn"] ? 'Y' : 'N';
+    jobPostData["temporary"] = jobPostData["temporary"] || false;
+
+    if (!jobPostData["temporary"]) {
+      jobPostData["startDate"] = jobPostData["startDate"] || null;
+      jobPostData["endDate"] = jobPostData["endDate"] || null;
+    }
+    const username = document.querySelector("input[name='username']").value;
+    jobPostData["username"] = username;
+    console.log(jobPostData);
+    console.log(jobPostData["skills"]);
+    api.put('/api/v1/job-post/updateForm', jobPostData, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+          .then(response => {
+            alert("공고가 성공적으로 수정 되었습니다.");
+            window.location.href = "/job-post/list";
+          })
+          .catch(error => {
+            console.error("공고 등록 실패:", error);
+            alert("공고 수정에 실패했습니다. 다시 시도해주세요.");
+          });
+  }
+
+  function deletePost(event){
+    console.log("sdfsdfsdf");
+    event.preventDefault();
+    const jobpostNo = document.querySelector("input[name='jobPostNo']").value;
+
+
+    console.log("삭제할 공고 번호:", jobpostNo); // jobPostNo 로그 출력
+
+
+    api.delete(`/api/v1/job-post/deleteForm/${jobpostNo}`, {
+    })
+          .then(response => {
+            alert("공고가 성공적으로 삭제되었습니다.");
+            window.location.href = "/job-post/list";
+          })
+          .catch(error => {
+            console.error("공고 삭제 실패:", error);
+            alert("공고 삭제에 실패했습니다. 다시 시도해주세요.");
+          });
+  }
+
+</script>
+</body>
+</html>

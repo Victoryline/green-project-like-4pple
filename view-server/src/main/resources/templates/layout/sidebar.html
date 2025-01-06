@@ -7,34 +7,45 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <div class="sidebar" th:fragment="sidebarFragment">
-        <p>사용자 이름님</p>
-        <ul class="menu" id="job-seeker-menu">
-            <!-- 구직자용 사이드바 -->
-            <li id="resume-status" class="active">
-                <a href="/resume-status">나의 이력서 현황</a>
-            </li>
-            <li id="my-resume">
-                <a href="/my-resume">나의 이력서</a>
-            </li>
-            <li id="my-scrap">
-                <a href="/my-scrap">나의 스크랩</a>
-            </li>
-        </ul>
+<div class="sidebar" th:fragment="sidebarFragment">
+    <p th:text="${session.user.username} + '님'">사용자 이름님</p>
 
-        <ul class="menu" id="company-menu">
-            <!-- 기업용 사이드바 -->
-            <li id="job-posting">
-                <a href="/job-posting">공고 관리</a>
-            </li>
-            <li id="applicant-list">
-                <a href="/applicant-list">지원자 목록</a>
-            </li>
-            <li id="company-profile">
-                <a href="/company-profile">기업 프로필</a>
-            </li>
-        </ul>
-    </div>
+    <!-- 구직자용 사이드바 -->
+    <ul class="menu" th:if="${session.user.role == 'ROLE_JOB_SEEKER'}">
+        <li>
+            <a href="/users/job-seeker/edit">정보수정</a>
+        </li>
+        <li id="resume-status" th:classappend="${page == 'resume-status'} ? 'active'">
+            <a href="/resume/list">나의 이력서 관리</a>
+        </li>
+        <li id="my-scrap" th:classappend="${page == 'my-scrap'} ? 'active'">
+            <a href="/my-scrap">나의 스크랩</a>
+        </li>
+        <li id="jobseeker-bookmark" th:classappend="${page == 'jobseeker-bookmark'} ? 'active'">
+            <a href="/bookmark/byJobSeeker">관심 기업</a>
+        </li>
+    </ul>
+
+    <!-- 기업용 사이드바 -->
+    <ul class="menu" th:if="${session.user.role == 'ROLE_COMPANY'}">
+        <li>
+            <a href="/users/company/edit">정보수정</a>
+        </li>
+        <li id="job-posting" th:classappend="${page == 'job-posting'} ? 'active'">
+            <a href="/job-post/list">공고 관리</a>
+        </li>
+        <li id="applicant-list" th:classappend="${page == 'applicant-list'} ? 'active'">
+            <a href="/applicant-list">지원자 목록</a>
+        </li>
+        <li id="company-profile" th:classappend="${page == 'company-profile'} ? 'active'">
+            <a th:href="@{/company/{username}(username=${session.user.username})}">기업 프로필</a>
+        </li>
+        <li id="company-bookmark" th:classappend="${page == 'company-bookmark'} ? 'active'">
+            <a href="/bookmark/byCompany">관심 구직자</a>
+        </li>
+    </ul>
+</div>
+
 <!--    <div th:fragment="sidebarFragment">-->
 <!--        <p th:text="${user.name} + '님'">사용자 이름님</p>-->
 

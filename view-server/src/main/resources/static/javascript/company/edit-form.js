@@ -165,3 +165,22 @@ function update() {
             alert('수정 중 오류가 발생했습니다. 다시 시도해주세요.');
         });
 }
+
+function secession() {
+    if (confirm("정말 탈퇴 하시겠습니까?")) {
+        const username = getUsername();
+        api.put(`/api/v1/users/delete-yn/${encodeURIComponent(username)}?deleteYn=Y`)
+            .then(res => {
+                if (res.body == 1) {
+                    alert('탈퇴 되었습니다.');
+                    logout();
+                    location.reload();
+                } else {
+                    alert("처리 실패");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+}

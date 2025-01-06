@@ -3,17 +3,15 @@ package org.example.restserver.repository;
 import org.example.restserver.entity.Activity;
 import org.example.restserver.entity.ActivityId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-/**
- * packageName    : org.example.restserver.repository
- * fileName       : ActivityRepository
- * author         : 김재홍
- * date           : 24. 12. 30.
- * description    :
- * ===========================================================
- * DATE              AUTHOR             NOTE
- * -----------------------------------------------------------
- * 24. 12. 30.        김재홍       최초 생성
- */
+import java.util.List;
+
+@Repository
 public interface ActivityRepository extends JpaRepository<Activity, ActivityId> {
+
+    // ActivityId를 기준으로 resumeNo에 해당하는 모든 Activity 조회
+    List<Activity> findById_ResumeNo(Integer resumeNo);  // ActivityId 내 resumeNo 사용
+
+    void deleteById_ResumeNo(int resumeNo);
 }

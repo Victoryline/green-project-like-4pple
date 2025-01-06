@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>채용 공고 리스트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <script src="../../static/javascript/utils/axios.js"></script>
+    <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/common/javascript/common.js"></script>
+    <style>
+        .card-wrap img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+
+        .content {
+            width: 60%;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .filter-container {
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-container h3 {
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card-company-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .card-meta {
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+
+    <div class="content">
+        <h2 class="section-title">채용중인 공고</h2>
+        <div class="filter-container">
+            <h3>기술 스택 선택</h3>
+            <div class="checkbox-group" id="skillCheckboxGroup"></div>
+        </div>
+        <div class="card-grid" id="jobpost-container"></div>
+    </div>
+
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const skillCheckboxGroup = document.getElementById('skillCheckboxGroup');
+        const jobPostContainer = document.getElementById('jobpost-container');
+
+        function getSkills() {
+            api.get('/api/v1/jobpost/skills')
+                .then(data => {
+                    const skills = data.body || [];
+                    skillCheckboxGroup.innerHTML = '';
+
+                    skills.forEach(skill => {
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.id = `skill_${skill.code}`;
+                        checkbox.value = skill.code;
+                        checkbox.classList.add('skill-checkbox');
+
+                        const label = document.createElement('label');
+                        label.htmlFor = `skill_${skill.code}`;
+                        label.appendChild(checkbox);
+                        label.appendChild(document.createTextNode(skill.name));
+
+                        skillCheckboxGroup.appendChild(label);
+                    });
+
+                    document.querySelectorAll('.skill-checkbox').forEach(checkbox => {
+                        checkbox.addEventListener('change', handleFilterChange);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching skills:', error);
+                    skillCheckboxGroup.textContent = '기술 스택 로드 실패.';
+                });
+        }
+
+        function fetchAllJobPosts() {
+            api.get('/api/v1/jobpost/all')
+                .then(data => {
+                    renderJobPosts(data.body || []);
+                })
+                .catch(error => {
+                    console.error('Error fetching all job posts:', error);
+                    jobPostContainer.textContent = '데이터를 불러오는 데 실패했습니다.';
+                });
+        }
+
+        function fetchFilteredJobPosts(skills) {
+            if (skills.length === 0) {
+                fetchAllJobPosts();
+                return;
+            }
+
+            api.get(`/api/v1/jobpost/filter?skills=${skills.join(',')}`)
+                .then(data => {
+                    renderJobPosts(data.body || []);
+                })
+                .catch(error => {
+                    console.error('Error fetching filtered job posts:', error);
+                    renderJobPosts([]);
+                });
+        }
+
+        function renderJobPosts(jobPosts) {
+            const jobPostContainer = document.getElementById('jobpost-container');
+            jobPostContainer.innerHTML = '';
+
+            if (!jobPosts || jobPosts.length === 0) {
+                jobPostContainer.textContent = '선택한 기술 스택에 해당하는 채용 공고가 없습니다.';
+                return;
+            }
+
+            jobPosts.forEach(jobPost => {
+                const image = loadImage(jobPost.profileImage || null);
+                const card = document.createElement('div');
+                card.classList.add('card');
+
+                let jobPostSkills = '기술 스택 없음';
+                if (Array.isArray(jobPost.jobPostSkills)) {
+                    jobPostSkills = jobPost.jobPostSkills.join(', ');
+                } else if (typeof jobPost.jobPostSkills === 'string') {
+                    jobPostSkills = jobPost.jobPostSkills;
+                }
+
+                card.innerHTML = `
+            <div class="card-wrap">
+                <img src="${image}" alt="포지션 이미지">
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">${jobPost.title || '제목 없음'}</h3>
+                <a href='/company/${jobPost.username}'>회사명: ${jobPost.companyName || '회사명 없음'}</a><br>
+                <p>
+                    기술 스택: ${jobPostSkills}<br>
+                    주소: ${jobPost.address || '주소 없음'}<br>
+                    경력: ${jobPost.jobHistory || '경력 정보 없음'}년
+                </p>
+            </div>
+        `;
+                jobPostContainer.appendChild(card);
+            });
+        }
+
+        function handleFilterChange() {
+            const selectedSkills = Array.from(document.querySelectorAll('.skill-checkbox:checked')).map(cb => cb.value);
+            fetchFilteredJobPosts(selectedSkills);
+        }
+
+        getSkills();
+        fetchAllJobPosts();
+    });
+
+</script>
+</body>
+</html>

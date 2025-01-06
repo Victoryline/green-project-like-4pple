@@ -14,6 +14,7 @@ import java.util.Objects;
 @Embeddable
 public class ActivityId implements Serializable {
     private static final long serialVersionUID = 9102900911615210045L;
+
     @Column(name = "resume_no", nullable = false)
     private Integer resumeNo;
 
@@ -32,6 +33,11 @@ public class ActivityId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(resumeNo, activityType);
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityId{activityType='" + activityType + '}';
     }
 
 }

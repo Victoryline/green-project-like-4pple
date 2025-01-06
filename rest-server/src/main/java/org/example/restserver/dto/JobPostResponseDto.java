@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,5 +21,7 @@ public class JobPostResponseDto {
     private Character endYn;
     private String jobPostSkills;
     private String address;
+    private byte[] profileImage;
+
 
 }

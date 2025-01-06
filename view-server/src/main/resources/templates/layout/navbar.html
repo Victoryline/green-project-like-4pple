@@ -1,27 +1,32 @@
 <nav class="navbar" th:fragment="navbarFragment">
     <!-- 비회원 -->
-    <ul th:if="${user == null}">
+    <ul th:if="${session.user == null}">
         <li><a href="/">홈</a></li>
         <li><a href="#">커뮤니티</a></li>
+        <li><a href="/search">기술스택리스트</a></li>
     </ul>
 
     <!-- 구직자 -->
-    <ul th:if="${user != null and user.role == 'ROLE_JOB_SEEKER'}">
+    <ul th:if="${session.user != null and session.user.role == 'ROLE_JOB_SEEKER'}">
         <li><a href="/">홈</a></li>
-        <li><a href="#">이력서 등록</a></li>
+        <li><a href="/resume/reg">이력서 등록</a></li>
+        <li><a href="/resume/list">이력서 리스트</a></li>
         <li><a href="#">지원현황</a></li>
         <li><a href="#">커뮤니티</a></li>
+        <li><a href="/search">기술스택리스트</a></li>
     </ul>
 
     <!-- 기업 -->
-    <ul th:if="${user != null and user.role == 'ROLE_COMPANY'}">
+    <ul th:if="${session.user != null and session.user.role == 'ROLE_COMPANY'}">
         <li><a href="/">홈</a></li>
-        <li><a href="#">채용리스트</a></li>
+        <li><a href="/job-post/regist">채용공고 등록</a></li>
+        <li><a href="/job-post/list">채용공고 리스트</a></li>
     </ul>
 
     <!-- 관리자 -->
-    <ul th:if="${user != null and user.role == 'ROLE_ADMIN'}">
+    <ul th:if="${session.user != null and session.user.role == 'ROLE_ADMIN'}">
         <li><a href="/">홈</a></li>
-        <li><a href="#">관리자 페이지</a></li>
+        <li><a href="/admin/user-management">사용자 관리</a></li>
+        <li><a href="/admin/board-management">게시물 관리</a></li>
     </ul>
 </nav>

@@ -53,79 +53,66 @@ Object.keys(sections).forEach(toggleId => {
 
 // 이미지 미리보기 함수
 function previewImage(event) {
-    const file = event.target.files[0];
+    const file = event.target.files[0];  // 선택된 파일 가져오기
     const reader = new FileReader();
 
     reader.onload = function () {
-        const imagePreview = document.getElementById('imagePreview');
-        imagePreview.src = reader.result;
+        const imagePreview = document.getElementById('profilePreview');
+        imagePreview.src = reader.result;  // 이미지를 미리보기로 표시
         imagePreview.style.display = 'block'; // 이미지를 보여줌
     };
 
     if (file) {
-        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽음
+        reader.readAsDataURL(file); // 파일을 데이터 URL로 읽어 미리보기
     }
 }
 
-document.querySelector('.edu').addEventListener('click', function () {
-    const entry = document.createElement('div');
-    entry.classList.add('section-body', 'entry');
+// 파일 입력 요소에 change 이벤트 리스너 추가
+document.getElementById('profileImageInput').addEventListener('change', previewImage);
 
-    entry.innerHTML = `
-            <label>입학 연도</label>
-            <input type="text" name="enterDate" placeholder="YYYY.MM">
-            <label>졸업 연도</label>
-            <input type="text" name="graduateDate" placeholder="YYYY.MM">
-            <label>학교명</label>
-            <input type="text" placeholder="학교명을 입력해주세요">
-            <label>학과명</label>
-            <input type="text" placeholder="학과명을 입력해주세요">
-            <button class="edu-delete-button del-button">
-                <i class="fas fa-trash-alt"></i>삭제
-            </button>
-        `;
-
-    entry.querySelector('.edu-delete-button').addEventListener('click', function () {
-        entry.remove();
-    });
-
-    document.querySelector('#education-section').appendChild(entry);
+// 연필 아이콘을 클릭했을 때 파일 입력 필드를 클릭하는 기능 추가
+document.querySelector('.edit-icon').addEventListener('click', function() {
+    document.getElementById('profileImageInput').click();
 });
 
 document.querySelector('.exp').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
+    entry.dataset.divId = "experience-section";
 
     entry.innerHTML = `
-            <label for="activityType">군별</label>
+            <label class="label" for="activityType">활동 유형</label>
             <select name="activityType" id="activityType">
+                <option value="">활동 유형을 선택해주세요</option>
                 <option value="JOB_CAREEAR">직무 관련 경력</option>
                 <option value="JOB_ACT">직무 관련 활동</option>
                 <option value="SOCIAL_ACT">사회 경험 활동</option>
             </select>
-            <label>회사/활동기관명</label>
-            <input type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
-            <label>회사/활동기관 주요 내용</label>
+            <label class="label">회사/활동기관명</label>
+            <input class="input-group" type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
+            <label class="label">회사/활동기관 주요 내용</label>
             <textarea name="activityContent" placeholder="회사/활동기관 주요 내용 입력"></textarea>
-            <label>입사/시작 연월</label>
-            <input type="text" name="startDate" placeholder="YYYY-MM">
-            <label>퇴사/종료 연월</label>
-            <input type="text" name="endDate" placeholder="YYYY-MM">
-            <button class="edu-delete-button del-button">
+            <label class="label">입사/시작 연월</label>
+            <input class="input-group" type="text" name="startDate" placeholder="YYYY-MM">
+            <label class="label">퇴사/종료 연월</label>
+            <input class="input-group" type="text" name="endDate" placeholder="YYYY-MM">
+            <button class="experience-delete-button del-button">
                 <i class="fas fa-trash-alt"></i>삭제
             </button>
         `;
 
-    entry.querySelector('.exp-delete-button').addEventListener('click', function () {
+    entry.querySelector('.experience-delete-button').addEventListener('click', function () {
         entry.remove();
     });
 
     document.querySelector('#experience-section').appendChild(entry);
 });
 
+
 document.querySelector('.license').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
+    entry.dataset.divId = "license-section";
 
     entry.innerHTML = `
             <label>자격증명</label>
@@ -146,27 +133,11 @@ document.querySelector('.license').addEventListener('click', function () {
     document.querySelector('#license-section').appendChild(entry);
 });
 
-document.querySelector('.skill').addEventListener('click', function () {
-    const entry = document.createElement('div');
-    entry.classList.add('section-body', 'entry');
-
-    entry.innerHTML = `
-            <textarea name="skillCode" placeholder="기술스택 입력"></textarea>
-            <button class="skill-delete-button del-button">
-                <i class="fas fa-trash-alt"></i>삭제
-            </button>
-        `;
-
-    entry.querySelector('.skill-delete-button').addEventListener('click', function () {
-        entry.remove();
-    });
-
-    document.querySelector('#skills-section').appendChild(entry);
-});
 
 document.querySelector('.project').addEventListener('click', function () {
     const entry = document.createElement('div');
     entry.classList.add('section-body', 'entry');
+    entry.dataset.divId = "projects-section";
 
     entry.innerHTML = `
             <label>포트폴리오명</label>
@@ -196,6 +167,7 @@ function addIntroduceItem() {
     const itemContainer = document.createElement('div');
     itemContainer.classList.add('introduce-item');
     itemContainer.setAttribute('data-id', introduceItemCount); // 고유 ID 설정
+    itemContainer.dataset.divId = "introduce-section";
 
     itemContainer.innerHTML = `
         <input type="hidden" name="ord" value="${introduceItemCount}">

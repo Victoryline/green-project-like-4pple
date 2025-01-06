@@ -1,0 +1,303 @@
+.content-regist {
+    flex: 1;
+    /*margin-right: 300px;*/
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.content-regist h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 60%;
+    margin: 0 auto;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.section-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.section label {
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+.section input, .section select, .section textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.section-body{
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.add-button {
+    color: #28a745;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.add-button::before {
+    content: '+';
+    margin-right: 5px;
+    font-size: 18px;
+}
+.checkbox-item{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox input {
+    margin-right: 10px;
+}
+.toggle{
+    margin-right: 5px;
+}
+
+.info{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-areas: 'a a a a'
+                        'b b b b'
+                        'c c d d';
+}
+.name{
+    grid-area: a;
+}
+.email{
+    grid-area: b;
+}
+.birth{
+    grid-area: c;
+}
+.phone{
+    grid-area: d;
+}
+
+.del-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.del-button:hover {
+    background-color: #c0392b;
+}
+
+.del-button i {
+    font-size: 16px;
+}
+
+/* 버튼 컨테이너 */
+.button-container {
+    margin-top: 10px;
+    bottom: 20px;         /* 사이드바의 맨 아래에서 20px 떨어지게 위치 */
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;  /* 버튼들을 수평 중앙에 배치 */
+    gap: 20px;                /* 버튼들 간의 간격 조정 */
+    z-index: 999;             /* 버튼들이 다른 내용 위에 나타나게 하기 */
+}
+
+/* 추가 스타일 (버튼 스타일링) */
+.submit-button, .reset-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover, .reset-button:hover {
+    background-color: #0056b3;
+}
+
+.reset-button {
+    background-color: #6c757d;
+}
+
+.reset-button:hover {
+    background-color: #5a6268;
+}
+
+
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width:600px;
+    margin: 5px;
+}
+.skill {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #add8e6; /* 연한 초록색 배경 */
+    text-align: center;
+    margin: 5px;
+}
+.skill .remove {
+    margin-left: 10px;
+    cursor: pointer;
+    color: red;
+}
+#availableSkills {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.available-skill {
+    cursor: pointer;
+    /*display: inline-block;*/
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #d4f5d4;
+    /*text-align: center;*/
+    margin: 5px;
+} /* 연한 초록색
+
+
+
+/* 기본 정보 컨테이너 */
+.profile-container {
+    display: flex;        /* 수평으로 배치 */
+    align-items: center;  /* 수직 중앙 정렬 */
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    gap: 20px;            /* 왼쪽과 오른쪽 사이 간격 */
+    margin-top: 20px;
+}
+
+/* 프로필 이미지 왼쪽 영역 */
+.profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 세로로 중앙 정렬 */
+    justify-content: center; /* 프로필 사진을 세로로 중앙 정렬 */
+}
+
+/* 프로필 사진 영역 */
+.profile-photo {
+    width: 120px;           /* 이미지 크기 */
+    height: 120px;          /* 이미지 크기 */
+    border-radius: 50%;     /* 원형 이미지 */
+    overflow: hidden;       /* 잘린 부분 숨기기 */
+}
+
+/* 프로필 사진 이미지 */
+.profile-photo img {
+    width: 100%;           /* 부모 영역에 맞게 100% 크기 설정 */
+    height: 100%;          /* 부모 영역에 맞게 100% 크기 설정 */
+    object-fit: cover;     /* 비율을 맞추어 잘림 없이 이미지 채우기 */
+}
+
+/* 기본 정보 오른쪽 영역 */
+.profile-right {
+    flex: 1;               /* 오른쪽 영역을 가변 크기로 설정 */
+    margin-top: 20px;
+}
+
+/* 각 폼 항목 스타일 */
+.form-group {
+    display: flex;         /* 가로로 배치 */
+    justify-content: flex-start;  /* 내용이 왼쪽으로 정렬되도록 */
+    align-items: center;   /* 수평 중앙 정렬 */
+    margin-bottom: 15px;   /* 아래쪽 마진 */
+    font-family: 'Arial', sans-serif; /* 고급스러운 글꼴 */
+    color: #333; /* 어두운 색으로 텍스트 강조 */
+}
+
+/* 이름과 생일을 같은 줄에 배치 */
+.form-group .info-item {
+    display: flex; /* 가로로 나열 */
+    margin-right: 20px; /* 두 항목 사이 간격 */
+    align-items: center;
+}
+
+/* 레이블 스타일 */
+.form-group label {
+    font-weight: bold;
+    color: #5a5a5a;
+    font-size: 14px;
+    margin-right: 10px;  /* 라벨과 값 사이의 간격 */
+    width: 80px;  /* 레이블의 고정 폭 */
+}
+
+/* 값 항목 */
+.form-group div {
+    font-size: 16px;
+    font-weight: 500;
+    color: #4a90e2; /* 파란색 강조 */
+}
+
+/* 폼 항목 사이의 구분선 */
+.form-group:after {
+    content: '';
+    display: block;
+    margin-top: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    align-items: flex-end;
+}
+
+.label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.input-group {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button{
+    margin-bottom: 10px;
+}

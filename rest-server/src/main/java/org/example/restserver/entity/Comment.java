@@ -38,6 +38,21 @@ public class Comment {
     @Column(name = "delete_yn")
     private Character deleteYn;
 
+    @PrePersist
+    public void onPrePersist() {
+        if (this.createDate == null) {
+            this.createDate = Instant.now();
+        }
+        if (this.deleteYn == null) {
+            this.deleteYn = 'N';
+        }
+    }
 
+    @PreUpdate
+    public void onPreUpdate() {
+        if (this.modifyDate == null) {
+            this.modifyDate = Instant.now();
+        }
+    }
 
 }

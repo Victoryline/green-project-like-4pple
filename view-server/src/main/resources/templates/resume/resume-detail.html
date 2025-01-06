@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--  css 경로 확인하고 사용해주세용 -->
+    <link rel="stylesheet" href="../../static/common/css/common.css">
+    <link rel="stylesheet" href="/static/resume/css/detail.css">
+
+</head>
+<body>
+<div class="container">
+    <header th:replace="/layout/header :: headerFragment"></header>
+    <nav th:replace="/layout/navbar :: navbarFragment"></nav>
+    <div class="content" id="resume-container">
+        <input type="hidden" id="resumeNo" name="resumeNo" th:value="${resumeNo}">
+
+    </div>
+    <div class="button-container">
+        <button type="button"class="submit-button">
+            <a th:href="@{/resume/modify/{resumeNo}(resumeNo=${resumeNo})}">수정하기</a>
+        </button>
+        <button type="button" onclick="deleteForm(event)" class="reset-button">삭제하기</button>
+    </div>
+    <footer th:replace="/layout/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>
+<!--<script src="/static/resume/js/detail.js"></script>-->
+<script src="/static/javascript/utils/axios.js"></script>
+<script src="/static/javascript/utils/imageUtil.js"></script>
+<script src="/static/javascript/utils/sessionUserUtil.js"></script>
+<script>
+
+    function deleteForm(event) {
+        event.preventDefault();
+        const resumeNo = document.getElementById("resumeNo").value;
+        const confirmMessage = "정말로 삭제하시겠습니까?";
+
+        if (confirm(confirmMessage)) {
+            api.delete(`/api/v1/resume/delete/${resumeNo}`)
+                .then(function (response) {
+                    alert("삭제되었습니다.");
+                    location.href = "/resume/list";
+                })
+                .catch(function (error) {
+                    console.error(error);
+                    alert("삭제 실패");
+                });
+        } else {
+            return;
+        }
+    }
+
+    function isBase64(str) {
+        // Base64 문자열 패턴 확인 (정규 표현식)
+        const base64Regex = /^[A-Za-z0-9+/=]+$/;
+        return base64Regex.test(str);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const resumeNo = document.getElementById("resumeNo").value;
+        console.log(resumeNo);
+        api.get(`/api/v1/resume/select/${resumeNo}`)
+            .then(function (response) {
+                const resume = response.body;
+                const resumeContainer = document.getElementById("resume-container");
+
+                const image = resume.image;
+                let img;
+                if(isBase64(image)){
+                    img = loadImage(image);
+                }else {
+                    img = resume.image;
+                }
+
+
+                console.log(resume);
+
+                // 기본정보 섹션
+                let content = `
+                        <div id="basic-info-section" class="section">
+                            <div class="section-header">
+                                <h3>제목</h3>
+                            </div>
+                            <div class="section-body">
+                                <label class="label">제목</label>
+                                <div>${resume.title || '이력서 제목'}</div> <!-- 제목 출력 -->
+                            </div>
+                            <div class="profile-container">
+                                <div class="profile-left">
+                                    <div class="profile-photo">
+                                        ${img ? `<img src="${img}" class="profile-file" alt="프로필 사진">` :
+                                            `<img class="profile-file" src="/static/images/default-profile.png" alt="프로필 사진">`}
+                                    </div>
+                                </div>
+                                <div class="profile-right">
+                                    <h3>기본 정보</h3>
+                                    <div class="form-group">
+                                        <div class="info-item">
+                                            <label>이름</label>
+                                            <div>${resume.name}</div> <!-- 이름 출력 -->
+                                        </div>
+                                        <div class="info-item">
+                                            <label>생일</label>
+                                            <div>${resume.user.birth || '생일'}</div> <!-- 생일 출력 -->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>이메일</label>
+                                        <div class="info-item">${resume.user.email || '이메일'}</div> <!-- 이메일 출력 -->
+                                    </div>
+                                    <div class="form-group">
+                                        <label>전화번호</label>
+                                        <div class="info-item">${resume.user.phone || '전화번호'}</div> <!-- 전화번호 출력 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                `;
+
+                // 희망 조건 섹션 (값이 있으면 표시)
+                if (resume.wishArea || resume.wishSalary || resume.wishTime || resume.workCode) {
+                    content += `
+                        <div id="wish-section" class="section">
+                            <div class="section-header">
+                                <h3>희망 조건</h3>
+                            </div>
+                            <div class="section-body">
+                                <label class="label">희망근무 지역</label>
+                                <div>${resume.wishArea || '지역명'}</div>
+                                <label class="label">희망급여 (*만원)</label>
+                                <div>${resume.wishSalary || '희망급여'}</div>
+                                <label class="label">희망근무 시간</label>
+                                <div>${resume.wishTime || '근무 시간'}</div>
+                                <label class="label">희망직무</label>
+                                <div>${resume.workCode || '희망직무'}</div>
+                            </div>
+                        </div>s
+                    `;
+                }
+
+                // 학력 섹션 (값이 있으면 표시)
+                if (resume.educations) {
+                    content += `
+                        <div id="education-section" class="section">
+                            <div class="section-header">
+                                <h3>학력</h3>
+                            </div>
+                            <div class="section-body">
+                                <label class="label">학력 선택</label>
+                                <div>${resume.educations.codeName || '학력'}</div>
+                                <label class="label">입학 연도</label>
+                                <div>${resume.educations.enterDate || '입학 연도'}</div>
+                                <label class="label">졸업 연도</label>
+                                <div>${resume.educations.graduateDate || '졸업 연도'}</div>
+                                <label class="label">학교명</label>
+                                <div>${resume.educations.schoolName || '학교명'}</div>
+                                <label class="label">학과명</label>
+                                <div>${resume.educations.specialty || '학과명'}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 병역 섹션 (값이 있으면 표시)
+                if (resume.military) {
+                    content += `
+                        <div id="military-section" class="section">
+                            <div class="section-header">
+                                <h3>병역</h3>
+                            </div>
+                            <div class="section-body">
+                                <label class="label">군별</label>
+                                <div>${resume.military.codeName || '군별'}</div>
+                                <label class="label">입대일</label>
+                                <div class="label">${resume.military.enlistDate || '입대일'}</div>
+                                <label class="label">전역일</label>
+                                <div class="label">${resume.military.releaseDate || '전역일'}</div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 경력 및 활동 섹션 (값이 있으면 표시)
+                if (resume.activities && resume.activities.length > 0) {
+                    content += `
+                        <div id="experience-section" class="section">
+                            <div class="section-header">
+                                <h3>경력 및 활동</h3>
+                            </div>
+                            <div class="section-body">
+                                ${resume.activities.map(experience => `
+                                    <div>
+                                        <label class="label">활동 유형</label>
+                                        <div>${experience.codeName || '활동 유형'}</div>
+                                        <label class="label">회사/활동기관명</label>
+                                        <div>${experience.activityCenterName || '회사명'}</div>
+                                        <label class="label">회사/활동기관 주요 내용</label>
+                                        <div>${experience.activityContent || '주요 내용'}</div>
+                                        <label class="label">입사/시작 연월</label>
+                                        <div>${experience.startDate || '입사일'}</div>
+                                        <label class="label">퇴사/종료 연월</label>
+                                        <div>${experience.endDate || '퇴사일'}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 자격증 섹션 (값이 있으면 표시)
+                if (resume.licenses.length > 0) {
+                    content += `
+                        <div id="license-section" class="section">
+                            <div class="section-header">
+                                <h3>자격증</h3>
+                            </div>
+                            <div class="section-body">
+                                ${resume.licenses.map(license => `
+                                    <div>
+                                        <label class="label">자격증명</label>
+                                        <div>${license.licenseName || '자격증명'}</div>
+                                        <label class="label">합격일</label>
+                                        <div>${license.passDate || '합격일'}</div>
+                                        <label class="label">발행처</label>
+                                        <div>${license.licenseCenterName || '발행처'}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 기술스택 섹션 (값이 있으면 표시)
+                if (resume.skills && resume.skills.length > 0) {
+                    content += `
+                        <div id="skills-section" class="section">
+                            <div class="section-header">
+                                <h3>기술스택</h3>
+                            </div>
+                            <div class="section-body">
+                                ${resume.skills.map(skillCode => `
+                                    <div>${skillCode.skillCode || '기술스택'}</div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 포트폴리오 섹션 (값이 있으면 표시)
+                if (resume.portfolios && resume.portfolios.length > 0) {
+                    content += `
+                        <div id="projects-section" class="section">
+                            <div class="section-header">
+                                <h3>포트폴리오</h3>
+                            </div>
+                            <div class="section-body">
+                                ${resume.portfolios.map(project => `
+                                    <div>
+                                        <label class="label">포트폴리오명</label>
+                                        <div>${project.portfolioFilename || '프로젝트명'}</div>
+                                        <label class="label">주소</label>
+                                        <div>${project.portfolioLink || '포트폴리오 링크'}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 자소서 섹션 (값이 있으면 표시)
+                if (resume.introduces && resume.introduces.length > 0) {
+                    content += `
+                        <div id="introduce-section" class="section">
+                            <div class="section-header">
+                                <h3>자소서</h3>
+                            </div>
+                            <div class="section-body">
+                                ${resume.introduces.map(item => `
+                                    <div>
+                                        <div>${item.title || '제목'}</div>
+                                        <div>${item.content || '내용'}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // 모든 데이터를 resume-container에 삽입
+                resumeContainer.innerHTML = content;
+            })
+            .catch(function (error) {
+                console.log("데이터를 불러오는 데 실패했습니다:", error);
+            });
+    });
+</script>
