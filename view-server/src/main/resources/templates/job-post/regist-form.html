@@ -21,13 +21,13 @@
         <form id="applicationForm">
             <h2>채용 공고 등록</h2>
 
-            <h4>제목</h4>
+            <h3>제목</h3>
             <div class="title">
                 <label for="title">공고 제목:</label>
                 <input type="text" id="title" name="title">
             </div>
 
-            <h4>담당자 정보</h4>
+            <h3>담당자 정보</h3>
             <div class="userinfo">
                 <label for="managerName">담당자 명:</label>
                 <input type="text" id="managerName" name="managerName">
@@ -39,7 +39,7 @@
                 <input type="text" id="managerEmail" name="managerEmail">
             </div>
 
-            <h4>근무형태</h4>
+            <h3>근무형태</h3>
             <div class="work-type">
                 <label for="workTypeCode">근무형태:</label>
                 <select id="workTypeCode" name="workTypeCode">
@@ -49,7 +49,7 @@
                 </select>
             </div>
 
-            <h4>직책 / 직급</h4>
+            <h3>직책 / 직급</h3>
             <div class="job-rank">
                 <label for="jobRankCode">직책/직급:</label>
                 <select id="jobRankCode" name="jobRankCode">
@@ -59,7 +59,7 @@
                 </select>
             </div>
 
-            <h4>직무</h4>
+            <h3>직무</h3>
             <div class="work-code">
                 <label for="workCode">직무:</label>
                 <select id="workCode" name="workCode">
@@ -69,13 +69,13 @@
                 </select>
             </div>
 
-            <h4>경력</h4>
+            <h3>경력</h3>
             <div class="job-history">
                 <label for="jobHistory">경력 (년):</label>
                 <input type="number" id="jobHistory" name="jobHistory">
             </div>
 
-            <h4>희망학력</h4>
+            <h3>희망학력</h3>
             <div class="education-code">
                 <label for="educationCode">희망학력:</label>
                 <select id="educationCode" name="educationCode">
@@ -85,13 +85,13 @@
                 </select>
             </div>
 
-            <h4>연봉 (*천만원)</h4>
+            <h3>연봉 (단위: 천만원)</h3>
             <div class="job-salary">
                 <label for="jobSalary">연봉:</label>
                 <input type="number" id="jobSalary" name="jobSalary">
             </div>
 
-            <h4>보유스킬</h4>
+            <h3>보유스킬</h3>
             <div class="skill-container">
                 <th:block th:each="gubun : ${skilList}">
                     <div>
@@ -101,37 +101,37 @@
                 </th:block>
             </div>
 
-            <h4>모집 부분 및 상세내용</h4>
+            <h3>모집 부분 및 상세내용</h3>
             <div class="content">
                 <label for="content">상세 내용:</label>
                 <input type="text" id="content" name="content">
             </div>
 
-            <h4>전형 절차</h4>
+            <h3>전형 절차</h3>
             <div class="process">
                 <label for="process">전형 절차:</label>
                 <input type="number" id="process" name="process">
             </div>
 
-            <h4>접수 방법</h4>
+            <h3>접수 방법</h3>
             <div class="method">
                 <label for="method">접수 방법:</label>
                 <input type="text" id="method" name="method">
             </div>
 
-            <h4>유의사항</h4>
+            <h3>유의사항</h3>
             <div class="add-notice">
                 <label for="addNotice">유의 사항</label>
                 <input type="text" id="addNotice" name="addNotice">
             </div>
 
-            <h4>복리 후생</h4>
+            <h3>복리 후생</h3>
             <div class="benefit-content">
                 <label for="benefitContent">복리 후생 내용:</label>
                 <input type="text" id="benefitContent" name="benefitContent">
             </div>
 
-            <h4>공고 시작일 / 마감일</h4>
+            <h3>공고 시작일 / 마감일</h3>
             <div class="dates">
                 <label for="startDate">시작일:</label>
                 <input type="date" id="startDate" name="startDate">
@@ -139,7 +139,7 @@
                 <input type="date" id="endDate" name="endDate">
             </div>
 
-            <h4>상시 모집 및 공고 마감</h4>
+            <h3>상시 모집 및 공고 마감</h3>
             <div class="temporary-end-container">
                 <div class="temporary">
                     <label for="temporary">상시 모집:</label>
