@@ -75,6 +75,39 @@ document.querySelector('.edit-icon').addEventListener('click', function() {
     document.getElementById('profileImageInput').click();
 });
 
+document.querySelector('.exp').addEventListener('click', function () {
+    const entry = document.createElement('div');
+    entry.classList.add('section-body', 'entry');
+    entry.dataset.divId = "experience-section";
+
+    entry.innerHTML = `
+            <label class="label" for="activityType">활동 유형</label>
+            <select name="activityType" id="activityType">
+                <option value="">활동 유형을 선택해주세요</option>
+                <option value="JOB_CAREEAR">직무 관련 경력</option>
+                <option value="JOB_ACT">직무 관련 활동</option>
+                <option value="SOCIAL_ACT">사회 경험 활동</option>
+            </select>
+            <label class="label">회사/활동기관명</label>
+            <input class="input-group" type="text" name="activityCenterName" placeholder="회사/활동기관명 입력">
+            <label class="label">회사/활동기관 주요 내용</label>
+            <textarea name="activityContent" placeholder="회사/활동기관 주요 내용 입력"></textarea>
+            <label class="label">입사/시작 연월</label>
+            <input class="input-group" type="text" name="startDate" placeholder="YYYY-MM">
+            <label class="label">퇴사/종료 연월</label>
+            <input class="input-group" type="text" name="endDate" placeholder="YYYY-MM">
+            <button class="experience-delete-button del-button">
+                <i class="fas fa-trash-alt"></i>삭제
+            </button>
+        `;
+
+    entry.querySelector('.experience-delete-button').addEventListener('click', function () {
+        entry.remove();
+    });
+
+    document.querySelector('#experience-section').appendChild(entry);
+});
+
 
 document.querySelector('.license').addEventListener('click', function () {
     const entry = document.createElement('div');
@@ -100,23 +133,6 @@ document.querySelector('.license').addEventListener('click', function () {
     document.querySelector('#license-section').appendChild(entry);
 });
 
-document.querySelector('.skill').addEventListener('click', function () {
-    const entry = document.createElement('div');
-    entry.classList.add('section-body', 'entry');
-    entry.dataset.divId = "skills-section";
-    entry.innerHTML = `
-            <textarea name="skillCode" placeholder="기술스택 입력"></textarea>
-            <button class="skill-delete-button del-button">
-                <i class="fas fa-trash-alt"></i>삭제
-            </button>
-        `;
-
-    entry.querySelector('.skill-delete-button').addEventListener('click', function () {
-        entry.remove();
-    });
-
-    document.querySelector('#skills-section').appendChild(entry);
-});
 
 document.querySelector('.project').addEventListener('click', function () {
     const entry = document.createElement('div');
