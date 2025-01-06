@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../static/common/css/common.css">
     <script src="../../static/javascript/utils/axios.js"></script>
     <script src="../../static/javascript/utils/imageUtil.js"></script>
+    <script src="../../static/javascript/utils/sessionUserUtil.js"></script>
 </head>
 <body>
 <div class="container">
@@ -27,7 +28,7 @@
 </div>
 <script>
     window.onload = function getList() {
-        api.get('/api/v1/job-post/list')
+        api.get('/api/v1/job-post/list?username='+getUsername())
             .then(response => {
                 console.log("가져오기 성공");
                 console.log(response);

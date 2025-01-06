@@ -24,12 +24,12 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
             "FROM tbl_job_post j " +
             "JOIN tbl_user u ON j.username = u.username AND u.delete_yn = 'N' AND u.role = 'ROLE_COMPANY' " +
             "JOIN tbl_company c ON u.username = c.username " +
-            "WHERE j.end_yn = 'N' AND j.start_date <= NOW() AND (j.end_date IS NULL OR j.end_date > NOW())",
+            "WHERE j.username = :username",
             nativeQuery = true)
-    List<Object[]> findRawJobPosts();
+    List<Object[]> findRawJobPosts(String username);
 
-    default List<JobPostResponseDto> findActiveJobPostsWithCompanyInfo() {
-        return findRawJobPosts().stream()
+    default List<JobPostResponseDto> findActiveJobPostsWithCompanyInfo(String username) {
+        return findRawJobPosts(username).stream()
                 .map(result -> new JobPostResponseDto(
                         (Integer) result[0],  // jobPostNo
                         (String) result[1],  // username

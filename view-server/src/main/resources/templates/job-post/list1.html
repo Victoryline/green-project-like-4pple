@@ -206,8 +206,8 @@
             </div>
             <div class="card-content">
                 <h3 class="card-title">${jobPost.title || '제목 없음'}</h3>
+                <a href='/company/${jobPost.username}'>회사명: ${jobPost.companyName || '회사명 없음'}</a><br>
                 <p>
-                    회사명: ${jobPost.companyName || '회사명 없음'}<br>
                     기술 스택: ${jobPostSkills}<br>
                     주소: ${jobPost.address || '주소 없음'}<br>
                     경력: ${jobPost.jobHistory || '경력 정보 없음'}년
