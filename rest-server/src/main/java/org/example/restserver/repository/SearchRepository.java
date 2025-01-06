@@ -23,29 +23,41 @@ import java.util.List;
 
 public interface SearchRepository extends JpaRepository<User, String> {
 
-    @Query("SELECT new org.example.restserver.dto.JobPostSearchDto(" +
-            "j.username, j.title, j.workCode, j.jobHistory, j.educationCode, " +
-            "j.jobRankCode, j.workTypeCode, j.endDate) " +
-            "FROM JobPost j WHERE j.title LIKE %:keyword%")
-    List<JobPostSearchDto> findJobPostByKeyword(@Param("keyword") String keyword);
+    @Query(value = "SELECT j.title, u.name AS companyName, " +
+            "GROUP_CONCAT(js.skill_code) AS skills, " +
+            "c.address AS companyAddress, j.job_history AS jobHistory, " +
+            "c.profile_image " +  // 프로필 이미지 추가
+            "FROM tbl_job_post j " +
+            "JOIN tbl_company c ON j.username = c.username " +
+            "JOIN tbl_user u ON c.username = u.username " +
+            "LEFT JOIN tbl_job_post_skill js ON js.job_post_no = j.job_post_no " +
+            "WHERE j.title LIKE %:keyword% " +
+            "GROUP BY j.job_post_no", nativeQuery = true)
+    List<Object[]> findJobPostByKeywordNative(@Param("keyword") String keyword);
 
-    @Query("SELECT new org.example.restserver.dto.CompanySearchDto(" +
-            "u.username, u.name, c.address, c.birth, " +
-            "(SELECT AVG(cs.score) FROM CompanyScore cs WHERE cs.id.companyId = u.username)) " +
-            "FROM User u LEFT JOIN Company c ON u.username = c.username " +
-            "WHERE u.role = 'ROLE_COMPANY' AND u.deleteYn = 'N' AND u.name LIKE %:keyword%")
-    List<CompanySearchDto> findCompanyByKeyword(@Param("keyword") String keyword);
+    @Query(value = "SELECT u.username, u.name, c.address, c.birth, " +
+            "(SELECT AVG(cs.score) FROM tbl_company_score cs WHERE cs.company_id = u.username) AS averageScore " +
+            "FROM tbl_user u " +
+            "LEFT JOIN tbl_company c ON u.username = c.username " +
+            "WHERE u.role = 'ROLE_COMPANY' AND u.delete_yn = 'N' AND u.name LIKE %:keyword%",
+            nativeQuery = true)
+    List<Object[]> findCompanyByKeywordNative(@Param("keyword") String keyword);
 
-    @Query("SELECT new org.example.restserver.dto.JobPostSearchDto(" +
-            "j.username, j.title, j.workCode, j.jobHistory, j.educationCode, " +
-            "j.jobRankCode, j.workTypeCode, j.endDate) " +
-            "FROM JobPost j")
-    List<JobPostSearchDto> findAllJobPosts();
+    @Query(value = "SELECT j.title, u.name AS companyName, " +
+            "GROUP_CONCAT(js.skill_code) AS skills, " +
+            "c.address AS companyAddress, j.job_history AS jobHistory " +
+            "FROM tbl_job_post j " +
+            "JOIN tbl_company c ON j.username = c.username " +
+            "JOIN tbl_user u ON c.username = u.username " +
+            "LEFT JOIN tbl_job_post_skill js ON js.job_post_no = j.job_post_no " +
+            "GROUP BY j.job_post_no", nativeQuery = true)
+    List<Object[]> findAllJobPostsNative();
 
-    @Query("SELECT new org.example.restserver.dto.CompanySearchDto(" +
-            "u.username, u.name, c.address, c.birth, " +
-            "(SELECT AVG(cs.score) FROM CompanyScore cs WHERE cs.id.companyId = u.username)) " +
-            "FROM User u LEFT JOIN Company c ON u.username = c.username " +
-            "WHERE u.role = 'ROLE_COMPANY' AND u.deleteYn = 'N'")
-    List<CompanySearchDto> findAllCompanies();
+    @Query(value = "SELECT u.username, u.name, c.address, c.birth, " +
+            "(SELECT AVG(cs.score) FROM tbl_company_score cs WHERE cs.company_id = u.username) AS averageScore " +
+            "FROM tbl_user u " +
+            "LEFT JOIN tbl_company c ON u.username = c.username " +
+            "WHERE u.role = 'ROLE_COMPANY' AND u.delete_yn = 'N'",
+            nativeQuery = true)
+    List<Object[]> findAllCompaniesNative();
 }

@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * packageName    : org.example.restserver.repository
@@ -23,6 +24,7 @@ import java.util.List;
  */
 @Repository
 public interface JobPostSkillRepository extends JpaRepository<JobPostSkill, JobPostSkillId> {
+
     @Query("SELECT jp FROM JobPost jp JOIN JobPostSkill jps ON jp.jobPostNo = jps.id.jobPostNo " +
             "JOIN Gubun g ON jps.id.skillCode = g.id.code WHERE g.id.gubunCode = 'SKILL' AND g.id.code = :skillCode")
     List<JobPost> findJobPostsBySkillCode(@Param("skillCode") String skillCode);
@@ -32,6 +34,19 @@ public interface JobPostSkillRepository extends JpaRepository<JobPostSkill, JobP
             "WHERE jps.id.skillCode IN :skillCodes")
     List<JobPost> findJobPostsBySkillCodes(@Param("skillCodes") List<String> skillCodes);
 
-    @Query("SELECT jp FROM JobPost jp JOIN FETCH jp.company LEFT JOIN FETCH jp.jobPostSkills")
-    List<JobPost> findAllJobPosts();
+    @Query("SELECT jps FROM JobPostSkill jps JOIN FETCH jps.jobPost jp JOIN FETCH jp.company")
+    List<JobPostSkill> findAllJobPosts();
+
+    @Query("SELECT jps FROM JobPostSkill jps " +
+            "JOIN FETCH jps.jobPost jp " +
+            "WHERE jps.id.skillCode = :skillCode")
+    List<JobPostSkill> findJobPostSkillsBySkillCode(@Param("skillCode") String skillCode);
+
+    @Query("SELECT jps FROM JobPostSkill jps " +
+            "JOIN FETCH jps.jobPost jp " +
+            "WHERE jps.id.skillCode IN :skillCodes")
+    List<JobPostSkill> findJobPostSkillsBySkillCodes(@Param("skillCodes") List<String> skillCodes);
+
+    Optional<JobPostSkill> findById(JobPostSkillId id);
+
 }

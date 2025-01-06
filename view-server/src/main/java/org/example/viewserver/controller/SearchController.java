@@ -29,7 +29,7 @@ public class SearchController {
                                 Model model) {
 
         if ((keyword == null || keyword.trim().isEmpty()) && "job".equals(type)) {
-            return "job-post/list";
+            return "job-post/list1";
         }
 
         var searchData = webClientManager.get("/api/v1/search?type=" + type + "&keyword=" + keyword).getBody();

@@ -8,6 +8,139 @@
     <link rel="stylesheet" href="../static/common/css/common.css">
     <script src="../static/javascript/utils/axios.js"></script>
     <script src="../static/javascript/utils/sessionUserUtil.js"></script>
+    <style>
+        /* 페이지 전체 스타일 */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        /* 제목 스타일 */
+        .content h1 {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content h2 {
+            font-size: 1.5em;
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* 검색 결과 없을 때 */
+        .content p {
+            text-align: center;
+            color: #888;
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+
+        /* 평점 모달 */
+        #ratingModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            z-index: 1000;
+            width: 300px;
+        }
+
+        #ratingModal h3 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+
+        #ratingModal p {
+            margin: 10px 0;
+            font-size: 1em;
+            color: #555;
+        }
+
+        #ratingModal input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        #ratingModal button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        #ratingModal button:first-of-type {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #ratingModal button:last-of-type {
+            background-color: #f44336;
+            color: white;
+        }
+
+        /* 반응형 스타일 */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            table th, table td {
+                font-size: 0.9em;
+            }
+
+            #ratingModal {
+                width: 90%;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
@@ -94,6 +227,14 @@
     let selectedCompanyId = null;
 
     function handleOpenRatingModal(button) {
+        // 로그인 여부 확인
+        const user = getSessionUser(); // 세션 스토리지에서 유저 정보 가져오기
+        if (!user) {
+            alert("로그인이 필요합니다!!!");
+            return; // 로그인하지 않은 경우 모달 열리지 않음
+        }
+
+        // 로그인된 경우 모달 열기
         const companyName = button.getAttribute('data-company-name');
         const companyId = button.getAttribute('data-company-id');
 
@@ -114,6 +255,7 @@
             return;
         }
 
+        // 평점 등록 API 호출
         api.post('/api/v1/scores/rating', {
             companyId: selectedCompanyId,
             jobSeekerId: getUsername(),
@@ -121,10 +263,12 @@
         })
             .then(response => {
                 alert("평점이 성공적으로 등록되었습니다.");
-                closeRatingModal();
+                updateCompanyRating(selectedCompanyId); // 평점 업데이트 호출
+                closeRatingModal(); // 모달 닫기
             })
             .catch(error => {
                 alert("평점 등록에 실패했습니다.");
+                console.error(error);
             });
     }
 
@@ -135,6 +279,42 @@
         } else if (input.value > 5) {
             input.value = 5;
         }
+    }
+    function updateCompanyRating(companyId) {
+        console.log("요청한 companyId:", companyId);
+
+        api.get(`/api/v1/scores/${companyId}`)
+            .then(response => {
+                console.log("응답 데이터:", response.data);
+
+                if (!response.data || !response.data.length) {
+                    console.warn("해당 회사의 평점 데이터가 없습니다.");
+                    return;
+                }
+
+                const updatedScore = response.data.find(score => score.companyId === companyId);
+
+                if (!updatedScore) {
+                    console.warn("해당 회사의 평점 데이터를 찾을 수 없습니다.");
+                    return;
+                }
+
+                const tableRows = document.querySelectorAll('table tbody tr');
+                tableRows.forEach(row => {
+                    const nameCell = row.querySelector('td:nth-child(1)');
+                    const companyName = nameCell ? nameCell.textContent : null;
+
+                    if (updatedScore.companyId === companyId) {
+                        const ratingCell = row.querySelector('td:nth-child(4)');
+                        ratingCell.textContent = updatedScore.score != null
+                            ? updatedScore.score.toFixed(1)
+                            : '평점 없음';
+                    }
+                });
+            })
+            .catch(error => {
+                console.error("평점 데이터를 불러오는 중 오류 발생:", error);
+            });
     }
 </script>
 </body>
