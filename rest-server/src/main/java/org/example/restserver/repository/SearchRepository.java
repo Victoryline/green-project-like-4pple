@@ -27,10 +27,10 @@ public interface SearchRepository extends JpaRepository<User, String> {
             SELECT
                 j.title,
                 u.name AS companyName,
-                GROUP_CONCAT(js.skill_code) AS skills,
+                GROUP_CONCAT(sg.name) AS skills,
                 c.address AS companyAddress,
                 j.job_history AS jobHistory,
-                j.education_code AS educationCode, 
+                j.education_code AS educationCode,
                 j.job_rank_code AS jobRankCode,
                 j.work_type_code AS workTypeCode,
                 c.profile_image,
@@ -43,6 +43,8 @@ public interface SearchRepository extends JpaRepository<User, String> {
                 tbl_user u ON c.username = u.username
             LEFT JOIN
                 tbl_job_post_skill js ON js.job_post_no = j.job_post_no
+            LEFT JOIN
+                tbl_gubun sg ON js.skill_code = sg.code AND sg.gubun_code = 'SKILL'
             WHERE
                 j.title LIKE CONCAT('%', :keyword, '%')
                 AND j.end_yn = 'N'
