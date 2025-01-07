@@ -9,7 +9,7 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClient(WebClient.Builder builder) {
-        return builder.baseUrl("http://localhost:8080")
+        return builder.baseUrl("http://192.168.0.15:8080")
                 .defaultHeader("Content-Type", "application/json")
                 .build();
     }

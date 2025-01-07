@@ -128,7 +128,7 @@ function validation() {
     return isValidation;
 }
 
-function update() {
+function updateProfile() {
     if (!validation()) return;
 
     const usernameVal = $('#username').val();

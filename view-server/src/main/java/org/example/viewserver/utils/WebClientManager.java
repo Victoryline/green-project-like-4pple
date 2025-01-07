@@ -15,7 +15,7 @@ public class WebClientManager {
     private final TokenManager tokenManager;
 
     public WebClientManager(WebClient.Builder webClientBuilder, TokenManager tokenManager) {
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+        this.webClient = webClientBuilder.baseUrl("http://192.168.0.15:8080").build();
         this.tokenManager = tokenManager;
     }
 

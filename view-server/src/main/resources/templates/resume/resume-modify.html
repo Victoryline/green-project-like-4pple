@@ -86,7 +86,7 @@
                     </div>
                     <div class="section-body">
                         <label class="label">제목</label>
-                        <input type="text" name="caption" class="info-item input-group" readonly >
+                        <input type="text" name="caption" class="info-item input-group" >
                     </div>
                     <div class="profile-container">
                         <div class="profile-left">
@@ -322,6 +322,10 @@
                 document.querySelector('input[name="email"]').value = resume.user.email || '';
                 document.querySelector('input[name="phone"]').value = resume.user.phone || '';
                 document.querySelector('input[name="birth"]').value = resume.user.birth || '';
+                document.querySelector('input[name="wishArea"]').value = resume.wishArea || '';
+                document.querySelector('input[name="wishSalary"]').value = resume.wishSalary || '';
+                document.querySelector('input[name="wishTime"]').value = resume.wishTime || '';
+                document.querySelector('select[name="workCode"]').value = resume.workCode || '';
 
                 // 프로필 이미지 처리
                 const profileImage = resume.image;

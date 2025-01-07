@@ -233,7 +233,7 @@
 
         console.log(jobPostData);
         console.log(jobPostData["skills"]);
-        axios.post('http://localhost:8080/api/v1/job-post/register', jobPostData, {
+        axios.post('http://192.168.0.15:8080/api/v1/job-post/register', jobPostData, {
             headers: {
                 'Content-Type': 'application/json'
             }
