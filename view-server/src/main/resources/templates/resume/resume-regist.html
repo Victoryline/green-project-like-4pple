@@ -75,7 +75,7 @@
         </div>
 
         <form id="resume-form" class="resume-form">
-            <input type="hidden" name="username" value="qwer1">
+            <input type="hidden" name="username" th:value="${session.user.username}">
             <div class="content-regist">
                 <!-- 기본정보 섹션은 항상 표시됨 -->
                 <div id="basic-info-section" class="section">

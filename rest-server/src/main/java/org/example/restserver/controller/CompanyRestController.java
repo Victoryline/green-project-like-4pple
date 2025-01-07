@@ -32,8 +32,6 @@ public class CompanyRestController {
     @GetMapping("/detail/{username}")
     public ResponseEntity<CompanyResponseDto> getCompany(@PathVariable("username") String username){
 
-
-
 //        log.info("asdf"+ companyService.getCompany(username));
 
         return ResponseEntity.ok(companyService.getCompany(username));
